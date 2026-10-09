@@ -760,7 +760,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   </svg>
   <div class="th-scale" aria-hidden="true"><span class="hi">caliente</span><span class="lo">frío</span></div>
   <div class="in-wrap">
-    <p class="kicker rv">ING2222 · Tecnología de Control · Familia 6 · FI-UNMdP</p>
+    <p class="kicker rv">ING2222 · Tecnología de Control · Familia 6 · Grupo 10 · FI-UNMdP</p>
     <h1 class="rv" style="--d:.08s">Sensores de <span class="grad">temperatura</span></h1>
     <p class="lead rv" style="--d:.16s">Cómo cada tecnología convierte la temperatura en una señal que entiende un sistema de control</p>
     <nav class="hero-sensors rv" style="--d:.26s" aria-label="Ir a cada sensor">
@@ -1525,7 +1525,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <section class="screen first" id="b5" data-block="5" aria-labelledby="b5-t">
   <div class="in-wrap g-b5a">
     <div class="rv">
-      <p class="kicker">05 · Del sensor al PLC <span class="who" data-exp="b4">Expositor 4</span></p>
+      <p class="kicker">05 · Del sensor al PLC <span class="pg">1/2</span> <span class="who" data-exp="b4">Expositor 4</span></p>
       <h2 id="b5-t">Señal primaria <span class="acc">≠</span> salida industrial</h2>
     </div>
     <p class="lead rv">Dos ejemplos: señales distintas que un transmisor compatible convierte en 4–20 mA.</p>
@@ -1588,147 +1588,52 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 
     </div>
     <p class="big-line rv" style="--d:.16s">Desde el lazo de 4–20 mA <span class="acc">no puede identificarse el sensor</span>.</p>
-    <div class="outs rv" style="--d:.24s">
-      <div class="out">
-        <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M4 40 C 16 8, 28 8, 40 30 S 64 52, 76 20" fill="none" stroke="var(--c-sys)" stroke-width="4" stroke-linecap="round"/></svg>
-        <span class="k">Salida analógica</span><b>continua</b><span class="ex">mV · Ω · 0–10 V · 4–20 mA</span>
-      </div>
-      <div class="out">
-        <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M4 44 H16 V16 H28 V44 H36 V16 H56 V44 H64 V16 H76" fill="none" stroke="var(--c-ic)" stroke-width="4" stroke-linejoin="round"/></svg>
-        <span class="k">Salida digital</span><b>dato por protocolo</b><span class="ex">1-Wire (DS18B20) · IO-Link (TW2000)</span>
-      </div>
-      <div class="out sw">
-        <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M4 40 H24 L54 18 M56 40 H76" fill="none" stroke="var(--c-ir)" stroke-width="4" stroke-linecap="round"/><circle cx="24" cy="40" r="4" fill="var(--c-ir)"/><circle cx="56" cy="40" r="4" fill="var(--c-ir)"/></svg>
-        <span class="k">Salida conmutada</span><b>PNP / NPN: dos estados</b><span class="ex">OUT1 del TW2000</span>
-      </div>
-    </div>
+
   </div>
 </section>
 
-<section class="screen" id="b5-2" data-block="5" aria-labelledby="b5-2-t">
+<style>
+/* Ajustes para que entren en 16:9 (van después de los estilos de cada diapositiva) */
+#b4-ir .irp-photo{display:flex;justify-content:center}
+#b4-ir .irp-photo img{width:auto;max-width:100%;max-height:calc(100svh - 308px)}
+#b5 .plc-real-image{display:flex;justify-content:center}
+#b5 .plc-real-image img{width:auto;max-width:100%;max-height:calc(100svh - 302px)}
+#b5 .plc-view-tabs{margin:10px 0}
+#b5-res h2{font-size:clamp(30px,min(3.4vw,6vh),70px)}
+#b5-res .sig-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:clamp(10px,2vh,22px);font-size:var(--fs-body);background:var(--surface);border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
+#b5-res .sig-table caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#b5-res .sig-table th,#b5-res .sig-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line)}
+#b5-res .sig-table thead th{font:600 var(--fs-small) var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--text-3);background:var(--bg-2)}
+#b5-res .sig-table tbody th{color:var(--c);font-weight:700;border-left:5px solid var(--c)}
+#b5-res .sig-table tbody td{color:var(--text-2)}
+#b5-res .sig-table tbody tr:last-child>*{border-bottom:0}
+#b5-res .sig-table .no{color:var(--text-3)}
+#b5-res .sig-table .yes{color:var(--c-ir);font-weight:700}
+#b5-res .sig-notes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:clamp(10px,2vh,20px)}
+#b5-res .sig-notes p{margin:0;padding:10px 14px;border-left:4px solid var(--c-sys);background:var(--surface);border-radius:8px;font-size:var(--fs-small);color:var(--text-2);line-height:1.4}
+#b5-res .sig-notes p:first-child{border-left-color:var(--c-ir)}
+#b5-res .sig-notes b{color:var(--text)}
+@media(max-width:800px){#b5-res .sig-table{display:block;overflow-x:auto}#b5-res .sig-table th,#b5-res .sig-table td{padding:6px 8px}#b5-res .sig-notes{grid-template-columns:1fr}}
+</style>
+<section class="screen" id="b5-res" data-block="5" aria-labelledby="b5-res-t">
   <div class="in-wrap">
-    <div class="rv">
-      <p class="kicker">05 · Del sensor al PLC <span class="pg">2/3</span></p>
-      <h2 id="b5-2-t">Lazo de corriente <span class="acc">4–20 mA</span></h2>
+    <p class="kicker">05 · Del sensor al PLC <span class="pg">2/2</span> <span class="who" data-exp="b4">Expositor 4</span></p>
+    <h2 id="b5-res-t">Resumen: <span class="acc">señal y salida de cada sensor</span></h2>
+    <table class="sig-table">
+      <caption>Resumen de los cinco sensores</caption>
+      <thead><tr><th>Sensor</th><th>Tipo de señal</th><th>Llega al control como</th><th>¿PNP/NPN?</th></tr></thead>
+      <tbody>
+        <tr style="--c:var(--c-tc)"><th>Termocupla</th><td>Analógica · mV</td><td>Entrada TC o transmisor 4–20 mA</td><td class="no">No</td></tr>
+        <tr style="--c:var(--c-rtd)"><th>Pt100 / Pt1000</th><td>Analógica · Ω</td><td>Entrada RTD o transmisor 4–20 mA</td><td class="no">No</td></tr>
+        <tr style="--c:var(--c-ntc)"><th>Termistor</th><td>Analógica · Ω</td><td>Entrada compatible con su curva</td><td class="no">No</td></tr>
+        <tr style="--c:var(--c-ic)"><th>Integrado</th><td>Analógica (LM35) · digital (DS18B20)</td><td>10 mV/°C · dato 1-Wire</td><td class="no">No</td></tr>
+        <tr style="--c:var(--c-ir)"><th>Infrarrojo TW2000</th><td>Radiación → electrónica</td><td>4–20 mA · IO-Link · salida conmutada</td><td class="yes">Sí · OUT1 PNP</td></tr>
+      </tbody>
+    </table>
+    <div class="sig-notes">
+      <p><b>PNP/NPN:</b> salida conmutada de dos estados (se activa al pasar un umbral). De nuestros sensores, solo el TW2000 la tiene.</p>
+      <p><b>4–20 mA:</b> 4 mA es el cero; 0 mA indica cable cortado o falla. Por eso es la salida industrial más usada.</p>
     </div>
-    <div class="g-b5b" style="margin-top:var(--gap)">
-      <div class="rv" style="--d:.08s">
-        <figure class="fig loop">
-          <svg viewBox="0 0 900 290" role="img" aria-labelledby="loop-t">
-            <title id="loop-t">Lazo de corriente: la misma corriente circula por todo el recorrido, del transmisor al PLC</title>
-            <rect x="20" y="80" width="200" height="130" rx="12" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="2"/>
-            <text x="120" y="138" text-anchor="middle" class="svg-l b" style="font-size:19px">transmisor</text>
-            <text x="120" y="166" text-anchor="middle" class="svg-l s">desde TC o Pt100</text>
-            <path d="M220 115 H700 V175 H220" fill="none" stroke="#516279" stroke-width="5"/>
-            <path class="flow" id="lz-flow" d="M220 115 H700 V175 H220" stroke="var(--c-sys)" stroke-width="7" style="--dur:2s"/>
-            <path d="M444 104 l-8 22 M456 104 l-8 22 M444 164 l-8 22 M456 164 l-8 22" stroke="var(--bg)" stroke-width="7"/>
-            <path d="M444 104 l-8 22 M456 104 l-8 22 M444 164 l-8 22 M456 164 l-8 22" stroke="#7D8DA5" stroke-width="2"/>
-            <text x="450" y="236" text-anchor="middle" class="svg-l s">tendido extenso</text>
-            <g class="svg-l b" text-anchor="middle" style="fill:var(--c-sys)">
-              <text x="310" y="96" id="lz-i1">12,0 mA</text><text x="590" y="96" id="lz-i2">12,0 mA</text><text x="330" y="204" id="lz-i3">12,0 mA</text>
-            </g>
-            <g id="lz-cut" style="display:none">
-              <rect x="370" y="100" width="34" height="30" fill="var(--bg)"/>
-              <path d="M374 102 l26 26 M400 102 l-26 26" stroke="var(--bad)" stroke-width="4" stroke-linecap="round"/>
-              <text x="387" y="78" text-anchor="middle" class="svg-l b" style="fill:var(--bad)">corte</text>
-            </g>
-            <rect x="680" y="60" width="200" height="170" rx="12" fill="var(--surface)" stroke="var(--c-sys)" stroke-width="2.5"/>
-            <path d="M700 115 V126 l9 5 -18 9 18 9 -18 9 9 5 V175" fill="none" stroke="#C6D0DE" stroke-width="2.5"/>
-            <text x="800" y="140" text-anchor="middle" style="font-size:30px;font-weight:700;fill:var(--text)">PLC</text>
-            <text x="800" y="170" text-anchor="middle" class="svg-l s">lee mA</text>
-          </svg>
-        </figure>
-        <ul class="facts">
-          <li><span class="i">I</span><span><b>Misma corriente en todo el lazo:</b> la longitud del cable influye menos que en tensión.</span></li>
-          <li><span class="i">~</span><span><b>Menor sensibilidad al ruido</b> que una señal de tensión (no es inmune).</span></li>
-          <li><span class="i">4</span><span><b>Cero vivo:</b> 4 mA es el mínimo; 0 mA indica falla.</span></li>
-        </ul>
-      </div>
-      <div class="panel rv" style="--d:.16s">
-        <p class="panel-t"><span>Simulador · lazo 4–20 mA</span><span class="mono">rango 0–200 °C</span></p>
-        <div class="gauge">
-          <svg viewBox="0 0 400 236" id="lz-gauge" role="img" aria-label="Amperímetro del lazo"></svg>
-          <div class="readout" id="lz-read" aria-live="polite" style="text-align:center">12,00<span class="u">mA</span></div>
-        </div>
-        <div class="ctl">
-          <label for="lz-t">Temperatura medida</label>
-          <output id="lz-t-o" for="lz-t" class="num">100 °C</output>
-          <input type="range" id="lz-t" min="0" max="200" step="1" value="100">
-        </div>
-        <p class="note mono" style="margin-top:.4em">I = 4 + 16 · (T − Tmin) / (Tmax − Tmin)</p>
-        <div class="btns" style="margin-top:.8em"><button type="button" class="btn danger" id="lz-cut-btn" aria-pressed="false">Cortar cable</button></div>
-        <div class="alarm" id="lz-alarm" role="alert"><b>0 mA</b> · Falla: cable cortado o sin alimentación</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="screen" id="b5-3" data-block="5" style="--acc:var(--c-ir)" aria-labelledby="b5-3-t">
-  <div class="in-wrap">
-    <div class="rv">
-      <p class="kicker">05 · Del sensor al PLC <span class="pg">3/3</span></p>
-      <h2 id="b5-3-t">Salidas conmutadas <span class="acc">PNP y NPN</span></h2>
-    </div>
-    <div class="g-b5c" style="margin-top:var(--gap)">
-      <figure class="sw-fig rv" id="sw-pnp" style="--d:.06s">
-        <h3>Salida <span class="mono">PNP</span></h3>
-        <svg viewBox="0 0 380 430" role="img" aria-label="Salida PNP: al activarse conecta la carga al positivo">
-          <path d="M40 40 H340 M40 400 H340" stroke="#C6D0DE" stroke-width="3"/>
-          <text x="40" y="28" class="svg-l b">+24 V</text><text x="40" y="424" class="svg-l b">0 V</text>
-          <path class="sw-path" d="M230 40 V96 L198 116 M198 144 L230 164 V250 M230 340 V400"/>
-          <path class="sw-flow flow" d="M230 40 V96 L198 116 V144 L230 164 V400"/>
-          <circle class="sw-tr" cx="212" cy="130" r="38"/>
-          <path d="M198 108 V152" stroke="#C6D0DE" stroke-width="4"/>
-          <path d="M198 116 L230 96 M198 144 L230 164" stroke="#C6D0DE" stroke-width="2.5"/>
-          <path d="M209.2 109 L220.4 107.9 L215 99.5 Z" fill="#C6D0DE"/>
-          <path d="M80 130 H198" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="4 4"/>
-          <rect x="30" y="108" width="86" height="44" rx="8" fill="var(--surface-2)" stroke="var(--line-2)"/>
-          <text x="73" y="136" text-anchor="middle" class="svg-l s" style="font-size:13px">T ≥ umbral</text>
-          <circle cx="230" cy="210" r="6" fill="#C6D0DE"/>
-          <text x="244" y="216" class="svg-l b">OUT</text>
-          <rect class="sw-load" x="200" y="250" width="60" height="90" rx="8"/>
-          <text x="272" y="300" class="svg-l">carga</text>
-        </svg>
-        <p>Conmuta el <b style="color:var(--text)">positivo</b> hacia la carga (conectada a 0 V).</p>
-      </figure>
-      <figure class="sw-fig rv" id="sw-npn" style="--d:.12s">
-        <h3>Salida <span class="mono">NPN</span></h3>
-        <svg viewBox="0 0 380 430" role="img" aria-label="Salida NPN: al activarse conecta la carga a 0 V">
-          <path d="M40 40 H340 M40 400 H340" stroke="#C6D0DE" stroke-width="3"/>
-          <text x="40" y="28" class="svg-l b">+24 V</text><text x="40" y="424" class="svg-l b">0 V</text>
-          <path class="sw-path" d="M230 40 V70 M230 160 V266 L198 286 M198 314 L230 334 V400"/>
-          <path class="sw-flow flow" d="M230 40 V266 L198 286 V314 L230 334 V400"/>
-          <rect class="sw-load" x="200" y="70" width="60" height="90" rx="8"/>
-          <text x="272" y="120" class="svg-l">carga</text>
-          <circle cx="230" cy="210" r="6" fill="#C6D0DE"/>
-          <text x="244" y="216" class="svg-l b">OUT</text>
-          <circle class="sw-tr" cx="212" cy="300" r="38"/>
-          <path d="M198 278 V322" stroke="#C6D0DE" stroke-width="4"/>
-          <path d="M198 286 L230 266 M198 314 L230 334" stroke="#C6D0DE" stroke-width="2.5"/>
-          <path d="M223.6 330 L212.5 328.9 L217.8 320.5 Z" fill="#C6D0DE"/>
-          <path d="M80 300 H198" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="4 4"/>
-          <rect x="30" y="278" width="86" height="44" rx="8" fill="var(--surface-2)" stroke="var(--line-2)"/>
-          <text x="73" y="306" text-anchor="middle" class="svg-l s" style="font-size:13px">T ≥ umbral</text>
-        </svg>
-        <p>Conmuta la carga hacia <b style="color:var(--text)">0 V</b> (conectada a +V).</p>
-      </figure>
-      <div class="panel rv" style="--d:.18s">
-        <p class="panel-t"><span>Simulador · salida conmutada</span></p>
-        <div class="ctl">
-          <label for="sw-t">Temperatura</label>
-          <output id="sw-t-o" for="sw-t" class="num">90 °C</output>
-          <input type="range" id="sw-t" min="0" max="200" step="1" value="90">
-        </div>
-        <div class="ctl">
-          <label for="sw-sp">Umbral</label>
-          <output id="sw-sp-o" for="sw-sp" class="num">120 °C</output>
-          <input type="range" id="sw-sp" min="0" max="200" step="1" value="120">
-        </div>
-        <div class="sw-state off" id="sw-state" aria-live="polite">inactiva</div>
-        <p class="note" style="margin-top:.6em">Única salida PNP entre los equipos presentados: <button type="button" class="src" data-src="tw2000:4">TW2000 · OUT1</button></p>
-      </div>
-    </div>
-    <p class="quote key rv" style="--d:.24s">PNP/NPN describe una salida conmutada, no el principio de medición. <span class="acc">Una Pt100 no es PNP ni NPN.</span></p>
   </div>
 </section>
 
@@ -1878,7 +1783,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
     <h2 id="b7-t" class="final-q rv" style="--d:.22s">Elegir un sensor es elegir su <span>principio</span>, su <span>señal</span>, su <span>conexionado</span> y <span>cómo llega al control</span>.</h2>
     <div class="thanks rv" style="--d:.3s">
       <span class="g">Gracias</span>
-      <ul class="names" id="names"><li>Expositor 1</li><li>Expositor 2</li><li>Expositor 3</li><li>Expositor 4</li><li>Expositor 5</li></ul>
+      <ul class="names" id="names"><li>Antonella Acconci</li><li>Ezequiel Carbajo</li><li>Leandro Iarrar</li><li>Pablo Fischer</li><li>Walter Benites</li></ul>
     </div>
   </div>
 </section>
@@ -1941,6 +1846,131 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
     </div>
   </div>
 </section>
+<section class="screen" id="b5-2" data-block="7" aria-labelledby="b5-2-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker">Respaldo · Del sensor al PLC <span class="pg">para preguntas</span></p>
+      <h2 id="b5-2-t">Lazo de corriente <span class="acc">4–20 mA</span></h2>
+    </div>
+    <div class="g-b5b" style="margin-top:var(--gap)">
+      <div class="rv" style="--d:.08s">
+        <figure class="fig loop">
+          <svg viewBox="0 0 900 290" role="img" aria-labelledby="loop-t">
+            <title id="loop-t">Lazo de corriente: la misma corriente circula por todo el recorrido, del transmisor al PLC</title>
+            <rect x="20" y="80" width="200" height="130" rx="12" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="2"/>
+            <text x="120" y="138" text-anchor="middle" class="svg-l b" style="font-size:19px">transmisor</text>
+            <text x="120" y="166" text-anchor="middle" class="svg-l s">desde TC o Pt100</text>
+            <path d="M220 115 H700 V175 H220" fill="none" stroke="#516279" stroke-width="5"/>
+            <path class="flow" id="lz-flow" d="M220 115 H700 V175 H220" stroke="var(--c-sys)" stroke-width="7" style="--dur:2s"/>
+            <path d="M444 104 l-8 22 M456 104 l-8 22 M444 164 l-8 22 M456 164 l-8 22" stroke="var(--bg)" stroke-width="7"/>
+            <path d="M444 104 l-8 22 M456 104 l-8 22 M444 164 l-8 22 M456 164 l-8 22" stroke="#7D8DA5" stroke-width="2"/>
+            <text x="450" y="236" text-anchor="middle" class="svg-l s">tendido extenso</text>
+            <g class="svg-l b" text-anchor="middle" style="fill:var(--c-sys)">
+              <text x="310" y="96" id="lz-i1">12,0 mA</text><text x="590" y="96" id="lz-i2">12,0 mA</text><text x="330" y="204" id="lz-i3">12,0 mA</text>
+            </g>
+            <g id="lz-cut" style="display:none">
+              <rect x="370" y="100" width="34" height="30" fill="var(--bg)"/>
+              <path d="M374 102 l26 26 M400 102 l-26 26" stroke="var(--bad)" stroke-width="4" stroke-linecap="round"/>
+              <text x="387" y="78" text-anchor="middle" class="svg-l b" style="fill:var(--bad)">corte</text>
+            </g>
+            <rect x="680" y="60" width="200" height="170" rx="12" fill="var(--surface)" stroke="var(--c-sys)" stroke-width="2.5"/>
+            <path d="M700 115 V126 l9 5 -18 9 18 9 -18 9 9 5 V175" fill="none" stroke="#C6D0DE" stroke-width="2.5"/>
+            <text x="800" y="140" text-anchor="middle" style="font-size:30px;font-weight:700;fill:var(--text)">PLC</text>
+            <text x="800" y="170" text-anchor="middle" class="svg-l s">lee mA</text>
+          </svg>
+        </figure>
+        <ul class="facts">
+          <li><span class="i">I</span><span><b>Misma corriente en todo el lazo:</b> la longitud del cable influye menos que en tensión.</span></li>
+          <li><span class="i">~</span><span><b>Menor sensibilidad al ruido</b> que una señal de tensión (no es inmune).</span></li>
+          <li><span class="i">4</span><span><b>Cero vivo:</b> 4 mA es el mínimo; 0 mA indica falla.</span></li>
+        </ul>
+      </div>
+      <div class="panel rv" style="--d:.16s">
+        <p class="panel-t"><span>Simulador · lazo 4–20 mA</span><span class="mono">rango 0–200 °C</span></p>
+        <div class="gauge">
+          <svg viewBox="0 0 400 236" id="lz-gauge" role="img" aria-label="Amperímetro del lazo"></svg>
+          <div class="readout" id="lz-read" aria-live="polite" style="text-align:center">12,00<span class="u">mA</span></div>
+        </div>
+        <div class="ctl">
+          <label for="lz-t">Temperatura medida</label>
+          <output id="lz-t-o" for="lz-t" class="num">100 °C</output>
+          <input type="range" id="lz-t" min="0" max="200" step="1" value="100">
+        </div>
+        <p class="note mono" style="margin-top:.4em">I = 4 + 16 · (T − Tmin) / (Tmax − Tmin)</p>
+        <div class="btns" style="margin-top:.8em"><button type="button" class="btn danger" id="lz-cut-btn" aria-pressed="false">Cortar cable</button></div>
+        <div class="alarm" id="lz-alarm" role="alert"><b>0 mA</b> · Falla: cable cortado o sin alimentación</div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="screen" id="b5-3" data-block="7" style="--acc:var(--c-ir)" aria-labelledby="b5-3-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker">Respaldo · Del sensor al PLC <span class="pg">para preguntas</span></p>
+      <h2 id="b5-3-t">Salidas conmutadas <span class="acc">PNP y NPN</span></h2>
+    </div>
+    <div class="g-b5c" style="margin-top:var(--gap)">
+      <figure class="sw-fig rv" id="sw-pnp" style="--d:.06s">
+        <h3>Salida <span class="mono">PNP</span></h3>
+        <svg viewBox="0 0 380 430" role="img" aria-label="Salida PNP: al activarse conecta la carga al positivo">
+          <path d="M40 40 H340 M40 400 H340" stroke="#C6D0DE" stroke-width="3"/>
+          <text x="40" y="28" class="svg-l b">+24 V</text><text x="40" y="424" class="svg-l b">0 V</text>
+          <path class="sw-path" d="M230 40 V96 L198 116 M198 144 L230 164 V250 M230 340 V400"/>
+          <path class="sw-flow flow" d="M230 40 V96 L198 116 V144 L230 164 V400"/>
+          <circle class="sw-tr" cx="212" cy="130" r="38"/>
+          <path d="M198 108 V152" stroke="#C6D0DE" stroke-width="4"/>
+          <path d="M198 116 L230 96 M198 144 L230 164" stroke="#C6D0DE" stroke-width="2.5"/>
+          <path d="M209.2 109 L220.4 107.9 L215 99.5 Z" fill="#C6D0DE"/>
+          <path d="M80 130 H198" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="4 4"/>
+          <rect x="30" y="108" width="86" height="44" rx="8" fill="var(--surface-2)" stroke="var(--line-2)"/>
+          <text x="73" y="136" text-anchor="middle" class="svg-l s" style="font-size:13px">T ≥ umbral</text>
+          <circle cx="230" cy="210" r="6" fill="#C6D0DE"/>
+          <text x="244" y="216" class="svg-l b">OUT</text>
+          <rect class="sw-load" x="200" y="250" width="60" height="90" rx="8"/>
+          <text x="272" y="300" class="svg-l">carga</text>
+        </svg>
+        <p>Conmuta el <b style="color:var(--text)">positivo</b> hacia la carga (conectada a 0 V).</p>
+      </figure>
+      <figure class="sw-fig rv" id="sw-npn" style="--d:.12s">
+        <h3>Salida <span class="mono">NPN</span></h3>
+        <svg viewBox="0 0 380 430" role="img" aria-label="Salida NPN: al activarse conecta la carga a 0 V">
+          <path d="M40 40 H340 M40 400 H340" stroke="#C6D0DE" stroke-width="3"/>
+          <text x="40" y="28" class="svg-l b">+24 V</text><text x="40" y="424" class="svg-l b">0 V</text>
+          <path class="sw-path" d="M230 40 V70 M230 160 V266 L198 286 M198 314 L230 334 V400"/>
+          <path class="sw-flow flow" d="M230 40 V266 L198 286 V314 L230 334 V400"/>
+          <rect class="sw-load" x="200" y="70" width="60" height="90" rx="8"/>
+          <text x="272" y="120" class="svg-l">carga</text>
+          <circle cx="230" cy="210" r="6" fill="#C6D0DE"/>
+          <text x="244" y="216" class="svg-l b">OUT</text>
+          <circle class="sw-tr" cx="212" cy="300" r="38"/>
+          <path d="M198 278 V322" stroke="#C6D0DE" stroke-width="4"/>
+          <path d="M198 286 L230 266 M198 314 L230 334" stroke="#C6D0DE" stroke-width="2.5"/>
+          <path d="M223.6 330 L212.5 328.9 L217.8 320.5 Z" fill="#C6D0DE"/>
+          <path d="M80 300 H198" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="4 4"/>
+          <rect x="30" y="278" width="86" height="44" rx="8" fill="var(--surface-2)" stroke="var(--line-2)"/>
+          <text x="73" y="306" text-anchor="middle" class="svg-l s" style="font-size:13px">T ≥ umbral</text>
+        </svg>
+        <p>Conmuta la carga hacia <b style="color:var(--text)">0 V</b> (conectada a +V).</p>
+      </figure>
+      <div class="panel rv" style="--d:.18s">
+        <p class="panel-t"><span>Simulador · salida conmutada</span></p>
+        <div class="ctl">
+          <label for="sw-t">Temperatura</label>
+          <output id="sw-t-o" for="sw-t" class="num">90 °C</output>
+          <input type="range" id="sw-t" min="0" max="200" step="1" value="90">
+        </div>
+        <div class="ctl">
+          <label for="sw-sp">Umbral</label>
+          <output id="sw-sp-o" for="sw-sp" class="num">120 °C</output>
+          <input type="range" id="sw-sp" min="0" max="200" step="1" value="120">
+        </div>
+        <div class="sw-state off" id="sw-state" aria-live="polite">inactiva</div>
+        <p class="note" style="margin-top:.6em">Única salida PNP entre los equipos presentados: <button type="button" class="src" data-src="tw2000:4">TW2000 · OUT1</button></p>
+      </div>
+    </div>
+    <p class="quote key rv" style="--d:.24s">PNP/NPN describe una salida conmutada, no el principio de medición. <span class="acc">Una Pt100 no es PNP ni NPN.</span></p>
+  </div>
+</section>
 
 <!-- capas superpuestas -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Hoja técnica ampliada">
@@ -1977,6 +2007,9 @@ const EXPOSITORES = {
   b4: "Expositor 4", // infrarrojo + del sensor al PLC
   b6: "Expositor 5", // selección, aplicación y cierre
 };
+
+// Integrantes del grupo: se muestran en la diapositiva de cierre.
+const INTEGRANTES = ["Antonella Acconci", "Ezequiel Carbajo", "Leandro Iarrar", "Pablo Fischer", "Walter Benites"];
 
 // Hojas técnicas: lectura guiada.
 // · Cada paso muestra una página (p) y la amplía sobre sus recuadros.
@@ -2172,7 +2205,7 @@ const PUNTOS = [
   /* ---------- expositores ---------- */
   safe("expositores", () => {
     $$("[data-exp]").forEach((n) => { const v = EXPOSITORES[n.dataset.exp]; if (v) n.textContent = v; });
-    const names = [...new Set(Object.values(EXPOSITORES))];
+    const names = INTEGRANTES.length ? INTEGRANTES : [...new Set(Object.values(EXPOSITORES))];
     $("#names").innerHTML = names.map((x) => "<li>" + esc(x) + "</li>").join("");
   });
 
