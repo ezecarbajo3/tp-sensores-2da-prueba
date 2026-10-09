@@ -1281,6 +1281,18 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b4 .th-control-head button{font:inherit;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);color:var(--text);padding:6px 10px;cursor:pointer}
 #b4 .th-control input{width:100%;accent-color:var(--c-ntc);margin:12px 0 5px}
 @media(max-width:700px){#b4 .th-circuits{grid-template-columns:1fr}#b4 .th-circuit svg{max-height:none}#b4 .th-graph svg{max-height:none}#b4 .th-tabs button{padding:9px 12px}}
+#b4 .th-tabs{margin:10px 0}
+#b4 #th-panel-real{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:18px;align-items:center}
+#b4 #th-panel-real .thermistor-real{width:100%;margin:0}
+#b4 #th-panel-real .thermistor-real img{max-height:50svh;object-fit:contain}
+#b4 #th-panel-real .thermistor-summary{grid-template-columns:1fr;gap:10px;margin-top:0}
+#b4 .th-circuit{padding:10px 18px}
+#b4 .th-circuit svg{max-height:22svh}
+#b4 .th-graph svg{max-height:26svh}
+#b4 .th-message{margin:8px 0 4px}
+#b4 .th-control{margin-top:8px;padding:8px 16px}
+#b4 .th-control input{margin:6px 0 2px}
+@media(max-width:900px){#b4 #th-panel-real{grid-template-columns:1fr}}
 </style>
 <section class="screen first" id="b4" data-block="4" aria-labelledby="b4-t">
 <div class="in-wrap">
@@ -1292,7 +1304,12 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <button id="th-tab-circuit" role="tab" type="button" data-th-view="circuit" aria-selected="false" aria-controls="th-panel-circuit" tabindex="-1">Circuito de medición</button>
 <button id="th-tab-curve" role="tab" type="button" data-th-view="curve" aria-selected="false" aria-controls="th-panel-curve" tabindex="-1">Curva R–T</button></div>
 <div id="th-panel-real" role="tabpanel" aria-labelledby="th-tab-real" data-th-panel="real">
-<figure class="thermistor-real"><img src="img/termistores-frio-calor.png" width="1387" height="767" alt="Comparación cualitativa con medidores en ohms: al calentarse la NTC disminuye su resistencia y la PTC aumenta su resistencia."></figure></div>
+<figure class="thermistor-real"><img src="img/termistores-frio-calor.png" width="1387" height="767" alt="Comparación cualitativa con medidores en ohms: al calentarse la NTC disminuye su resistencia y la PTC aumenta su resistencia."></figure>
+<div class="thermistor-summary">
+<div><b>NTC · medición</b><span>Refrigeración y climatización</span></div>
+<div><b>PTC · protección</b><span>Detección de sobretemperatura</span></div>
+<div><b>Señal primaria · Ω</b><span>El circuito mide resistencia; no es PNP/NPN.</span></div>
+</div></div>
 <div id="th-panel-circuit" role="tabpanel" aria-labelledby="th-tab-circuit" data-th-panel="circuit" hidden>
 <div class="th-circuits"><article class="th-circuit" style="--th-color:#b596ff"><h3>NTC <span>al calentar: R ↓, V ↓</span></h3>
 <svg viewBox="0 0 520 285" role="img" aria-label="Divisor de tensión NTC: resistencia fija arriba, termistor abajo, salida tomada entre ambos respecto de cero voltios">
@@ -1326,22 +1343,36 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <div class="th-control-head"><label for="th-temperature">Temperatura del ejemplo</label><output id="th-temperature-o" for="th-temperature">25 °C</output><button type="button" data-th-temp="25">Menor temperatura</button><button type="button" data-th-temp="85">Mayor temperatura</button></div>
 <input type="range" id="th-temperature" min="0" max="100" step="1" value="25" aria-label="Temperatura del ejemplo">
 <p class="th-detail">Simulación didáctica: valores y curvas ilustrativos, sin representar una ficha comercial concreta.</p></div>
-<div class="thermistor-summary">
-<div><b>NTC · medición</b><span>Refrigeración y climatización</span></div>
-<div><b>PTC · protección</b><span>Detección de sobretemperatura</span></div>
-<div><b>Señal primaria · Ω</b><span>El circuito mide resistencia; no es PNP/NPN.</span></div>
-</div>
 <p class="thermistor-foot">Respuesta no lineal: se utiliza la curva del componente. Los medidores ilustran el cambio, no valores de un modelo concreto. <button type="button" class="src" data-src="ntcle100:2">Ficha NTCLE100E3</button></p>
 </div>
 </section>
-<style>#b4-ic .ic-real{width:min(100%,calc(57svh * 1.777));margin:18px auto 0}#b4-ic .ic-real img{display:block;width:100%;height:auto;border-radius:14px}#b4-ic .ic-key{font-size:var(--fs-small);color:var(--text-2);margin:14px 0 0;line-height:1.45;padding-left:14px;border-left:3px solid var(--c-ic)}#b4-ic .ic-key b{color:var(--c-ic)}@media(max-width:700px){#b4-ic .ic-real{width:100%}}</style>
+<style>#b4-ic .ic-real{width:min(100%,calc(57svh * 1.777));margin:18px auto 0}#b4-ic .ic-real img{display:block;width:100%;height:auto;border-radius:14px}#b4-ic .ic-key{font-size:var(--fs-small);color:var(--text-2);margin:14px 0 0;line-height:1.45;padding-left:14px;border-left:3px solid var(--c-ic)}#b4-ic .ic-key b{color:var(--c-ic)}@media(max-width:700px){#b4-ic .ic-real{width:100%}}
+#b4-ic .ic-body{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:18px;align-items:center;margin-top:14px}
+#b4-ic .ic-body .ic-real{width:100%;margin:0}
+#b4-ic .ic-body .ic-real img{max-height:58svh;object-fit:contain}
+#b4-ic .ic-side{display:flex;flex-direction:column;gap:10px}
+#b4-ic .ic-side>div{padding:10px 14px;border:1px solid var(--line-2);border-top:3px solid var(--c-ic);border-radius:10px;background:var(--surface)}
+#b4-ic .ic-side b{display:block;color:var(--c-ic);font-size:var(--fs-body)}
+#b4-ic .ic-side span{display:block;color:var(--text-2);font-size:var(--fs-small);margin-top:4px;line-height:1.35}
+#b4-ic .ic-side .no{border-top-color:var(--bad)}
+#b4-ic .ic-side .no b{color:var(--bad)}
+#b4-ic .ic-side .src{align-self:flex-start}
+@media(max-width:900px){#b4-ic .ic-body{grid-template-columns:1fr}}</style>
 <section class="screen" id="b4-ic" data-block="4" style="--acc:var(--c-ic)" aria-labelledby="b4-ic-t">
 <div class="in-wrap">
 <p class="kicker">04 · Sensor integrado <span class="pg">2/4</span> <span class="who" data-exp="b1">Expositor 1</span></p>
 <h2 id="b4-ic-t">Sensor integrado: <span class="acc">tensión o dato digital</span></h2>
-<p class="lead">Otra familia: el chip incorpora la electrónica y requiere alimentación.</p>
+<p class="lead">El chip mide con una <b>unión semiconductora</b> y ya trae la electrónica: requiere alimentación.</p>
+<div class="ic-body">
 <figure class="ic-real"><img src="img/sensores-integrados-conexiones.png" width="1672" height="941" alt="LM35 alimentado a cinco voltios: su salida se mide respecto de masa y entrega 250 milivoltios a 25 grados. DS18B20 con alimentación, masa común y datos 1-Wire con resistencia pull-up, conectado a un microcontrolador."></figure>
-<p class="ic-key">El termistor cambia <b>Ω</b>; el integrado entrega <b>tensión (LM35)</b> o <b>un dato digital (DS18B20)</b>. <button type="button" class="src" data-src="lm35:1">Ficha LM35</button></p>
+<div class="ic-side">
+<div><b>Principio</b><span>La tensión de una unión semiconductora cambia con la temperatura; el chip la acondiciona.</span></div>
+<div><b>Señal y salida</b><span>LM35: tensión analógica, 10 mV/°C · DS18B20: dato digital por 1-Wire.</span></div>
+<div class="no"><b>PNP/NPN</b><span>No aplica: no es una salida conmutada.</span></div>
+<button type="button" class="src" data-src="lm35:1">Ficha LM35</button>
+</div>
+</div>
+<p class="ic-key">El termistor cambia <b>Ω</b>; el integrado entrega <b>tensión (LM35)</b> o <b>un dato digital (DS18B20)</b>.</p>
 </div>
 </section>
 
