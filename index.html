@@ -1334,35 +1334,14 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <p class="thermistor-foot">Respuesta no lineal: se utiliza la curva del componente. Los medidores ilustran el cambio, no valores de un modelo concreto. <button type="button" class="src" data-src="ntcle100:2">Ficha NTCLE100E3</button></p>
 </div>
 </section>
+<style>#b4-ic .ic-real{width:min(100%,calc(57svh * 1.777));margin:18px auto 0}#b4-ic .ic-real img{display:block;width:100%;height:auto;border-radius:14px}#b4-ic .ic-key{font-size:var(--fs-small);color:var(--text-2);margin:14px 0 0;line-height:1.45;padding-left:14px;border-left:3px solid var(--c-ic)}#b4-ic .ic-key b{color:var(--c-ic)}@media(max-width:700px){#b4-ic .ic-real{width:100%}}</style>
 <section class="screen" id="b4-ic" data-block="4" style="--acc:var(--c-ic)" aria-labelledby="b4-ic-t">
 <div class="in-wrap">
 <p class="kicker">04 · Sensor integrado <span class="pg">2/4</span> <span class="who" data-exp="b1">Expositor 1</span></p>
-<h2 id="b4-ic-t">Un chip, <span class="acc">una salida acondicionada</span></h2>
-<div class="t4-grid"><article class="t4-card c-ic" aria-labelledby="ic-t">
-        <h3 id="ic-t">Sensor integrado</h3>
-        <p class="t4-what">Un <b>chip</b> que mide con una unión semiconductora y <b>ya trae la electrónica</b>: necesita alimentación.</p>
-        <div class="t4-vis t4-ics">
-          <div class="t4-ic">
-            <b>LM35</b><span class="t4-kind">analógico</span>
-            <p class="t4-big">10 mV por °C</p>
-            <p class="t4-ex">25 °C → 250 mV</p>
-          </div>
-          <div class="t4-ic">
-            <b>DS18B20</b><span class="t4-kind">digital</span>
-            <svg viewBox="0 0 160 40" aria-hidden="true"><path d="M4 30 H24 V10 H40 V30 H52 V10 H64 V30 H88 V10 H100 V30 H112 V10 H136 V30 H156" fill="none" stroke="var(--c-ic)" stroke-width="3" stroke-linejoin="round"/></svg>
-            <p class="t4-ex">manda el dato por 1-Wire</p>
-          </div>
-        </div>
-        <div class="t4-uses t4-note">
-          <div><b>Electrónica ≠ principio</b><span>una Pt100 con transmisor sigue siendo una Pt100</span></div>
-        </div>
-        <dl class="t4-sig">
-          <div><dt>Señal</dt><dd>Analógica (LM35) o digital (DS18B20)</dd></div>
-          <div><dt>Salida</dt><dd>Tensión 10 mV/°C · dato 1-Wire</dd></div>
-          <div class="no"><dt>PNP/NPN</dt><dd>No aplica</dd></div>
-        </dl>
-        <button type="button" class="src" data-src="lm35:1">Ficha LM35 · p. 1</button>
-      </article></div>
+<h2 id="b4-ic-t">Sensor integrado: <span class="acc">tensión o dato digital</span></h2>
+<p class="lead">Otra familia: el chip incorpora la electrónica y requiere alimentación.</p>
+<figure class="ic-real"><img src="img/sensores-integrados-conexiones.png" width="1672" height="941" alt="LM35 alimentado a cinco voltios: su salida se mide respecto de masa y entrega 250 milivoltios a 25 grados. DS18B20 con alimentación, masa común y datos 1-Wire con resistencia pull-up, conectado a un microcontrolador."></figure>
+<p class="ic-key">El termistor cambia <b>Ω</b>; el integrado entrega <b>tensión (LM35)</b> o <b>un dato digital (DS18B20)</b>. <button type="button" class="src" data-src="lm35:1">Ficha LM35</button></p>
 </div>
 </section>
 
@@ -2744,6 +2723,7 @@ show("real");update();
 </script>
 </body>
 </html>
+
 
 
 
