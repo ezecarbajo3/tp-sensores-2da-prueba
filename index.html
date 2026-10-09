@@ -1400,13 +1400,22 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </div>
 </section>
 
+<style>
+#b4-ir .irp-body{display:flex;flex-direction:column;gap:14px;width:100%;align-items:stretch}
+#b4-ir .irp-photo{width:100%;margin:14px 0 0;max-width:none}
+#b4-ir .irp-photo img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}
+#b4-ir .irp-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:100%;margin:0}
+#b4-ir .irp-facts>div{padding:12px 16px}
+#b4-ir .lead{max-width:none}
+@media(max-width:800px){#b4-ir .irp-facts{grid-template-columns:1fr}}
+</style>
 <section class="screen" id="b4-ir" data-block="4" style="--acc:var(--c-ir)" aria-labelledby="b4-ir-t">
   <div class="in-wrap">
     <p class="kicker">04 · Infrarrojo <span class="pg">3/5</span> <span class="who" data-exp="b4">Expositor 4</span></p>
     <h2 id="b4-ir-t">Pirómetro infrarrojo: <span class="acc">medición sin contacto</span></h2>
     <p class="lead">Capta la <b>radiación infrarroja</b> que emite la superficie y la convierte en temperatura, sin tocarla.</p>
     <div class="irp-body">
-    <figure class="irp-photo"><img src="img/infrarrojo-pirometro.webp" width="1398" height="782" alt="Pirómetro en corte con lente, detector infrarrojo y electrónica, apuntando a hamburguesas sobre una cinta: capta la radiación térmica del área observada y estima 80 °C sin contacto."></figure>
+    <figure class="irp-photo"><img src="img/pirometro-principio-original.png" width="1672" height="941" alt="Pirómetro en corte con lente, detector infrarrojo y electrónica, apuntando a hamburguesas sobre una cinta: capta la radiación térmica del área observada y estima 80 °C sin contacto."></figure>
     <div class="irp-facts">
       <div><b>Principio</b><span>Radiación térmica → lente → detector → electrónica → °C</span></div>
       <div><b>Señal y salida (TW2000)</b><span>4–20 mA analógica · OUT1 <b>PNP</b> conmutada o IO-Link: el único de la familia con PNP</span></div>
@@ -2790,6 +2799,7 @@ show("real");update();
 </script>
 </body>
 </html>
+
 
 
 
