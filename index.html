@@ -1032,6 +1032,48 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b3 .rtd-facts span{display:block;font-size:clamp(13px,1.2vw,18px);color:var(--muted);margin-top:4px}
 @media(max-width:700px){#b3 .rtd-circuit{grid-template-columns:1fr;padding:16px}#b3 .rtd-facts{border-left:0;border-top:1px solid var(--line-2);padding:16px 0 0;grid-template-columns:repeat(3,1fr)}}
 #b2-2 .cj-scene-image{background:#0b1119}#b2-2 .cj-tag{background:rgba(15,25,39,.95);color:var(--text);border-color:var(--line)}
+#b3-3 .hw-lead{margin:.35em 0 0;font-size:var(--fs-body);color:var(--text-2);max-width:80ch}
+#b3-3 .hw-lead b{color:var(--text)}
+#b3-3 .hw-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.4vw,24px);margin-top:clamp(10px,2vh,22px)}
+#b3-3 .hw-card{display:flex;flex-direction:column;gap:clamp(6px,1vh,12px);padding:clamp(12px,1.2vw,20px);border:1px solid var(--line-2);border-radius:12px;background:var(--surface)}
+#b3-3 .hw-card h3{margin:0;font:700 var(--fs-h3)/1 var(--mono);color:var(--c-rtd)}
+#b3-3 .hw-card svg{display:block;width:100%;height:auto;max-height:24vh}
+#b3-3 .hw-ins{fill:var(--bg-2);stroke:var(--line-2);stroke-width:1.5}
+#b3-3 .hw-t{font:600 12px var(--font);fill:var(--text-2)}
+#b3-3 .hw-i{fill:none;stroke:var(--c-rtd);stroke-width:3.5}
+#b3-3 .hw-v{fill:none;stroke:#C6D0DE;stroke-width:2.5;stroke-dasharray:7 6}
+#b3-3 .hw-v.ok{stroke:var(--ok)}
+#b3-3 .hw-rc{fill:var(--surface-3);stroke:#7D8DA5;stroke-width:1.5}
+#b3-3 .hw-rc.bad{fill:rgba(255,90,90,.3);stroke:var(--bad)}
+#b3-3 .hw-rc.warn{fill:rgba(255,210,63,.22);stroke:var(--warn)}
+#b3-3 .hw-rt{font:700 10px var(--mono);fill:var(--text)}
+#b3-3 .hw-idea{margin:-.2em 0 0;font:700 var(--fs-body)/1.1 var(--font)}
+#b3-3 .hw-idea.bad{color:var(--bad)}
+#b3-3 .hw-idea.warn{color:var(--warn)}
+#b3-3 .hw-idea.ok{color:var(--ok)}
+#b3-3 .hw-lbl{font:600 12px var(--font)}
+#b3-3 .hw-lbl.bad{fill:var(--bad)}
+#b3-3 .hw-lbl.warn{fill:var(--warn)}
+#b3-3 .hw-lbl.ok{fill:var(--ok)}
+#b3-3 .hw-s{fill:rgba(46,230,246,.14);stroke:var(--c-rtd);stroke-width:2.5}
+#b3-3 .hw-st{font:700 14px var(--mono);fill:var(--c-rtd)}
+#b3-3 .hw-what,#b3-3 .hw-when{margin:0;font-size:var(--fs-small);color:var(--text-2);line-height:1.35}
+#b3-3 .hw-what b,#b3-3 .hw-when b{color:var(--text)}
+#b3-3 .hw-err{padding:.5em .7em;border-radius:8px;border-left:4px solid var(--c);background:var(--bg-2);--c:var(--text-3)}
+#b3-3 .hw-err.bad{--c:var(--bad)}
+#b3-3 .hw-err.warn{--c:var(--warn)}
+#b3-3 .hw-err.ok{--c:var(--ok)}
+#b3-3 .hw-err .k{display:block;font:600 var(--fs-small) var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+#b3-3 .hw-num{display:flex;flex-wrap:wrap;gap:.2em 1em;margin-top:.15em;font-size:var(--fs-body);color:var(--text-2)}
+#b3-3 .hw-num b{font-family:var(--mono);color:var(--c)}
+#b3-3 .hw-err .d{display:block;margin-top:.15em;font-size:var(--fs-small);color:var(--text-3)}
+#b3-3 .hw-when{margin-top:auto}
+#b3-3 .hw-foot{margin-top:clamp(8px,1.6vh,18px)}
+#b3-3 .hw-legend{display:flex;gap:1.6em;margin:0;font:500 var(--fs-small) var(--mono)}
+#b3-3 .hw-legend .li{color:var(--c-rtd)}
+#b3-3 .hw-legend .lv{color:#C6D0DE}
+#b3-3 .hw-foot .quote{margin-top:.4em;font-size:var(--fs-body);padding-top:.3em;padding-bottom:.3em}
+@media(max-width:900px){#b3-3 .hw-grid{grid-template-columns:minmax(0,1fr)}#b3-3 .hw-card svg{max-height:none}}
 .sig-card{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1vw,16px);margin-top:clamp(10px,1.8vh,20px)}
 .sig-card>div{padding:clamp(10px,1vw,16px) clamp(12px,1.2vw,20px);border:1px solid var(--line-2);border-top:4px solid var(--acc,var(--c-tc));border-radius:10px;background:var(--surface)}
 .sig-card .k{display:block;font:600 var(--fs-small) var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
@@ -1131,94 +1173,64 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 
 <section class="screen" id="b3-3" data-block="3" aria-labelledby="b3-3-t">
   <div class="in-wrap">
-    <div class="sh-row rv">
-      <div>
-        <p class="kicker">03 · RTD <span class="pg">3/5</span></p>
-        <h2 id="b3-3-t">Conexión a <span class="acc">2, 3 y 4 hilos</span></h2>
-      </div>
-      <div class="seg" role="group" aria-label="Cantidad de hilos" id="w-seg">
-        <button type="button" data-mode="2" aria-pressed="true">2 hilos</button>
-        <button type="button" data-mode="3" aria-pressed="false">3 hilos</button>
-        <button type="button" data-mode="4" aria-pressed="false">4 hilos</button>
-      </div>
+    <p class="kicker">03 · RTD <span class="pg">3/4</span></p>
+    <h2 id="b3-3-t">Conexión a <span class="acc">2, 3 y 4 hilos</span></h2>
+    <p class="hw-lead">El instrumento mide ohms, pero <b>no distingue los del sensor de los del cable</b>: el cable se lee como temperatura de más. Hay tres formas de resolverlo.</p>
+    <div class="hw-grid">
+
+      <article class="hw-card hw-2">
+        <h3>2 hilos</h3>
+        <p class="hw-idea bad">«Lo acepto»</p>
+        <svg viewBox="0 0 320 150" aria-hidden="true">
+          <rect class="hw-ins" x="4" y="12" width="70" height="126" rx="8"/><text class="hw-t" x="39" y="72" text-anchor="middle">Entrada</text><text class="hw-t" x="39" y="86" text-anchor="middle">RTD</text>
+          <path class="hw-i" d="M74 42 H279 V55"/><path class="hw-i" d="M74 108 H279 V95"/>
+          <rect class="hw-rc bad" x="150" y="35" width="40" height="14" rx="3"/><text class="hw-rt" x="170" y="46" text-anchor="middle">cable</text>
+          <rect class="hw-rc bad" x="150" y="101" width="40" height="14" rx="3"/><text class="hw-rt" x="170" y="112" text-anchor="middle">cable</text>
+          <text class="hw-lbl bad" x="112" y="80">el cable se suma</text>
+          <rect class="hw-s" x="262" y="55" width="34" height="40" rx="5"/><text class="hw-st" x="279" y="80" text-anchor="middle">Pt</text>
+        </svg>
+        <p class="hw-what">El cable se suma al sensor y se lee como si estuviera más caliente. Es lo más <b>simple y barato</b>.</p>
+        <div class="hw-err bad"><span class="k">Error por 1 Ω de cable</span><div class="hw-num"><span>Pt100 <b>+2,6 °C</b></span><span>Pt1000 <b>+0,26 °C</b></span></div></div>
+        <p class="hw-when"><b>Alcanza</b> con cable corto, o con Pt1000.</p>
+      </article>
+
+      <article class="hw-card hw-3">
+        <h3>3 hilos</h3>
+        <p class="hw-idea warn">«Lo mido y lo resto»</p>
+        <svg viewBox="0 0 320 150" aria-hidden="true">
+          <rect class="hw-ins" x="4" y="12" width="70" height="126" rx="8"/><text class="hw-t" x="39" y="72" text-anchor="middle">Entrada</text><text class="hw-t" x="39" y="86" text-anchor="middle">RTD</text>
+          <path class="hw-v" d="M74 22 H272 V55"/><path class="hw-i" d="M74 42 H286 V55"/><path class="hw-i" d="M74 108 H279 V95"/>
+          <rect class="hw-rc warn" x="150" y="35" width="40" height="14" rx="3"/><text class="hw-rt" x="170" y="46" text-anchor="middle">cable</text>
+          <rect class="hw-rc warn" x="150" y="101" width="40" height="14" rx="3"/><text class="hw-rt" x="170" y="112" text-anchor="middle">cable</text>
+          <text class="hw-lbl warn" x="96" y="80">cable extra: mide el cable</text>
+          <rect class="hw-s" x="262" y="55" width="34" height="40" rx="5"/><text class="hw-st" x="279" y="80" text-anchor="middle">Pt</text>
+        </svg>
+        <p class="hw-what">Como la <b>tara de una balanza</b>: un cable extra «pesa» el cable y el instrumento lo descuenta.</p>
+        <div class="hw-err warn"><span class="k">Error de cable</span><div class="hw-num"><span><b>Casi nada</b></span></div><span class="d">si todos los cables son iguales</span></div>
+        <p class="hw-when"><b>Equilibrio</b> entre exactitud y costo.</p>
+      </article>
+
+      <article class="hw-card hw-4">
+        <h3>4 hilos</h3>
+        <p class="hw-idea ok">«No lo mido»</p>
+        <svg viewBox="0 0 320 150" aria-hidden="true">
+          <rect class="hw-ins" x="4" y="12" width="70" height="126" rx="8"/><text class="hw-t" x="39" y="72" text-anchor="middle">Entrada</text><text class="hw-t" x="39" y="86" text-anchor="middle">RTD</text>
+          <path class="hw-v ok" d="M74 22 H272 V55"/><path class="hw-i" d="M74 42 H286 V55"/><path class="hw-i" d="M74 108 H286 V95"/><path class="hw-v ok" d="M74 128 H272 V95"/>
+          <rect class="hw-rc" x="150" y="35" width="40" height="14" rx="3"/><text class="hw-rt" x="170" y="46" text-anchor="middle">cable</text>
+          <rect class="hw-rc" x="150" y="101" width="40" height="14" rx="3"/><text class="hw-rt" x="170" y="112" text-anchor="middle">cable</text>
+          <text class="hw-lbl ok" x="104" y="80">miden pegado al sensor</text>
+          <rect class="hw-s" x="262" y="55" width="34" height="40" rx="5"/><text class="hw-st" x="279" y="80" text-anchor="middle">Pt</text>
+        </svg>
+        <p class="hw-what">Como poner el <b>voltímetro pegado al sensor</b>: 2 cables llevan la corriente y otros 2 solo miden. El cable deja de importar.</p>
+        <div class="hw-err ok"><span class="k">Error de cable</span><div class="hw-num"><span><b>Prácticamente nada</b></span></div></div>
+        <p class="hw-when"><b>Cuando</b> se necesita máxima exactitud.</p>
+      </article>
+
     </div>
-    <div class="g-b3c">
-      <div class="rv" style="--d:.08s">
-        <figure class="fig wires" id="wires" data-mode="2">
-          <svg viewBox="0 0 1000 430" role="img" aria-labelledby="wires-t">
-            <title id="wires-t">Conexión de una RTD a 2, 3 o 4 hilos, con el camino de la corriente de excitación</title>
-            <!-- instrumento -->
-            <rect x="16" y="36" width="262" height="364" rx="16" fill="var(--surface)" stroke="var(--line-2)" stroke-width="1.5"/>
-            <text x="38" y="68" class="svg-l b" style="letter-spacing:.08em">INSTRUMENTO</text>
-            <!-- cables externos -->
-            <path class="w w1" d="M278 90 H780 L820 150"/>
-            <path class="w w2" d="M278 150 H820"/>
-            <path class="w w3" d="M278 290 H820"/>
-            <path class="w w4" d="M278 350 H780 L820 290"/>
-            <!-- lazo interno de corriente -->
-            <path class="w int" d="M110 190 V150 H278 M278 290 H110 V250" style="stroke:#7D8DA5"/>
-            <!-- sensor -->
-            <path class="w" d="M820 150 H870 V176 M870 264 V290 H820" style="stroke-width:4"/>
-            <rect x="846" y="176" width="48" height="88" rx="8" fill="rgba(46,230,246,.12)" stroke="var(--c-rtd)" stroke-width="3"/>
-            <path d="M858 186 V254 M866 254 V186 M874 186 V254 M882 254 V186 M858 186 H866 M874 186 H882 M866 254 H874" fill="none" stroke="var(--c-rtd)" stroke-width="2"/>
-            <text x="910" y="214" class="svg-l b" style="fill:var(--c-rtd);font-size:20px">Pt100</text>
-            <text x="910" y="238" class="svg-l s">sensor</text>
-            <circle cx="820" cy="150" r="6" fill="#C6D0DE"/><circle cx="820" cy="290" r="6" fill="#C6D0DE"/>
-            <!-- colores de hilos según TR10-C -->
-            <g class="svg-l s">
-              <text x="640" y="80" class="m-only m3 m4">rojo</text>
-              <text x="640" y="140">rojo</text>
-              <text x="640" y="280">blanco</text>
-              <text x="640" y="340" class="m-only m4">blanco</text>
-            </g>
-            <!-- resistencias de cable -->
-            <g class="rc rc1"><rect x="436" y="80" width="68" height="20" rx="4"/><text x="470" y="72" text-anchor="middle">Rc</text></g>
-            <g class="rc rc2"><rect x="436" y="140" width="68" height="20" rx="4"/><text x="470" y="132" text-anchor="middle">Rc</text></g>
-            <g class="rc rc3"><rect x="436" y="280" width="68" height="20" rx="4"/><text x="470" y="272" text-anchor="middle">Rc</text></g>
-            <g class="rc rc4"><rect x="436" y="340" width="68" height="20" rx="4"/><text x="470" y="332" text-anchor="middle">Rc</text></g>
-            <text x="470" y="226" text-anchor="middle" class="rc-note m-only m2" style="fill:var(--bad)">se suman: 2·Rc</text>
-            <text x="470" y="226" text-anchor="middle" class="rc-note m-only m3" style="fill:var(--warn)">se compensan si son iguales</text>
-            <text x="470" y="216" text-anchor="middle" class="rc-note m-only m4" style="fill:var(--ok)">los punteados miden tensión:</text>
-            <text x="470" y="240" text-anchor="middle" class="rc-note m-only m4" style="fill:var(--ok)">I ≈ 0, su Rc no genera caída</text>
-            <!-- corriente animada -->
-            <path class="flow cur-flow" d="M110 190 V150 H870 V290 H110 V250" style="--dur:1.3s"/>
-            <!-- fuente de corriente -->
-            <circle cx="110" cy="220" r="30" fill="var(--bg-2)" stroke="var(--c-rtd)" stroke-width="2.5"/>
-            <path d="M110 238 V204 M101 213 L110 202 L119 213" fill="none" stroke="var(--c-rtd)" stroke-width="2.5"/>
-            <text x="54" y="226" class="svg-l b" style="font-size:20px;fill:var(--c-rtd)">I</text>
-            <text x="110" y="378" text-anchor="middle" class="svg-l s">excitación</text>
-            <!-- voltímetro y sus conexiones según modo -->
-            <path class="vl vl2" d="M205 196 V150 M205 244 V290"/>
-            <path class="vl vl3" d="M205 196 V158 A8 8 0 0 0 205 142 V90 H278 M205 244 V290"/>
-            <path class="vl vl4" d="M205 196 V158 A8 8 0 0 0 205 142 V90 H278 M205 244 V282 A8 8 0 0 1 205 298 V350 H278"/>
-            <circle class="vl vl2" cx="205" cy="150" r="4" fill="#C6D0DE"/><circle class="vl vl2" cx="205" cy="290" r="4" fill="#C6D0DE"/><circle class="vl vl3" cx="205" cy="290" r="4" fill="#C6D0DE"/>
-            <circle cx="205" cy="220" r="24" fill="var(--bg-2)" stroke="#C6D0DE" stroke-width="2.5"/>
-            <text x="205" y="228" text-anchor="middle" class="svg-l b" style="font-size:21px">V</text>
-            <text x="600" y="420" class="m-only m4 svg-l s" style="fill:var(--text-2)">— —  par que mide tensión</text>
-            <text x="300" y="420" class="svg-l s" style="fill:var(--c-rtd)">• • •  corriente de excitación</text>
-          </svg>
-          <span class="didactic">Ilustración didáctica, no a escala</span>
-        </figure>
-        <p class="wmode" id="wmode-txt" aria-live="polite"></p>
-      </div>
-      <div class="panel sim rv" style="--d:.16s">
-        <p class="panel-t"><span>Simulador · error por cable</span><span id="w-mode-l">2 hilos</span></p>
-        <div class="ctl">
-          <label for="w-rc">Resistencia por conductor · Rc</label>
-          <output id="w-rc-o" for="w-rc" class="num">0,50 Ω</output>
-          <input type="range" id="w-rc" min="0" max="5" step="0.05" value="0.5">
-        </div>
-        <div class="res" aria-live="polite">
-          <div><div class="t">Pt100</div><div class="readout sm" id="w-e100">+2,60<span class="u">°C</span></div></div>
-          <div><div class="t alt">Pt1000</div><div class="readout sm" id="w-e1000">+0,26<span class="u">°C</span></div></div>
-        </div>
-        <div class="ebar nv"><span class="n acc">Pt100</span><span class="track"><span class="fill hot" id="w-b100"></span></span></div>
-        <div class="ebar nv"><span class="n" style="color:#9FF3FA">Pt1000</span><span class="track"><span class="fill" id="w-b1000"></span></span></div>
-        <p class="formula" id="w-formula">error = 2·Rc / S</p>
-        <p class="tol" id="w-tol">El conexionado a 4 hilos no elimina la tolerancia propia del sensor.</p>
-      </div>
+    <div class="hw-foot">
+      <p class="hw-legend"><span class="li">━ lleva la corriente</span><span class="lv">┅ solo mide</span></p>
+      <p class="quote">Con <b>Pt1000</b> el mismo cable pesa 10 veces menos: por eso muchas veces <span class="acc">alcanza con 2 hilos</span>. <button type="button" class="src" data-src="tr10c:5">TR10-C · clases A y AA: no a 2 hilos</button></p>
     </div>
-    <p class="quote rv" style="--d:.24s">Criterio de selección: <span class="acc">el error de cableado admisible</span>. <button type="button" class="src" data-src="tr10c:5">TR10-C · clases A y AA</button></p>
   </div>
 </section>
 
@@ -2421,40 +2433,6 @@ const PUNTOS = [
     }
     tm.addEventListener("input", upd);
     select(sel);
-    upd();
-  });
-
-  /* ============================================================
-     BLOQUE 3 · ERROR DE CABLE (2 / 3 / 4 HILOS)
-     ============================================================ */
-  safe("hilos", () => {
-    const fig = $("#wires"), rc = $("#w-rc");
-    const S100 = 0.385, S1000 = 3.85; // Ω/°C, sensibilidad media 0–100 °C
-    let mode = 2;
-    const TXT = {
-      2: "<b>2 hilos:</b> la resistencia de ambos conductores se suma a la del sensor. Aceptable con cables cortos o error tolerable.",
-      3: "<b>3 hilos:</b> el conductor adicional permite descontar la resistencia de línea. Supone conductores iguales.",
-      4: "<b>4 hilos:</b> un par conduce la corriente y el otro mide la tensión en bornes del sensor. Error de cable prácticamente nulo.",
-    };
-    const FORM = { 2: "error ≈ 2·Rc / sensibilidad", 3: "error ≈ 0 (si los cables son iguales)", 4: "error de cable ≈ 0" };
-    function upd() {
-      const R = +rc.value;
-      const rErr = mode === 2 ? 2 * R : 0;
-      const e100 = rErr / S100, e1000 = rErr / S1000;
-      fig.dataset.mode = mode;
-      $$("#w-seg button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.mode === mode)));
-      $("#w-rc-o").textContent = fmt(R, 2) + " Ω";
-      $("#w-e100").innerHTML = fmtS(e100, 2) + '<span class="u">°C</span>';
-      $("#w-e1000").innerHTML = fmtS(e1000, 2) + '<span class="u">°C</span>';
-      $("#w-b100").style.setProperty("--w", e100 > 0 ? "100%" : "0%");
-      $("#w-b1000").style.setProperty("--w", e100 > 0 ? (e1000 / e100) * 100 + "%" : "0%");
-      $("#w-formula").textContent = FORM[mode];
-      $("#wmode-txt").innerHTML = TXT[mode];
-      $("#w-mode-l").textContent = mode + " hilos";
-      $("#w-tol").classList.toggle("hl", mode === 4);
-    }
-    $$("#w-seg button").forEach((b) => b.addEventListener("click", () => { mode = +b.dataset.mode; upd(); }));
-    rc.addEventListener("input", upd);
     upd();
   });
 
