@@ -1118,36 +1118,37 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <p class="note">Señal primaria: <b>resistencia analógica en Ω</b>. No es PNP/NPN ni entrega 4–20 mA o 0–10 V por sí sola; la lee una entrada RTD o un transmisor.</p>
 </div>
 </section>
+</section><section class="screen" id="b3-2" data-block="3" aria-labelledby="b3-2-t">
+<style>
+#b3-2 .pt-visual{position:relative;overflow:hidden;aspect-ratio:1546/452;margin:20px 0 0;border-radius:16px}
+#b3-2 .pt-visual img{position:absolute;display:block;width:108.15%;height:208.19%;max-width:none;left:-4.01%;top:-44.25%}
+#b3-2 .pt-scale-note{font-size:clamp(12px,1vw,18px);color:var(--text-3);margin:8px 0 18px}
+#b3-2 .pt-cable-summary{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:22px;align-items:center;background:#101b29;border:1px solid var(--line-2);border-radius:14px;padding:18px 24px}
+#b3-2 .pt-cable-summary h3{font-size:clamp(20px,1.75vw,32px);margin:0 0 6px}
+#b3-2 .pt-cable-summary p{font-size:clamp(14px,1.05vw,20px);line-height:1.4;color:var(--text-2)}
+#b3-2 .pt-error{border-left:1px solid var(--line-2);padding-left:24px;display:grid;gap:5px}
+#b3-2 .pt-error span{font:600 clamp(15px,1.15vw,21px) var(--mono);color:var(--text)}
+#b3-2 .pt-error strong{font:600 clamp(28px,2.5vw,45px) var(--mono);color:var(--error-color)}
+#b3-2 .pt-error small{font-size:clamp(12px,.9vw,17px);color:var(--text-3)}
+#b3-2 .selfheat{margin-top:16px}
+@media(max-width:800px){#b3-2 .pt-cable-summary{grid-template-columns:1fr 1fr;padding:16px;gap:16px}#b3-2 .pt-cable-intro{grid-column:1/-1}#b3-2 .pt-error{padding:0;border:0}#b3-2 .pt-visual{aspect-ratio:1546/452}}
+</style>
+<div class="in-wrap">
+<p class="kicker">03 · RTD <span class="pg">2/4</span></p>
+<h2 id="b3-2-t">Pt100 y Pt1000: <span class="acc">mismo principio, distinta escala</span></h2>
+<p class="lead" style="max-width:none">Ambas son de platino. La Pt1000 cambia <b>10 veces más Ω por cada °C</b>.</p>
+<figure class="pt-visual">
+<img src="img/pt100-pt1000-comparacion.png" alt="Comparación visual: Pt100 de 100 ohms a cero grados, sensibilidad media de 0,385 ohms por grado; Pt1000 de 1000 ohms, sensibilidad media de 3,85 ohms por grado.">
+</figure>
+<p class="pt-scale-note">Los gráficos usan distintas escalas de Ω. Sensibilidades medias entre 0 y 100 °C; mayor sensibilidad resistiva no significa diez veces más exactitud.</p>
+<div class="pt-cable-summary">
+<div class="pt-cable-intro"><h3>Mismo cable: <span class="acc">1 Ω extra</span></h3><p>En conexión de <b>2 hilos</b>, la resistencia del cable se suma a la del sensor.</p></div>
+<div class="pt-error" style="--error-color:#ff6d73"><span>Pt100</span><strong>≈ +2,6 °C</strong><small>Mayor impacto del mismo cable</small></div>
+<div class="pt-error" style="--error-color:#5ee28a"><span>Pt1000</span><strong>≈ +0,26 °C</strong><small>Error diez veces menor en este ejemplo</small></div>
+</div>
+<div class="selfheat"><span class="lt">Cuidado</span><span>Autocalentamiento: a igual corriente, <span class="f">P = I²R</span>. Se mide con corriente baja. <button type="button" class="src" data-src="tr10c:3">TR10-C · p. 3</button></span></div>
+</div>
 </section>
-
-<section class="screen" id="b3-2" data-block="3" aria-labelledby="b3-2-t">
-  <div class="in-wrap">
-    <div class="rv">
-      <p class="kicker">03 · RTD <span class="pg">2/5</span></p>
-      <h2 id="b3-2-t">Pt100 y Pt1000: <span class="acc">misma curva, distinta escala</span></h2>
-    </div>
-    <div class="g-b3b">
-      <div class="rv" style="--d:.08s">
-        <div class="cmp">
-          <span></span><span class="h">Pt100</span><span class="h alt">Pt1000</span>
-          <span class="k">Resistencia a 0 °C</span><span class="v">100<small>Ω</small></span><span class="v">1000<small>Ω</small></span>
-          <span class="k">Sensibilidad media entre 0 y 100 °C</span><span class="v">0,385<small>Ω/°C</small></span><span class="v">3,85<small>Ω/°C</small></span>
-          <p class="cmp-note">Platino en ambos casos: la Pt1000 tiene <b>diez veces</b> más resistencia y sensibilidad.</p>
-        </div>
-      </div>
-      <div class="why panel rv" style="--d:.16s">
-        <h3>Ventaja de la Pt1000: <span class="acc">menor error por cableado</span></h3>
-        <p>El instrumento mide sensor y conductores en serie.</p>
-        <div class="cable-ex"><span>2 × 0,5 Ω</span><span class="arrow">=</span><span class="acc">1 Ω de cable</span></div>
-        <div class="ebar"><span class="n acc">Pt100</span><span class="track"><span class="fill hot" style="--w:100%"></span></span><span class="val">+2,6 °C</span></div>
-        <div class="ebar"><span class="n" style="color:#9FF3FA">Pt1000</span><span class="track"><span class="fill" style="--w:10%"></span></span><span class="val">+0,26 °C</span></div>
-        <p style="margin-top:.8em">A igual cable, <b style="color:var(--text)">error diez veces menor</b>.</p>
-      </div>
-    </div>
-    <div class="selfheat rv" style="--d:.24s">
-      <span class="lt">Contrapartida</span>
-      <span>Autocalentamiento (<span class="f">P = I²R</span>): se mide con corrientes bajas, <span class="f">0,1 a 1 mA</span>. <button type="button" class="src" data-src="tr10c:3">TR10-C · p. 3</button></span>
-    </div>
   </div>
 </section>
 
