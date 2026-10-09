@@ -1120,7 +1120,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </section>
 </section><section class="screen" id="b3-2" data-block="3" aria-labelledby="b3-2-t">
 <style>
-#b3-2 .pt-visual{position:relative;overflow:hidden;aspect-ratio:1546/452;margin:20px 0 0;border-radius:16px}
+#b3-2 h2{max-width:none;font-size:clamp(30px,min(3.1vw,5.3vh),64px)}#b3-2 .pt-visual{position:relative;overflow:hidden;aspect-ratio:1546/452;width:min(100%,calc(40svh * 3.42));margin:18px auto 0;border-radius:16px}
 #b3-2 .pt-visual img{position:absolute;display:block;width:108.15%;height:208.19%;max-width:none;left:-4.01%;top:-44.25%}
 #b3-2 .pt-scale-note{font-size:clamp(12px,1vw,18px);color:var(--text-3);margin:8px 0 18px}
 #b3-2 .pt-cable-summary{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:22px;align-items:center;background:#101b29;border:1px solid var(--line-2);border-radius:14px;padding:18px 24px}
@@ -1135,8 +1135,8 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </style>
 <div class="in-wrap">
 <p class="kicker">03 · RTD <span class="pg">2/4</span></p>
-<h2 id="b3-2-t">Pt100 y Pt1000: <span class="acc">mismo principio, distinta escala</span></h2>
-<p class="lead" style="max-width:none">Ambas son de platino. La Pt1000 cambia <b>10 veces más Ω por cada °C</b>.</p>
+<h2 id="b3-2-t">Pt100 y Pt1000: <span class="acc">distinta escala</span></h2>
+<p class="lead" style="max-width:none">Mismo principio: ambas son de platino. La Pt1000 cambia <b>10 veces más Ω por cada °C</b>.</p>
 <figure class="pt-visual">
 <img src="img/pt100-pt1000-comparacion.png" alt="Comparación visual: Pt100 de 100 ohms a cero grados, sensibilidad media de 0,385 ohms por grado; Pt1000 de 1000 ohms, sensibilidad media de 3,85 ohms por grado.">
 </figure>
@@ -2680,5 +2680,6 @@ const PUNTOS = [
 </script>
 </body>
 </html>
+
 
 
