@@ -2727,7 +2727,7 @@ const PUNTOS = [
 const root=document.getElementById("b4"); if(!root) return;
 const tabs=[...root.querySelectorAll("[data-th-view]")],panels=[...root.querySelectorAll("[data-th-panel]")];
 const slider=root.querySelector("#th-temperature"),control=root.querySelector("#th-control");
-function show(view){tabs.forEach(b=>{const on=b.dataset.thView===view;b.setAttribute("aria-selected",String(on));b.tabIndex=on?0:-1;});panels.forEach(p=>p.hidden=p.dataset.thPanel!==view);control.hidden=view==="real";}
+function show(view){tabs.forEach(b=>{const on=b.dataset.thView===view;b.setAttribute("aria-selected",String(on));b.tabIndex=on?0:-1;});panels.forEach(p=>p.hidden=p.dataset.thPanel!==view);control.hidden=view==="real";root.querySelector(".thermistor-summary").hidden=view!=="real";root.querySelector(".thermistor-foot").hidden=view!=="real";}
 tabs.forEach((b,i)=>{b.addEventListener("click",()=>show(b.dataset.thView));b.addEventListener("keydown",e=>{if(!["ArrowLeft","ArrowRight","Home","End"].includes(e.key))return;e.preventDefault();e.stopPropagation();const n=e.key==="Home"?0:e.key==="End"?tabs.length-1:(i+(e.key==="ArrowRight"?1:-1)+tabs.length)%tabs.length;show(tabs[n].dataset.thView);tabs[n].focus();});});
 const models={ntc:t=>Math.exp(3500*(1/(t+273.15)-1/298.15)),ptc:t=>0.5+7.5/(1+Math.exp(-(t-80)/5))};
 const sx=t=>75+845*t/100,sy=r=>285-245*r/9;
@@ -2744,6 +2744,7 @@ show("real");update();
 </script>
 </body>
 </html>
+
 
 
 
