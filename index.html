@@ -905,7 +905,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <div class="g-b2b">
 <figure class="cj-scene rv">
  <div class="cj-scene-image">
-  <img src="img/termocupla-junta-fria.png" width="1672" height="941" alt="Sonda en un proceso caliente conectada al instrumento; ampliación de los bornes y del sensor de temperatura de referencia.">
+  <img src="img/termocupla-junta-fria-oscura.png" width="1672" height="941" alt="Sonda en un proceso caliente conectada al instrumento; ampliación de los bornes y del sensor de temperatura de referencia.">
   <div class="cj-tag cj-process"><span>Punta en el proceso · Tm</span><strong id="cj-img-tm">200 °C</strong></div>
   <div class="cj-tag cj-reference"><span>Bornes de referencia · Tref</span><strong id="cj-img-tr">25 °C</strong></div>
   <div class="cj-tag cj-sensor">El sensor auxiliar mide<br>la temperatura de los bornes</div>
@@ -1013,18 +1013,32 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 
 <!-- ============================================================
      BLOQUE 3 · RTD PT100 / PT1000
-     ============================================================ -->
-<section class="screen first" id="b3" data-block="3" aria-labelledby="b3-t">
-  <div class="in-wrap g-b3a">
-    <div class="rv">
-      <p class="kicker">03 · RTD: Pt100 y Pt1000 <span class="who" data-exp="b3">Expositor 3</span></p>
-      <h2 id="b3-t">RTD: <span class="acc">resistencia de platino</span></h2>
-      <p class="lead">Elemento pasivo: su resistencia aumenta con la temperatura de forma <b>conocida y repetible</b>.</p>
-      <ol class="chain" aria-label="Por qué sube la resistencia">
-        <li>Mayor temperatura</li>
-        <li>mayor resistencia del platino</li>
-      </ol>
-      <div class="measure">
+     ============================================================ --><section class="screen first" id="b3" data-block="3" aria-labelledby="b3-t">
+<style>
+#b3 .rtd-layout{display:grid;grid-template-columns:1.7fr 1fr;gap:24px;align-items:center;margin-top:22px}
+#b3 .rtd-photo{margin:0}#b3 .rtd-photo img{display:block;width:100%;border-radius:16px}
+#b3 .rtd-reading{padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
+#b3 .rtd-reading svg{display:block;width:100%;margin:20px 0}
+#b3 .rtd-reading h3{font-size:22px}#b3 .rtd-reading .f{font-size:32px}
+#b3 .rtd-reading p{font-size:clamp(17px,1.35vw,22px);line-height:1.5}
+#b3 .rtd-caption{font-size:16px;color:var(--muted);margin-top:10px}
+@media(max-width:850px){#b3 .rtd-layout{grid-template-columns:1fr}}
+#b2-2 .cj-scene-image{background:#0b1119}#b2-2 .cj-tag{background:rgba(15,25,39,.95);color:var(--text);border-color:var(--line)}
+</style>
+<div class="in-wrap">
+ <div class="rv">
+ <p class="kicker">03 · RTD: Pt100 y Pt1000 <span class="who">Expositor 3</span></p>
+ <h2 id="b3-t">RTD: <span class="acc">resistencia de platino</span></h2>
+ <p class="lead">El elemento de platino cambia su resistencia con la temperatura. El instrumento mide esa resistencia y la convierte en °C.</p>
+ </div>
+ <div class="rtd-layout">
+  <figure class="rtd-photo rv">
+   <img src="img/rtd-construccion.png" width="1672" height="941" alt="Ilustración realista en corte de una sonda RTD: elemento de platino, aislante, conductores, vaina protectora y bornes.">
+   <figcaption class="rtd-caption">Construcción del sensor · ilustración técnica en corte.</figcaption>
+  </figure>
+  <div class="rtd-reading rv">
+   <h3>Cómo se obtiene la lectura</h3>
+   
         <svg viewBox="0 0 500 150" role="img" aria-label="El instrumento hace pasar una corriente por el platino y mide la tensión">
           <path d="M70 49 V14 H265 V136 H70 V101" fill="none" stroke="#516279" stroke-width="3"/>
           <path d="M70 49 V14 H265 V136 H70 V101" fill="none" stroke="var(--c-rtd)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
@@ -1039,42 +1053,14 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
           <text x="430" y="83" text-anchor="middle" class="svg-l b" style="font-size:22px">V</text>
           <text x="306" y="80" class="svg-l b" style="fill:var(--c-rtd);font-size:18px">Pt</text>
         </svg>
-        <p><span class="f">R = V / I</span>Excitación con <b>corriente baja</b>; la curva del platino convierte Ω en °C.</p>
-      </div>
-      <div class="tags">
-        <span class="tag on">analógica resistiva</span>
-        <span class="tag no"><b>NO</b> PNP / NPN</span>
-        <span class="tag no"><b>NO</b> 4–20 mA ni 0–10 V por sí sola</span>
-      </div>
-    </div>
-    <figure class="fig rv" style="--d:.12s">
-      <p class="chart-t">Pt100 · resistencia vs temperatura</p>
-      <svg viewBox="0 0 620 370" role="img" aria-labelledby="ptc-t">
-        <title id="ptc-t">Curva de la Pt100: 100 ohms a 0 grados, sube unos 0,385 ohms por grado entre 0 y 100 grados</title>
-        <g class="svg-line" stroke-width="1">
-          <path d="M70 297.7H570M70 253.1H570M70 208.5H570M70 163.8H570M70 119.2H570M70 74.6H570M70 30H570" stroke="rgba(150,180,220,.08)"/>
-          <path d="M153.3 30V320M236.7 30V320M320 30V320M403.3 30V320M486.7 30V320" stroke="rgba(150,180,220,.08)"/>
-          <path d="M70 30V320H570" stroke="var(--line-2)" stroke-width="1.5"/>
-        </g>
-        <g class="svg-l s" text-anchor="middle">
-          <text x="70" y="344">−50</text><text x="153.3" y="344">0</text><text x="236.7" y="344">50</text><text x="320" y="344">100</text><text x="403.3" y="344">150</text><text x="486.7" y="344">200</text><text x="560" y="344">250 °C</text>
-        </g>
-        <g class="svg-l s" text-anchor="end">
-          <text x="60" y="302">80</text><text x="60" y="257">100</text><text x="60" y="213">120</text><text x="60" y="168">140</text><text x="60" y="123">160</text><text x="60" y="79">180</text><text x="60" y="34">200</text>
-        </g>
-        <text x="16" y="20" class="svg-l s">R (Ω)</text>
-        <path d="M153.3 253.1 H320 V167.2" fill="none" stroke="var(--text-3)" stroke-width="1.5" stroke-dasharray="4 5"/>
-        <path d="M70.0,297.0 L78.3,292.6 L86.7,288.2 L95.0,283.8 L103.3,279.4 L111.7,275.0 L120.0,270.6 L128.3,266.2 L136.7,261.8 L145.0,257.4 L153.3,253.1 L161.7,248.7 L170.0,244.4 L178.3,240.0 L186.7,235.7 L195.0,231.4 L203.3,227.0 L211.7,222.7 L220.0,218.4 L228.3,214.1 L236.7,209.8 L245.0,205.5 L253.3,201.2 L261.7,197.0 L270.0,192.7 L278.3,188.4 L286.7,184.2 L295.0,179.9 L303.3,175.7 L311.7,171.4 L320.0,167.2 L328.3,163.0 L336.7,158.7 L345.0,154.5 L353.3,150.3 L361.7,146.1 L370.0,141.9 L378.3,137.7 L386.7,133.5 L395.0,129.4 L403.3,125.2 L411.7,121.0 L420.0,116.9 L428.3,112.7 L436.7,108.6 L445.0,104.4 L453.3,100.3 L461.7,96.2 L470.0,92.1 L478.3,88.0 L486.7,83.9 L495.0,79.8 L503.3,75.7 L511.7,71.6 L520.0,67.5 L528.3,63.4 L536.7,59.4 L545.0,55.3 L553.3,51.3 L561.7,47.2 L570.0,43.2" fill="none" stroke="var(--c-rtd)" stroke-width="4" stroke-linejoin="round"/>
-        <circle cx="153.3" cy="253.1" r="7" fill="var(--bg)" stroke="var(--c-rtd)" stroke-width="3"/>
-        <circle cx="320" cy="167.2" r="7" fill="var(--bg)" stroke="var(--c-rtd)" stroke-width="3"/>
-        <text x="166" y="284" class="svg-l b">0 °C → 100 Ω</text>
-        <text x="200" y="152" class="svg-l b">100 °C → 138,5 Ω</text>
-        <text x="330" y="232" class="svg-l" style="fill:var(--c-rtd)">≈ 0,385 Ω/°C</text>
-        <text x="330" y="252" class="svg-l s">media entre 0 y 100 °C</text>
-      </svg>
-      <span class="didactic">Ilustración didáctica</span>
-    </figure>
+   <p><span class="f">R = V / I</span></p>
+   <p>Se aplica una <b>corriente baja conocida</b> y se mide la tensión sobre el platino.</p>
+   <p>Mayor temperatura → <b class="acc">mayor resistencia</b>.</p>
+   <p class="note">A diferencia de la termocupla, necesita excitación del instrumento. Su señal primaria es una resistencia en Ω.</p>
   </div>
+ </div>
+</div>
+</section>
 </section>
 
 <section class="screen" id="b3-2" data-block="3" aria-labelledby="b3-2-t">
