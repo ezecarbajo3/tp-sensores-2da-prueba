@@ -779,7 +779,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
    <div class="b1-txt">
     <p class="kicker rv">01 · Mapa de la familia <span class="who" data-exp="b1">Expositor 1</span></p>
     <h2 id="b1-t" class="q-big rv" style="--d:.06s">¿Cómo medimos la temperatura de <span style="color:#FF8A1F">un horno</span>, de <span style="color:#2EE6F6">una cámara a −18&nbsp;°C</span> y de <span style="color:#FF5C93">un producto que viaja sobre una cinta</span>?</h2>
-    <p class="answer rv" style="--d:.14s">Ninguno entrega «grados»: cada uno convierte un <b>fenómeno físico distinto</b> en una <b>señal eléctrica distinta</b>.</p>
+    <p class="answer rv" style="--d:.14s">Para elegir el sensor, primero miramos <b>el proceso</b>: temperatura, exactitud, ambiente y posibilidad de contacto.</p>
    </div>
    <div class="b1-pics rv" style="--d:.2s">
     <figure style="--c:#FF8A1F"><img src="img/aplicacion-horno.webp" alt="Sonda de temperatura en la pared de un horno industrial"></figure>
@@ -790,43 +790,45 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </section>
 
 <section class="screen" id="b1-2" data-block="1" aria-labelledby="b1-2-t">
-  <div class="in-wrap">
+  <style>#b1-2 .matrix.m3{font-size:clamp(17px,min(1.8vw,3vh),32px)}#b1-2 .matrix.m3 col.c1{width:28%}#b1-2 .matrix.m3 col.c3{width:72%}#b1-2 .criterion{font-family:var(--sans);color:var(--text-2)}#b1-2 .criterion b{color:var(--text)}#b1-2 .matrix.m3 .go{display:none}</style>
+<div class="in-wrap">
     <div class="sh-row rv">
       <div>
         <p class="kicker">01 · Mapa de la familia <span class="pg">2/2</span></p>
-        <h2 id="b1-2-t">Cinco sensores, <span class="acc">cinco señales</span></h2>
+        <h2 id="b1-2-t">Criterios de <span class="acc">selección</span></h2>
+<p class="lead" style="max-width:none">La elección depende de lo que necesita el proceso; ninguna tecnología es la mejor en todo.</p>
       </div>
     </div>
     <div class="mtx-wrap rv" style="--d:.1s">
       <table class="matrix m3" id="matrix">
-        <caption class="sr-only">Comparación de los cinco sensores de temperatura</caption>
+        <caption class="sr-only">Criterios para elegir entre cinco familias de sensores de temperatura</caption>
         <colgroup><col class="c1"><col class="c3"></colgroup>
         <thead>
           <tr>
             <th scope="col">Sensor</th>
-            <th scope="col">Señal primaria</th>
+            <th scope="col">¿Cuándo conviene?</th>
           </tr>
         </thead>
         <tbody>
           <tr class="c-tc" tabindex="0" data-go="#b2" title="Ir a la sección">
             <td>Termocupla<span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Señal" class="sig">Tensión en mV</td>
+            <td data-label="Criterio" class="criterion"><b>Alta temperatura y ambiente exigente.</b> Robustez y respuesta según la construcción.</td>
           </tr>
           <tr class="c-rtd" tabindex="0" data-go="#b3" title="Ir a la sección">
             <td>RTD <small>Pt100 / Pt1000</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Señal" class="sig">Resistencia (Ω)</td>
+            <td data-label="Criterio" class="criterion"><b>Exactitud, estabilidad y repetibilidad.</b> Dentro del rango de la sonda.</td>
           </tr>
           <tr class="c-ntc" tabindex="0" data-go="#b4" title="Ir a la sección">
             <td>Termistor <small>NTC / PTC</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Señal" class="sig">Resistencia (Ω)</td>
+            <td data-label="Criterio" class="criterion"><b>Medición dentro de equipos</b> o protección térmica. Bajo costo.</td>
           </tr>
           <tr class="c-ic" tabindex="0" data-go="#b4" title="Ir a la sección">
             <td>Integrado <small>LM35 / DS18B20</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Señal" class="sig">mV o dato digital</td>
+            <td data-label="Criterio" class="criterion"><b>Integración en sistemas electrónicos.</b> Salida acondicionada por el chip.</td>
           </tr>
           <tr class="c-ir" tabindex="0" data-go="#b4-2" title="Ir a la sección">
             <td>Infrarrojo <small>ifm TW2000</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Señal" class="sig">Radiación IR</td>
+            <td data-label="Criterio" class="criterion"><b>Medición sin contacto.</b> Superficies en movimiento o inaccesibles.</td>
           </tr>
         </tbody>
       </table>
@@ -893,6 +895,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
         <text x="462" y="398" text-anchor="middle" class="svg-l" style="fill:var(--text)">V ≈ S · (Tm − Tref)</text>
       </svg><div class="tc-facts"><div><b>mV</b><span>señal analógica de bajo nivel</span></div><div><b>Autogenerada</b><span>no requiere alimentación</span></div><div><b>2 conductores</b><span>por elemento, con polaridad</span></div></div><span class="didactic tc-did">Ilustración didáctica, no a escala</span></div>
 </figure>
+<p class="note">Señal primaria: <b>tensión analógica en mV</b>, con polaridad. No es PNP/NPN ni una salida 4–20 mA: para el PLC requiere entrada TC o transmisor.</p>
   </div>
 </section>
 
@@ -1051,12 +1054,13 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <text x="355" y="211" text-anchor="middle" fill="#edf3fa" font-size="24" font-family="monospace">R = V / I → temperatura</text>
 </svg>
 <div class="rtd-facts">
-<div><strong>Ω</strong><span>señal resistiva</span></div>
+<div><strong>Ω</strong><span>resistencia analógica</span></div>
 <div><strong>Excitación</strong><span>requiere corriente baja</span></div>
 <div><strong>2, 3 o 4 hilos</strong><span>según la conexión</span></div>
 </div>
 </div>
 </figure>
+<p class="note">Señal primaria: <b>resistencia analógica en Ω</b>. No es PNP/NPN ni entrega 4–20 mA o 0–10 V por sí sola; la lee una entrada RTD o un transmisor.</p>
 </div>
 </section>
 </section>
@@ -1225,7 +1229,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
         </div>
         <div class="sub-foot">
           <div class="tags">
-            <span class="tag on">analógica resistiva</span>
+            <span class="tag on">resistencia analógica · Ω</span>
             <span class="tag">2 terminales</span>
             <span class="tag no"><b>NO</b> PNP / NPN · 4–20 mA</span>
           </div>
@@ -1239,7 +1243,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
         <div class="ic-grid">
           <div class="ic-card">
             <div class="hd"><b>LM35</b><span>analógico · 4–30 V</span></div>
-            <div class="big">10 mV/°C</div>
+            <div class="big">Salida de tensión: 10 mV/°C</div>
             <div class="ctl">
               <label for="lm-t">Temperatura <span class="note">(2–150 °C)</span></label>
               <output id="lm-t-o" for="lm-t" class="num">25 °C</output>
@@ -1256,7 +1260,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
               <path d="M142 60 H160 V44 H174 V60 H182 V44 H190 V60 H206 V44 H214 V60 H222 V44 H238 V60 H252" fill="none" stroke="var(--c-ic)" stroke-width="2.5" stroke-linejoin="round"/>
               <text x="146" y="100" class="svg-l s" style="font-size:12.5px">dato por 1-Wire</text>
             </svg>
-            <p class="sm">Dato digital por protocolo <b style="color:var(--text)">1-Wire</b>.</p>
+            <p class="sm">Salida: dato digital por protocolo <b style="color:var(--text)">1-Wire</b>.</p>
           </div>
         </div>
         <div class="sub-foot">
@@ -1351,6 +1355,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       </div>
     </div>
   </div>
+<p class="note" style="max-width:var(--max);margin:0 auto;padding:0 24px">La radiación IR es lo que <b>recibe</b> el sensor. El TW2000 entrega <b>4–20 mA</b> para medir y una salida <b>PNP o IO-Link</b> según configuración.</p>
 </section>
 
 <section class="screen fv-screen" id="b4-3" data-block="4" style="--acc:var(--c-ir)" aria-label="Hoja técnica ifm TW2000">
@@ -1566,7 +1571,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   <div class="in-wrap">
     <div class="rv">
       <p class="kicker" style="color:var(--warn)">06 · Selección y aplicación <span class="who" data-exp="b6">Expositor 5</span></p>
-      <h2 id="b6-t">Criterios de <span style="color:var(--warn)">selección</span></h2>
+      <h2 id="b6-t">Volvemos a los <span style="color:var(--warn)">criterios de selección</span></h2>
       <p class="lead" style="max-width:none">Ninguna tecnología es óptima en todos los aspectos: cada elección es un compromiso.</p>
     </div>
     <ul class="rules rv" style="--d:.1s">
@@ -1679,7 +1684,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <section class="screen first" id="b7" data-block="7" aria-labelledby="b7-t">
   <div class="in-wrap">
     <p class="kicker rv">07 · Cierre <span class="who" data-exp="b6">Expositor 5</span></p>
-    <p class="back-q rv" style="--d:.06s">Una misma variable, <b>cinco señales eléctricas distintas</b>.</p>
+    <p class="back-q rv" style="--d:.06s">Una misma variable, <b>cinco tecnologías para distintas necesidades</b>.</p>
     <ul class="final5 rv" style="--d:.14s">
       <li class="c-tc">
         <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 52 L32 20 M54 52 L32 20" stroke="var(--c-tc)" stroke-width="4" stroke-linecap="round"/><path d="M54 52 L32 20" stroke="#8FA3BF" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="18" r="6" fill="var(--c-tc)"/></svg>
@@ -2536,3 +2541,4 @@ const PUNTOS = [
 </script>
 </body>
 </html>
+
