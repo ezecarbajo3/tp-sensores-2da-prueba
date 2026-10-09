@@ -791,50 +791,32 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </section>
 
 <section class="screen" id="b1-2" data-block="1" aria-labelledby="b1-2-t">
-  <style>#b1-2 .matrix.m3{font-size:clamp(17px,min(1.8vw,3vh),32px)}#b1-2 .matrix.m3 col.c1{width:28%}#b1-2 .matrix.m3 col.c3{width:72%}#b1-2 .criterion{font-family:var(--sans);color:var(--text-2)}#b1-2 .criterion b{color:var(--text)}#b1-2 .matrix.m3 .go{display:none}@media(max-width:850px){#b1-2 .matrix.m3 td.criterion{display:block;padding:.35em .8em .8em}#b1-2 .matrix.m3 td.criterion::before{content:none}}</style>
+<style>
+#b1-2 .selection-board{display:grid;gap:12px;margin-top:26px}
+#b1-2 .selection-row{display:grid;grid-template-columns:72px minmax(170px,.8fr) minmax(0,1.7fr) 28px;gap:22px;align-items:center;text-decoration:none;color:var(--text);padding:20px 24px;border:1px solid var(--line-2);border-left:4px solid var(--acc);border-radius:14px;background:linear-gradient(100deg,color-mix(in srgb,var(--acc) 8%,#101923),#101923 48%);transition:background .2s,transform .2s}
+#b1-2 .selection-row:hover,#b1-2 .selection-row:focus-visible{outline:2px solid var(--acc);outline-offset:3px;transform:translateX(4px)}
+#b1-2 .selection-icon{width:64px;height:64px;display:grid;place-items:center;border-radius:14px;background:color-mix(in srgb,var(--acc) 12%,#101923);color:var(--acc)}
+#b1-2 .selection-icon svg{width:42px;height:42px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#b1-2 .selection-name strong{display:block;font-size:clamp(21px,1.65vw,32px);line-height:1.15}
+#b1-2 .selection-name small{display:block;margin-top:6px;font:500 clamp(12px,.85vw,16px) var(--mono);color:var(--text-3)}
+#b1-2 .selection-criterion strong{display:block;color:var(--acc);font-size:clamp(21px,1.75vw,34px);line-height:1.2}
+#b1-2 .selection-criterion span{display:block;margin-top:6px;font-size:clamp(15px,1.15vw,22px);line-height:1.35;color:var(--text-2)}
+#b1-2 .selection-arrow{color:var(--acc);font-size:25px}
+@media(max-width:800px){#b1-2 .selection-row{grid-template-columns:52px 1fr;gap:12px;padding:16px}#b1-2 .selection-icon{width:48px;height:48px}#b1-2 .selection-icon svg{width:34px;height:34px}#b1-2 .selection-criterion{grid-column:2}#b1-2 .selection-arrow{display:none}}
+@media(min-width:901px) and (max-height:800px){#b1-2 .selection-row{padding:12px 20px}#b1-2 .selection-board{gap:8px}#b1-2 .selection-icon{width:52px;height:52px}}
+</style>
 <div class="in-wrap">
-    <div class="sh-row rv">
-      <div>
-        <p class="kicker">01 · Mapa de la familia <span class="pg">2/2</span></p>
-        <h2 id="b1-2-t">Criterios de <span class="acc">selección</span></h2>
-<p class="lead" style="max-width:none">La elección depende de lo que necesita el proceso; ninguna tecnología es la mejor en todo.</p>
-      </div>
-    </div>
-    <div class="mtx-wrap rv" style="--d:.1s">
-      <table class="matrix m3" id="matrix">
-        <caption class="sr-only">Criterios para elegir entre cinco familias de sensores de temperatura</caption>
-        <colgroup><col class="c1"><col class="c3"></colgroup>
-        <thead>
-          <tr>
-            <th scope="col">Sensor</th>
-            <th scope="col">¿Cuándo conviene?</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="c-tc" tabindex="0" data-go="#b2" title="Ir a la sección">
-            <td>Termocupla<span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Criterio" class="criterion"><b>Alta temperatura y ambiente exigente.</b> Robustez y respuesta según la construcción.</td>
-          </tr>
-          <tr class="c-rtd" tabindex="0" data-go="#b3" title="Ir a la sección">
-            <td>RTD <small>Pt100 / Pt1000</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Criterio" class="criterion"><b>Exactitud, estabilidad y repetibilidad.</b> Dentro del rango de la sonda.</td>
-          </tr>
-          <tr class="c-ntc" tabindex="0" data-go="#b4" title="Ir a la sección">
-            <td>Termistor <small>NTC / PTC</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Criterio" class="criterion"><b>Medición dentro de equipos</b> o protección térmica. Bajo costo.</td>
-          </tr>
-          <tr class="c-ic" tabindex="0" data-go="#b4" title="Ir a la sección">
-            <td>Integrado <small>LM35 / DS18B20</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Criterio" class="criterion"><b>Integración en sistemas electrónicos.</b> Salida acondicionada por el chip.</td>
-          </tr>
-          <tr class="c-ir" tabindex="0" data-go="#b4-2" title="Ir a la sección">
-            <td>Infrarrojo <small>ifm TW2000</small><span class="go" aria-hidden="true">Ver sección →</span></td>
-            <td data-label="Criterio" class="criterion"><b>Medición sin contacto.</b> Superficies en movimiento o inaccesibles.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<p class="kicker">01 · Mapa de la familia <span class="pg">2/2</span></p>
+<h2 id="b1-2-t">Criterios de <span class="acc">selección</span></h2>
+<p class="lead" style="max-width:none">Primero, lo que necesita el proceso. Después, la tecnología.</p>
+<div class="selection-board" aria-label="Cuándo conviene cada familia de sensor">
+<a class="selection-row c-tc" href="#b2"><span class="selection-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 35 23 12l13 23M23 12v-6M8 40h32"/><path d="M24 21c-7 7-8 10-4 14 6 4 11-4 4-14Z"/></svg></span><span class="selection-name"><strong>Termocupla</strong><small>Dos metales</small></span><span class="selection-criterion"><strong>Alta temperatura</strong><span>Ambiente exigente · construcción robusta</span></span><span class="selection-arrow" aria-hidden="true">↗</span></a>
+<a class="selection-row c-rtd" href="#b3"><span class="selection-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 24h6l3-8 6 16 3-8h7M24 4v7M24 37v7"/><circle cx="24" cy="24" r="19"/></svg></span><span class="selection-name"><strong>RTD</strong><small>Pt100 / Pt1000</small></span><span class="selection-criterion"><strong>Exactitud y estabilidad</strong><span>Mediciones repetibles dentro del rango de la sonda</span></span><span class="selection-arrow" aria-hidden="true">↗</span></a>
+<a class="selection-row c-ntc" href="#b4"><span class="selection-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 8a6 6 0 0 1 12 0v20a10 10 0 1 1-12 0Z"/><path d="M24 12v21M8 11h5M8 19h5"/><circle cx="24" cy="35" r="3"/></svg></span><span class="selection-name"><strong>Termistor</strong><small>NTC / PTC</small></span><span class="selection-criterion"><strong>Equipos y protección</strong><span>Sensibilidad térmica · bajo costo</span></span><span class="selection-arrow" aria-hidden="true">↗</span></a>
+<a class="selection-row c-ic" href="#b4"><span class="selection-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="12" width="24" height="24" rx="4"/><rect x="19" y="19" width="10" height="10"/><path d="M17 4v8M24 4v8M31 4v8M17 36v8M24 36v8M31 36v8M4 17h8M4 24h8M4 31h8M36 17h8M36 24h8M36 31h8"/></svg></span><span class="selection-name"><strong>Integrado</strong><small>LM35 / DS18B20</small></span><span class="selection-criterion"><strong>Sistemas electrónicos</strong><span>El chip acondiciona la señal de salida</span></span><span class="selection-arrow" aria-hidden="true">↗</span></a>
+<a class="selection-row c-ir" href="#b4-2"><span class="selection-icon"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 32 25 14l9 9-18 18ZM25 14l6-6 9 9-6 6M13 27l8 8M33 31l11 3M30 36l8 8"/><circle cx="35" cy="13" r="2"/></svg></span><span class="selection-name"><strong>Infrarrojo</strong><small>Sin contacto</small></span><span class="selection-criterion"><strong>Movimiento o difícil acceso</strong><span>Mide la superficie sin tocar el objeto</span></span><span class="selection-arrow" aria-hidden="true">↗</span></a>
+</div>
+</div>
 </section>
 
 <!-- ============================================================
@@ -2228,6 +2210,7 @@ const PUNTOS = [
   safe("matriz", () => {
     // cada fila resalta su sensor y lleva a su sección
     const t = $("#matrix");
+    if (!t) return;
     const rows = $$("tbody tr", t);
     const hl = (r) => { t.classList.toggle("dim", !!r); rows.forEach((x) => x.classList.toggle("on", x === r)); };
     rows.forEach((r) => {
@@ -2553,4 +2536,5 @@ const PUNTOS = [
 </script>
 </body>
 </html>
+
 
