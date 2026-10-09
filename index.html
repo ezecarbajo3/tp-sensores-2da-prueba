@@ -1244,7 +1244,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
      ============================================================ -->
 <style>
 /* Ayudas visuales: termistores e integrados en pantallas independientes */
-#b4 .thermistor-real{width:min(100%,calc(51svh * 1.808));margin:18px auto 0}
+#b4 .thermistor-real{width:min(100%,calc(44svh * 1.808));margin:18px auto 0}
 #b4 .thermistor-real img{display:block;width:100%;height:auto;border-radius:14px}
 #b4 .thermistor-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
 #b4 .thermistor-summary>div{padding:12px 18px;border:1px solid var(--line-2);border-top:3px solid var(--c-ntc);background:var(--surface);border-radius:10px}
@@ -1257,12 +1257,75 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b4-ic .t4-big{font-size:clamp(30px,3.6vw,64px)}
 @media(max-width:700px){#b4 .thermistor-real{width:100%}#b4 .thermistor-summary{grid-template-columns:1fr}#b4-ic .t4-ics{grid-template-columns:1fr}}
 </style>
+<style>
+#b4 [hidden]{display:none!important}
+#b4 .th-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+#b4 .th-tabs button{font:600 var(--fs-small) var(--font);border:1px solid var(--line-2);border-radius:10px;padding:11px 18px;background:var(--surface);color:var(--text);cursor:pointer}
+#b4 .th-tabs button[aria-selected="true"]{background:var(--c-ntc);color:#0b1119;border-color:var(--c-ntc)}
+#b4 .th-tabs button:focus-visible{outline:3px solid var(--text);outline-offset:3px}
+#b4 .th-circuits{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+#b4 .th-circuit{border:1px solid var(--line-2);border-top:3px solid var(--th-color);border-radius:12px;background:var(--surface);padding:14px 20px}
+#b4 .th-circuit h3{font-size:var(--fs-h3);color:var(--th-color);margin:0}
+#b4 .th-circuit h3 span{font-size:var(--fs-small);color:var(--text-2);margin-left:15px}
+#b4 .th-circuit svg{display:block;width:100%;height:auto;max-height:29svh}
+#b4 .th-ratio{font-size:var(--fs-small);color:var(--text-2);margin:0}
+#b4 .th-ratio b{color:var(--th-color);font-family:var(--mono)}
+#b4 .th-message{font-size:var(--fs-body);color:var(--text-2);margin:12px 0 5px}
+#b4 .th-message b{color:var(--text)}
+#b4 .th-detail{font-size:var(--fs-small);color:var(--text-3);line-height:1.4;margin:5px 0}
+#b4 .th-graph{margin:0;padding:12px;border:1px solid var(--line-2);background:var(--surface);border-radius:12px}
+#b4 .th-graph svg{display:block;width:100%;height:auto;max-height:32svh}
+#b4 .th-control{margin-top:14px;padding:12px 18px;background:var(--surface);border-radius:10px;border:1px solid var(--line-2)}
+#b4 .th-control-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:var(--fs-small)}
+#b4 .th-control-head output{font:700 var(--fs-body) var(--mono);color:var(--c-ntc);margin-right:auto}
+#b4 .th-control-head button{font:inherit;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);color:var(--text);padding:6px 10px;cursor:pointer}
+#b4 .th-control input{width:100%;accent-color:var(--c-ntc);margin:12px 0 5px}
+@media(max-width:700px){#b4 .th-circuits{grid-template-columns:1fr}#b4 .th-circuit svg{max-height:none}#b4 .th-graph svg{max-height:none}#b4 .th-tabs button{padding:9px 12px}}
+</style>
 <section class="screen first" id="b4" data-block="4" aria-labelledby="b4-t">
 <div class="in-wrap">
 <p class="kicker">04 · Termistor <span class="pg">1/4</span> <span class="who" data-exp="b1">Expositor 1</span></p>
 <h2 id="b4-t">Termistores: <span class="acc">NTC y PTC</span></h2>
 <p class="lead">La temperatura cambia su <b>resistencia</b>: en la NTC baja; en la PTC aumenta.</p>
-<figure class="thermistor-real"><img src="img/termistores-frio-calor.png" width="1387" height="767" alt="Comparación cualitativa con medidores en ohms: al calentarse la NTC disminuye su resistencia y la PTC aumenta su resistencia."></figure>
+<div class="th-tabs" role="tablist" aria-label="Vistas del termistor">
+<button id="th-tab-real" role="tab" type="button" data-th-view="real" aria-selected="true" aria-controls="th-panel-real">Dispositivo real</button>
+<button id="th-tab-circuit" role="tab" type="button" data-th-view="circuit" aria-selected="false" aria-controls="th-panel-circuit" tabindex="-1">Circuito de medición</button>
+<button id="th-tab-curve" role="tab" type="button" data-th-view="curve" aria-selected="false" aria-controls="th-panel-curve" tabindex="-1">Curva R–T</button></div>
+<div id="th-panel-real" role="tabpanel" aria-labelledby="th-tab-real" data-th-panel="real">
+<figure class="thermistor-real"><img src="img/termistores-frio-calor.png" width="1387" height="767" alt="Comparación cualitativa con medidores en ohms: al calentarse la NTC disminuye su resistencia y la PTC aumenta su resistencia."></figure></div>
+<div id="th-panel-circuit" role="tabpanel" aria-labelledby="th-tab-circuit" data-th-panel="circuit" hidden>
+<div class="th-circuits"><article class="th-circuit" style="--th-color:#b596ff"><h3>NTC <span>al calentar: R ↓, V ↓</span></h3>
+<svg viewBox="0 0 520 285" role="img" aria-label="Divisor de tensión NTC: resistencia fija arriba, termistor abajo, salida tomada entre ambos respecto de cero voltios">
+<g fill="none" stroke="#bdcadd" stroke-width="3"><path d="M145 35V60M145 112V144M145 144V172M145 226V253M145 144H330"/><rect x="128" y="60" width="34" height="52" rx="3"/><rect x="128" y="172" width="34" height="54" rx="3"/><path d="M115 230L175 167M130 253H160M136 261H154M141 269H149"/></g>
+<path d="M115 230L175 167" stroke="#b596ff" stroke-width="4"/><circle cx="145" cy="144" r="6" fill="#b596ff"/>
+<g fill="#e9eff8" font-family="sans-serif" font-size="19"><text x="145" y="25" text-anchor="middle">+5 V</text><text x="185" y="89">R fija</text><text x="185" y="205" fill="#b596ff">NTC · R(T)</text><text x="82" y="267">0 V</text></g>
+<rect x="330" y="110" width="170" height="70" rx="12" fill="#0b1119" stroke="#b596ff"/><text x="415" y="136" text-anchor="middle" fill="#acbbce" font-size="16">V salida · al ADC</text><text id="th-v-ntc" x="415" y="164" text-anchor="middle" fill="#b596ff" font-size="26" font-family="monospace">—</text>
+</svg><p class="th-ratio">R termistor / R fija: <b id="th-r-ntc">—</b></p></article><article class="th-circuit" style="--th-color:#ffa43a"><h3>PTC <span>al calentar: R ↑, V ↑</span></h3>
+<svg viewBox="0 0 520 285" role="img" aria-label="Divisor de tensión PTC: resistencia fija arriba, termistor abajo, salida tomada entre ambos respecto de cero voltios">
+<g fill="none" stroke="#bdcadd" stroke-width="3"><path d="M145 35V60M145 112V144M145 144V172M145 226V253M145 144H330"/><rect x="128" y="60" width="34" height="52" rx="3"/><rect x="128" y="172" width="34" height="54" rx="3"/><path d="M115 230L175 167M130 253H160M136 261H154M141 269H149"/></g>
+<path d="M115 230L175 167" stroke="#ffa43a" stroke-width="4"/><circle cx="145" cy="144" r="6" fill="#ffa43a"/>
+<g fill="#e9eff8" font-family="sans-serif" font-size="19"><text x="145" y="25" text-anchor="middle">+5 V</text><text x="185" y="89">R fija</text><text x="185" y="205" fill="#ffa43a">PTC · R(T)</text><text x="82" y="267">0 V</text></g>
+<rect x="330" y="110" width="170" height="70" rx="12" fill="#0b1119" stroke="#ffa43a"/><text x="415" y="136" text-anchor="middle" fill="#acbbce" font-size="16">V salida · al ADC</text><text id="th-v-ptc" x="415" y="164" text-anchor="middle" fill="#ffa43a" font-size="26" font-family="monospace">—</text>
+</svg><p class="th-ratio">R termistor / R fija: <b id="th-r-ptc">—</b></p></article></div>
+<p class="th-message"><b>Temperatura → resistencia → tensión → lectura.</b> La alimentación y la resistencia fija convierten el cambio de Ω en una tensión medible.</p>
+<p class="th-detail">V salida = 5 · R(T) / [R fija + R(T)]. Con el termistor abajo, la tensión sigue el cambio de su resistencia; invertir los componentes invierte ese sentido.</p></div>
+<div id="th-panel-curve" role="tabpanel" aria-labelledby="th-tab-curve" data-th-panel="curve" hidden>
+<figure class="th-graph"><svg viewBox="0 0 980 340" role="img" aria-label="Curvas didácticas de resistencia relativa frente a temperatura: NTC decreciente y PTC de protección con aumento marcado">
+<g id="th-grid" stroke="#293444" stroke-width="1"></g>
+<path d="M75 40V285H920" fill="none" stroke="#adb9cd" stroke-width="2"/>
+<text x="75" y="24" fill="#b5c1d4" font-size="18">R / R fija · escala relativa</text><text x="920" y="330" text-anchor="end" fill="#b5c1d4" font-size="18">Temperatura (°C)</text>
+<path id="th-curve-ntc" fill="none" stroke="#b596ff" stroke-width="5"/><path id="th-curve-ptc" fill="none" stroke="#ffa43a" stroke-width="5"/>
+<path id="th-guide" fill="none" stroke="#cad4e4" stroke-width="2" stroke-dasharray="6 6"/>
+<circle id="th-dot-ntc" r="8" fill="#0b1119" stroke="#b596ff" stroke-width="4"/><circle id="th-dot-ptc" r="8" fill="#0b1119" stroke="#ffa43a" stroke-width="4"/>
+<text x="390" y="75" fill="#b596ff" font-size="22" font-weight="bold">NTC · R disminuye</text><text x="670" y="45" fill="#ffa43a" font-size="22" font-weight="bold">PTC · R aumenta</text>
+<g id="th-axis" fill="#a7b5c8" font-size="16" font-family="monospace"></g>
+</svg></figure>
+<p class="th-message"><b>La pendiente cambia:</b> el mismo aumento de temperatura no produce siempre el mismo cambio de resistencia.</p>
+<p class="th-detail">La PTC mostrada representa un ejemplo de protección con transición marcada; no todas las PTC tienen esta curva.</p></div>
+<div class="th-control" id="th-control" hidden>
+<div class="th-control-head"><label for="th-temperature">Temperatura del ejemplo</label><output id="th-temperature-o" for="th-temperature">25 °C</output><button type="button" data-th-temp="25">Menor temperatura</button><button type="button" data-th-temp="85">Mayor temperatura</button></div>
+<input type="range" id="th-temperature" min="0" max="100" step="1" value="25" aria-label="Temperatura del ejemplo">
+<p class="th-detail">Simulación didáctica: valores y curvas ilustrativos, sin representar una ficha comercial concreta.</p></div>
 <div class="thermistor-summary">
 <div><b>NTC · medición</b><span>Refrigeración y climatización</span></div>
 <div><b>PTC · protección</b><span>Detección de sobretemperatura</span></div>
@@ -2659,8 +2722,29 @@ const PUNTOS = [
   });
 })();
 </script>
+<script>
+(() => {
+const root=document.getElementById("b4"); if(!root) return;
+const tabs=[...root.querySelectorAll("[data-th-view]")],panels=[...root.querySelectorAll("[data-th-panel]")];
+const slider=root.querySelector("#th-temperature"),control=root.querySelector("#th-control");
+function show(view){tabs.forEach(b=>{const on=b.dataset.thView===view;b.setAttribute("aria-selected",String(on));b.tabIndex=on?0:-1;});panels.forEach(p=>p.hidden=p.dataset.thPanel!==view);control.hidden=view==="real";}
+tabs.forEach((b,i)=>{b.addEventListener("click",()=>show(b.dataset.thView));b.addEventListener("keydown",e=>{if(!["ArrowLeft","ArrowRight","Home","End"].includes(e.key))return;e.preventDefault();e.stopPropagation();const n=e.key==="Home"?0:e.key==="End"?tabs.length-1:(i+(e.key==="ArrowRight"?1:-1)+tabs.length)%tabs.length;show(tabs[n].dataset.thView);tabs[n].focus();});});
+const models={ntc:t=>Math.exp(3500*(1/(t+273.15)-1/298.15)),ptc:t=>0.5+7.5/(1+Math.exp(-(t-80)/5))};
+const sx=t=>75+845*t/100,sy=r=>285-245*r/9;
+const ns="http://www.w3.org/2000/svg";
+function add(parent,name,attrs,value){const el=document.createElementNS(ns,name);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));if(value!==undefined)el.textContent=value;root.querySelector(parent).appendChild(el);}
+for(let t=0;t<=100;t+=25){add("#th-grid","path",{d:"M"+sx(t)+" 40V285"});add("#th-axis","text",{x:sx(t),y:310,"text-anchor":"middle"},t);}
+for(let r=0;r<=8;r+=2){add("#th-grid","path",{d:"M75 "+sy(r)+"H920"});add("#th-axis","text",{x:62,y:sy(r)+6,"text-anchor":"end"},r);}
+Object.entries(models).forEach(([kind,fn])=>{let d="";for(let t=0;t<=100;t++)d+=(t?"L":"M")+sx(t).toFixed(2)+" "+sy(fn(t)).toFixed(2)+" ";root.querySelector("#th-curve-"+kind).setAttribute("d",d);});
+function update(){const t=Number(slider.value);root.querySelector("#th-temperature-o").textContent=t+" °C";root.querySelector("#th-guide").setAttribute("d","M"+sx(t)+" 40V285");Object.entries(models).forEach(([kind,fn])=>{const r=fn(t),v=5*r/(1+r);root.querySelector("#th-v-"+kind).textContent=v.toFixed(2).replace(".",",")+" V";root.querySelector("#th-r-"+kind).textContent=r.toFixed(2).replace(".",",");const dot=root.querySelector("#th-dot-"+kind);dot.setAttribute("cx",sx(t));dot.setAttribute("cy",sy(r));});}
+slider.addEventListener("input",update);slider.addEventListener("keydown",e=>e.stopPropagation());
+root.querySelectorAll("[data-th-temp]").forEach(b=>b.addEventListener("click",()=>{slider.value=b.dataset.thTemp;update();}));
+show("real");update();
+})();
+</script>
 </body>
 </html>
+
 
 
 
