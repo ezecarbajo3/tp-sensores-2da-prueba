@@ -1015,50 +1015,48 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
      BLOQUE 3 · RTD PT100 / PT1000
      ============================================================ --><section class="screen first" id="b3" data-block="3" aria-labelledby="b3-t">
 <style>
-#b3 .rtd-layout{display:grid;grid-template-columns:1.7fr 1fr;gap:24px;align-items:center;margin-top:22px}
-#b3 .rtd-photo{margin:0}#b3 .rtd-photo img{display:block;width:100%;height:auto;border-radius:16px}
-#b3 .rtd-reading{padding:24px;border:1px solid var(--line);border-radius:16px;background:var(--panel)}
-#b3 .rtd-reading svg{display:block;width:100%;margin:20px 0}
-#b3 .rtd-reading h3{font-size:22px}#b3 .rtd-reading .f{font-size:32px}
-#b3 .rtd-reading p{font-size:clamp(17px,1.35vw,22px);line-height:1.5}
-#b3 .rtd-caption{font-size:16px;color:var(--muted);margin-top:10px}
-@media(max-width:850px){#b3 .rtd-layout{grid-template-columns:1fr}}
+#b3 .rtd-intro{display:flex;flex-direction:column;gap:0}
+#b3 .rtd-intro>.lead{max-width:none;margin-bottom:24px}
+#b3 .rtd-wide{margin:0;width:100%}
+#b3 .rtd-wide img{display:block;width:100%;height:auto;border-radius:12px 12px 0 0}
+#b3 .rtd-circuit{display:grid;grid-template-columns:3fr 1fr;align-items:center;padding:20px 26px;background:#101b29;border:1px solid var(--line-2);border-radius:0 0 10px 10px}
+#b3 .rtd-circuit svg{width:100%;height:auto;display:block}
+#b3 .rtd-facts{border-left:1px solid var(--line-2);padding-left:24px;display:grid;gap:17px}
+#b3 .rtd-facts strong{display:block;font:600 clamp(22px,2.1vw,34px) var(--mono);color:var(--acc)}
+#b3 .rtd-facts span{display:block;font-size:clamp(13px,1.2vw,18px);color:var(--muted);margin-top:4px}
+@media(max-width:700px){#b3 .rtd-circuit{grid-template-columns:1fr;padding:16px}#b3 .rtd-facts{border-left:0;border-top:1px solid var(--line-2);padding:16px 0 0;grid-template-columns:repeat(3,1fr)}}
 #b2-2 .cj-scene-image{background:#0b1119}#b2-2 .cj-tag{background:rgba(15,25,39,.95);color:var(--text);border-color:var(--line)}
 </style>
-<div class="in-wrap">
- <div class="rv">
- <p class="kicker">03 · RTD: Pt100 y Pt1000 <span class="who">Expositor 3</span></p>
- <h2 id="b3-t">RTD: <span class="acc">resistencia de platino</span></h2>
- <p class="lead">El elemento de platino cambia su resistencia con la temperatura. El instrumento mide esa resistencia y la convierte en °C.</p>
- </div>
- <div class="rtd-layout">
-  <figure class="rtd-photo rv">
-   <img src="img/rtd-construccion.png" width="1672" height="941" alt="Ilustración realista en corte de una sonda RTD: elemento de platino, aislante, conductores, vaina protectora y bornes.">
-   <figcaption class="rtd-caption">Construcción del sensor · ilustración técnica en corte.</figcaption>
-  </figure>
-  <div class="rtd-reading rv">
-   <h3>Cómo se obtiene la lectura</h3>
-   
-        <svg viewBox="0 0 500 150" role="img" aria-label="El instrumento hace pasar una corriente por el platino y mide la tensión">
-          <path d="M70 49 V14 H265 V136 H70 V101" fill="none" stroke="#516279" stroke-width="3"/>
-          <path d="M70 49 V14 H265 V136 H70 V101" fill="none" stroke="var(--c-rtd)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
-          <circle cx="70" cy="75" r="26" fill="var(--bg-2)" stroke="#C6D0DE" stroke-width="2.5"/>
-          <path d="M70 90 V60 M62 68 L70 58 L78 68" fill="none" stroke="#C6D0DE" stroke-width="2.5"/>
-          <text x="22" y="80" class="svg-l b" style="font-size:20px">I</text>
-          <rect x="240" y="30" width="50" height="90" rx="8" fill="rgba(46,230,246,.1)" stroke="var(--c-rtd)" stroke-width="2.5"/>
-          <path d="M252 40 V108 M261 108 V40 M270 40 V108 M279 108 V40 M252 40 H261 M270 40 H279 M261 108 H270" fill="none" stroke="var(--c-rtd)" stroke-width="2"/>
-          <path d="M265 22 H430 V49 M265 128 H430 V101" fill="none" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="5 5"/>
-          <circle cx="265" cy="22" r="4" fill="#C6D0DE"/><circle cx="265" cy="128" r="4" fill="#C6D0DE"/>
-          <circle cx="430" cy="75" r="26" fill="var(--bg-2)" stroke="#C6D0DE" stroke-width="2.5"/>
-          <text x="430" y="83" text-anchor="middle" class="svg-l b" style="font-size:22px">V</text>
-          <text x="306" y="80" class="svg-l b" style="fill:var(--c-rtd);font-size:18px">Pt</text>
-        </svg>
-   <p><span class="f">R = V / I</span></p>
-   <p>Se aplica una <b>corriente baja conocida</b> y se mide la tensión sobre el platino.</p>
-   <p>Mayor temperatura → <b class="acc">mayor resistencia</b>.</p>
-   <p class="note">A diferencia de la termocupla, necesita excitación del instrumento. Su señal primaria es una resistencia en Ω.</p>
-  </div>
- </div>
+<div class="in-wrap rtd-intro">
+<p class="kicker">03 · RTD: Pt100 y Pt1000 <span class="who">Expositor 3</span></p>
+<h2 id="b3-t">RTD: <span class="acc">principio y construcción</span></h2>
+<p class="lead">El platino aumenta su resistencia con la temperatura: el instrumento mide Ω y los convierte en °C.</p>
+<figure class="rtd-wide">
+<img src="img/rtd-construccion-horizontal.png" alt="Sonda RTD industrial en corte: elemento de platino, vaina, aislante, conductores y bornes.">
+<div class="rtd-circuit">
+<svg viewBox="0 0 760 220" role="img" aria-label="Circuito de medición RTD: una fuente aplica corriente conocida al platino y un voltímetro mide su tensión; R igual a V dividido I.">
+<rect x="200" y="15" width="230" height="164" rx="14" fill="#10313d" stroke="#24d8ef" stroke-dasharray="4 5"/>
+<text x="315" y="39" text-anchor="middle" fill="#24d8ef" font-size="17" font-family="monospace">ELEMENTO DE PLATINO</text>
+<path d="M90 74 V58 H315 M315 155 H90 V133" fill="none" stroke="#24d8ef" stroke-width="4"/>
+<circle cx="90" cy="103" r="29" fill="#101b29" stroke="#ccd7e7" stroke-width="2"/>
+<path d="M90 122 V85 M83 94 L90 85 L97 94" fill="none" stroke="#ccd7e7" stroke-width="2"/>
+<text x="90" y="174" text-anchor="middle" fill="#24d8ef" font-size="20" font-family="monospace">I conocida</text>
+<path d="M315 58 V75 M315 135 V155" fill="none" stroke="#24d8ef" stroke-width="4"/>
+<rect x="297" y="75" width="36" height="60" rx="5" fill="#101b29" stroke="#24d8ef" stroke-width="3"/>
+<text x="347" y="111" fill="#24d8ef" font-size="22" font-family="monospace">R(T)</text>
+<path d="M315 58 H570 V74 M315 155 H570 V132" fill="none" stroke="#ccd7e7" stroke-width="3"/>
+<circle cx="570" cy="103" r="29" fill="#101b29" stroke="#ccd7e7" stroke-width="2"/>
+<text x="570" y="111" text-anchor="middle" fill="#ccd7e7" font-size="25" font-family="monospace">V</text>
+<text x="570" y="174" text-anchor="middle" fill="#ccd7e7" font-size="20" font-family="monospace">tensión medida</text>
+<text x="355" y="211" text-anchor="middle" fill="#edf3fa" font-size="24" font-family="monospace">R = V / I → temperatura</text>
+</svg>
+<div class="rtd-facts">
+<div><strong>Ω</strong><span>señal resistiva</span></div>
+<div><strong>Excitación</strong><span>requiere corriente baja</span></div>
+<div><strong>2, 3 o 4 hilos</strong><span>según la conexión</span></div>
+</div>
+</div>
+</figure>
 </div>
 </section>
 </section>
