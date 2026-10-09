@@ -682,7 +682,8 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b2 .tc-facts{display:grid;gap:clamp(8px,1.6vh,18px);border-left:1px solid var(--line-2);padding-left:clamp(12px,1.5vw,28px)}
 #b2 .tc-facts b{display:block;font:600 var(--fs-h3)/1.05 var(--mono);color:var(--c-tc)}
 #b2 .tc-facts span{font-size:var(--fs-small);color:var(--text-2)}
-#b2 .tc-did{position:absolute;right:14px;top:8px}
+#b2 .tc-did{display:none}
+#b2 .lead .did-note{margin-left:.6em;font-size:var(--fs-small);color:var(--text-3)}
 #b2 h2{font-size:clamp(30px,min(3.4vw,6vh),70px)}
 #b2.screen{padding-top:calc(var(--nav-h) + 8px);padding-bottom:10px;height:100vh;height:100svh;justify-content:flex-start}
 #b2 .in-wrap.g-b2a{flex:1;min-height:0}
@@ -827,7 +828,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
     <div class="txt rv">
       <p class="kicker">02 · Termocupla <span class="who" data-exp="b2">Expositor 2</span></p>
       <h2 id="b2-t">Termocupla: <span class="acc">principio y construcción</span></h2>
-      <p class="lead">Dos metales distintos unidos en la punta generan una tensión: <b>efecto Seebeck</b>.</p>
+      <p class="lead">Dos metales distintos unidos en la punta generan una tensión: <b>efecto Seebeck</b>.<span class="did-note">Ilustraciones didácticas, no a escala.</span></p>
     </div>
 <figure class="fig tc-realistic tc-dual-view">
  <div id="tc-real-view" class="tc-real-crop"><img src="img/termocupla-construccion-oscura.webp" width="2000" height="500" alt="Sonda industrial en corte: dos conductores separados por cerámica, unidos en la punta y conectados a los bornes."></div>
@@ -878,7 +879,11 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
         <text x="462" y="398" text-anchor="middle" class="svg-l" style="fill:var(--text)">V ≈ S · (Tm − Tref)</text>
       </svg><div class="tc-facts"><div><b>mV</b><span>señal analógica de bajo nivel</span></div><div><b>Autogenerada</b><span>no requiere alimentación</span></div><div><b>2 conductores</b><span>por elemento, con polaridad</span></div></div><span class="didactic tc-did">Ilustración didáctica, no a escala</span></div>
 </figure>
-<p class="note">Señal primaria: <b>tensión analógica en mV</b>, con polaridad. No es PNP/NPN ni una salida 4–20 mA: para el PLC requiere entrada TC o transmisor.</p>
+<div class="sig-card" aria-label="Señal y salida de la termocupla">
+ <div><span class="k">Tipo de señal</span><b>Analógica · mV</b><span class="d">continua, con polaridad, sin alimentación</span></div>
+ <div><span class="k">Salida hacia el control</span><b>Entrada TC o transmisor</b><span class="d">módulo de termocupla del PLC, o transmisor → 4–20 mA</span></div>
+ <div class="no"><span class="k">¿PNP o NPN?</span><b>No aplica</b><span class="d">PNP/NPN es una salida conmutada (dos estados); la termocupla entrega una tensión continua</span></div>
+</div>
   </div>
 </section>
 
@@ -950,49 +955,10 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   </div>
 </section>
 
-<section class="screen" id="b2-curvas" data-block="2" aria-labelledby="b2-curvas-t">
-  <div class="in-wrap">
-    <p class="kicker">02 · Termocupla <span class="pg">3/5</span></p>
-    <h2 id="b2-curvas-t">No linealidad: <span class="acc">cada tipo tiene su curva</span></h2>
-    <p class="jf-sub jf-lead">Los mV no crecen en línea recta con la temperatura, y cada par de materiales tiene <b>su propia curva</b>. Por eso, después de compensar la junta fría, el instrumento aplica la curva del tipo de termocupla.</p>
-    <div class="jf-grid">
-
-      <div class="jf-col">
-        <figure class="jf-curve" aria-hidden="true">
-          <svg viewBox="0 0 600 360" id="jf-curve">
-            <g id="jf-grid"></g>
-            <line x1="60" y1="310" x2="560" y2="310" stroke="var(--text-3)" stroke-width="1.5"/>
-            <line x1="60" y1="310" x2="60" y2="20" stroke="var(--text-3)" stroke-width="1.5"/>
-            <text x="66" y="16" class="svg-l s">Tensión (mV)</text>
-            <text x="560" y="350" text-anchor="end" class="svg-l s">Temperatura (°C)</text>
-            <line id="jf-chord" stroke-width="2" stroke-dasharray="7 6"/>
-            <text id="jf-chord-t" class="svg-l s" text-anchor="end">si fuera una recta</text>
-            <g id="jf-lines"></g>
-            <line id="jf-tm-line" y1="20" y2="310" stroke="var(--text-2)" stroke-width="1.5" stroke-dasharray="3 5"/>
-            <text id="jf-tm-t" y="34" class="svg-l b" text-anchor="middle">T</text>
-            <g id="jf-dots"></g>
-          </svg>
-        </figure>
-        <p class="note jf-fn">Curvas de referencia NIST / IEC 60584; no son los límites de una sonda real.</p>
-      </div>
-
-      <div class="jf-col">
-        <div class="panel jf-ctl">
-          <div class="ctl"><label for="jf-tm">Temperatura</label><output id="jf-tm-o" for="jf-tm" class="num">385 °C</output><input type="range" id="jf-tm" min="0" max="1000" step="1" value="385"></div>
-        </div>
-        <p class="jf-hint">Tensión que genera cada tipo a esa temperatura (tocá uno para resaltar su curva):</p>
-        <div class="jf-types" id="jf-types" role="group" aria-label="Tipos de termocupla"></div>
-        <p class="jf-why"><b>¿Por qué la K es la más usada?</b> Rango amplio, curva casi recta (≈ 41 µV/°C), aleaciones de níquel mucho más baratas que el platino de la S y buena resistencia a la oxidación: es la de uso general.</p>
-        <p class="jf-key">A la <b>misma temperatura</b>, cada tipo da distintos mV: la entrada o el transmisor se configura con el <b>tipo correcto</b> y su tabla (IEC 60584).</p>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <section class="screen" id="b2-3" data-block="2" aria-labelledby="tc-guide-title">
  <div class="in-wrap">
-  <p class="kicker">02 · Termocupla <span class="pg">4/5</span></p>
+  <p class="kicker">02 · Termocupla <span class="pg">3/5</span></p>
   <h2 id="tc-guide-title">La ficha técnica: <span class="acc">decisiones de selección</span></h2>
   <p class="note">WIKA TC10-C es un ejemplo concreto. Primero elegimos qué necesita el proceso; después lo comprobamos en la ficha.</p>
   <div class="tc-route-nav" aria-label="Decisiones de selección">
@@ -1015,6 +981,9 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   </div>
   <p class="note">El rango no depende solo de K/J/T: también de la clase, la vaina y las condiciones de uso. La ilustración es general; la ficha confirma las opciones del modelo.</p>
  </div>
+</section>
+<section class="screen fv-screen" id="b2-ficha" data-block="2" aria-label="Hoja técnica WIKA TC10-C">
+  <div class="in-wrap rv" data-fv="tc10c" data-kicker="02 · Termocupla · 4/5" data-app="Chimenea de caldera · aceite de prefritura"></div>
 </section><section class="screen" id="b2-aplicaciones" data-block="2" aria-labelledby="tc-app-title">
 <style>
 #b2-aplicaciones .app-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:24px;background:var(--bg)}
@@ -1063,6 +1032,14 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b3 .rtd-facts span{display:block;font-size:clamp(13px,1.2vw,18px);color:var(--muted);margin-top:4px}
 @media(max-width:700px){#b3 .rtd-circuit{grid-template-columns:1fr;padding:16px}#b3 .rtd-facts{border-left:0;border-top:1px solid var(--line-2);padding:16px 0 0;grid-template-columns:repeat(3,1fr)}}
 #b2-2 .cj-scene-image{background:#0b1119}#b2-2 .cj-tag{background:rgba(15,25,39,.95);color:var(--text);border-color:var(--line)}
+.sig-card{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1vw,16px);margin-top:clamp(10px,1.8vh,20px)}
+.sig-card>div{padding:clamp(10px,1vw,16px) clamp(12px,1.2vw,20px);border:1px solid var(--line-2);border-top:4px solid var(--acc,var(--c-tc));border-radius:10px;background:var(--surface)}
+.sig-card .k{display:block;font:600 var(--fs-small) var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+.sig-card b{display:block;margin-top:.2em;font-size:var(--fs-h3);line-height:1.15;color:var(--text)}
+.sig-card .d{display:block;margin-top:.3em;font-size:var(--fs-small);color:var(--text-2);line-height:1.3}
+.sig-card .no{border-top-color:var(--bad)}
+.sig-card .no b{color:var(--bad)}
+@media(max-width:700px){.sig-card{grid-template-columns:minmax(0,1fr)}}
 #b2-curvas .jf-lead{margin:.4em 0 0;font-size:var(--fs-body);color:var(--text-2);max-width:70ch}
 #b2-curvas .jf-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,3vw,56px);margin-top:clamp(10px,2vh,24px);align-items:start}
 #b2-curvas .jf-col{min-width:0}
@@ -1788,6 +1765,45 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       <li><span>Creus Solé, A. <b><i>Instrumentación industrial</i></b></span><span class="r-m">Libro de texto</span><span class="r-l"></span></li>
     </ol>
     <p class="colophon rv" style="--d:.18s">Ilustraciones redibujadas con fines didácticos. Páginas de hojas técnicas reproducidas de los PDF oficiales.</p>
+  </div>
+</section>
+<section class="screen" id="b2-curvas" data-block="7" aria-labelledby="b2-curvas-t">
+  <div class="in-wrap">
+    <p class="kicker">Respaldo · Termocupla <span class="pg">para preguntas</span></p>
+    <h2 id="b2-curvas-t">No linealidad: <span class="acc">cada tipo tiene su curva</span></h2>
+    <p class="jf-sub jf-lead">Los mV no crecen en línea recta con la temperatura, y cada par de materiales tiene <b>su propia curva</b>. Por eso, después de compensar la junta fría, el instrumento aplica la curva del tipo de termocupla.</p>
+    <div class="jf-grid">
+
+      <div class="jf-col">
+        <figure class="jf-curve" aria-hidden="true">
+          <svg viewBox="0 0 600 360" id="jf-curve">
+            <g id="jf-grid"></g>
+            <line x1="60" y1="310" x2="560" y2="310" stroke="var(--text-3)" stroke-width="1.5"/>
+            <line x1="60" y1="310" x2="60" y2="20" stroke="var(--text-3)" stroke-width="1.5"/>
+            <text x="66" y="16" class="svg-l s">Tensión (mV)</text>
+            <text x="560" y="350" text-anchor="end" class="svg-l s">Temperatura (°C)</text>
+            <line id="jf-chord" stroke-width="2" stroke-dasharray="7 6"/>
+            <text id="jf-chord-t" class="svg-l s" text-anchor="end">si fuera una recta</text>
+            <g id="jf-lines"></g>
+            <line id="jf-tm-line" y1="20" y2="310" stroke="var(--text-2)" stroke-width="1.5" stroke-dasharray="3 5"/>
+            <text id="jf-tm-t" y="34" class="svg-l b" text-anchor="middle">T</text>
+            <g id="jf-dots"></g>
+          </svg>
+        </figure>
+        <p class="note jf-fn">Curvas de referencia NIST / IEC 60584; no son los límites de una sonda real.</p>
+      </div>
+
+      <div class="jf-col">
+        <div class="panel jf-ctl">
+          <div class="ctl"><label for="jf-tm">Temperatura</label><output id="jf-tm-o" for="jf-tm" class="num">385 °C</output><input type="range" id="jf-tm" min="0" max="1000" step="1" value="385"></div>
+        </div>
+        <p class="jf-hint">Tensión que genera cada tipo a esa temperatura (tocá uno para resaltar su curva):</p>
+        <div class="jf-types" id="jf-types" role="group" aria-label="Tipos de termocupla"></div>
+        <p class="jf-why"><b>¿Por qué la K es la más usada?</b> Rango amplio, curva casi recta (≈ 41 µV/°C), aleaciones de níquel mucho más baratas que el platino de la S y buena resistencia a la oxidación: es la de uso general.</p>
+        <p class="jf-key">A la <b>misma temperatura</b>, cada tipo da distintos mV: la entrada o el transmisor se configura con el <b>tipo correcto</b> y su tabla (IEC 60584).</p>
+      </div>
+
+    </div>
   </div>
 </section>
 
