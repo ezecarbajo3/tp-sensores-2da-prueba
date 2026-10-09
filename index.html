@@ -1,0 +1,2592 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sensores de temperatura · ING2222</title>
+<meta name="description" content="Seminario de Sensores · Familia 6: Temperatura. ING2222 Tecnología de Control, FI-UNMdP.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg:#0A0F17; --bg-2:#0C131E; --surface:#101926; --surface-2:#152130; --surface-3:#1B2A3D;
+  --line:rgba(150,180,220,.14); --line-2:rgba(150,180,220,.30); --grid:rgba(150,180,220,.045);
+  --text:#EEF2F8; --text-2:#C6D0DE; --text-3:#97A5B9;
+  /* un color por sensor */
+  --c-tc:#FFA43A;   /* termocupla */
+  --c-rtd:#2EE6F6;  /* RTD Pt100 / Pt1000 */
+  --c-ntc:#B49BFF;  /* termistor */
+  --c-ic:#5BE38A;   /* integrado */
+  --c-ir:#FF5C93;   /* infrarrojo */
+  --c-sys:#9DB4FF;  /* sistema de control / neutro */
+  --ok:#5BE38A; --bad:#FF5A5A; --warn:#FFD23F; --ink:#071018;
+  --thermal:linear-gradient(90deg,#2F5BFF 0%,#2EE6F6 26%,#FFD23F 56%,#FF8A1F 76%,#FF3B3B 100%);
+  --font:"Space Grotesk","Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --nav-h:clamp(50px,5.8vh,66px);
+  --gut:clamp(16px,4vw,84px);
+  --fs-hero:clamp(46px,min(8.6vw,14.5vh),172px);
+  --fs-h2:clamp(34px,min(4.3vw,7.6vh),88px);
+  --fs-h3:clamp(22px,min(2.1vw,3.75vh),44px);
+  --fs-lead:clamp(19px,min(1.72vw,3.05vh),36px);
+  --fs-body:clamp(17px,min(1.33vw,2.36vh),28px);
+  --fs-small:clamp(14px,min(1.02vw,1.82vh),21px);
+  --fs-data:clamp(26px,min(2.6vw,4.6vh),58px);
+  --fs-big:clamp(36px,min(4.8vw,8.6vh),104px);
+  --gap:clamp(14px,2.2vh,36px);
+  --radius:14px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-snap-type:y proximity;scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;color:var(--text);font-family:var(--font);font-size:var(--fs-body);line-height:1.38;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  background-color:var(--bg);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:72px 72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+::selection{background:rgba(46,230,246,.35)}
+a{color:inherit}
+b,strong{font-weight:700}
+.mono,.num{font-family:var(--mono);font-feature-settings:"zero" 0}
+.acc{color:var(--acc)}
+.c-tc{--acc:var(--c-tc)} .c-rtd{--acc:var(--c-rtd)} .c-ntc{--acc:var(--c-ntc)} .c-ic{--acc:var(--c-ic)} .c-ir{--acc:var(--c-ir)} .c-sys{--acc:var(--c-sys)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:2px solid var(--acc,var(--c-sys));outline-offset:3px;border-radius:6px}
+kbd{font-family:var(--mono);font-size:.85em;padding:.08em .45em;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:6px;background:var(--surface-2);color:var(--text)}
+
+/* ============================================================
+   NAVEGACIÓN
+   ============================================================ */
+.nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:60;display:flex;align-items:stretch;
+  background:rgba(9,13,20,.86);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .brand{display:flex;align-items:center;gap:10px;padding:0 clamp(10px,1.2vw,22px);text-decoration:none;border-right:1px solid var(--line);
+  font-family:var(--mono);font-size:clamp(11px,.78vw,15px);color:var(--text-2);white-space:nowrap}
+.brand .th-dot{width:14px;height:14px;border-radius:50%;background:conic-gradient(from 200deg,#2F5BFF,#2EE6F6,#FFD23F,#FF8A1F,#FF3B3B,#2F5BFF)}
+.nav ol{display:flex;list-style:none;margin:0;padding:0;flex:1;min-width:0}
+.nav li{flex:1 1 0;min-width:0}
+.nav ol a{position:relative;display:flex;flex-direction:column;justify-content:center;gap:2px;height:100%;padding:0 clamp(8px,.9vw,18px);
+  text-decoration:none;border-right:1px solid var(--line);transition:background .25s}
+.nav ol a:hover{background:rgba(255,255,255,.03)}
+.nav .t{font-size:clamp(12px,.86vw,17px);font-weight:600;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav .t .n{font-family:var(--mono);font-weight:700;color:var(--bt,var(--bc));margin-right:.35em}
+.nav .e{font-family:var(--mono);font-size:clamp(10px,.68vw,13.5px);color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav ol a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--bc);transform:scaleX(0);transform-origin:0 50%;transition:transform .35s}
+.nav ol a.on{background:rgba(255,255,255,.035)}
+.nav ol a.on::after{transform:scaleX(1)}
+.nav ol a.on .t{color:var(--text)}
+.nav-help{font:600 clamp(13px,.9vw,17px)/1 var(--mono);color:var(--text-2);background:transparent;border:0;border-left:1px solid var(--line);padding:0 clamp(12px,1.2vw,22px);cursor:pointer}
+.nav-help:hover{color:var(--text)}
+.progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--thermal);transform-origin:0 50%;transform:scaleX(0)}
+
+/* ============================================================
+   PANTALLAS
+   ============================================================ */
+main{display:block}
+.screen{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+  padding:calc(var(--nav-h) + clamp(14px,3vh,44px)) var(--gut) clamp(16px,3.4vh,46px);scroll-snap-align:start}
+.in-wrap{width:100%;max-width:1720px;margin:0 auto}
+.screen.first::before{content:"";position:absolute;top:var(--nav-h);left:0;right:0;height:1px;background:var(--thermal);opacity:.55}
+[data-block="1"]{--acc:var(--c-sys)} [data-block="2"]{--acc:var(--c-tc)} [data-block="3"]{--acc:var(--c-rtd)}
+[data-block="4"]{--acc:var(--c-ntc)} [data-block="5"]{--acc:var(--c-sys)} [data-block="6"]{--acc:var(--c-sys)} [data-block="7"]{--acc:var(--text)}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.022em;line-height:1.03;text-wrap:balance}
+h2{font-size:var(--fs-h2)}
+h3{font-size:var(--fs-h3);letter-spacing:-.01em}
+p{margin:0}
+.kicker{display:flex;flex-wrap:wrap;align-items:center;gap:.35em 1em;margin:0 0 .55em;font-family:var(--mono);font-size:var(--fs-small);
+  font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--acc)}
+.kicker .who{display:inline-flex;align-items:center;gap:.5em;color:var(--text-3);font-weight:500;text-transform:none;letter-spacing:0}
+.kicker .who::before{content:"";width:1.6em;height:1px;background:var(--line-2)}
+.kicker .pg{color:var(--text-3);font-weight:500;letter-spacing:0}
+.lead{font-size:var(--fs-lead);line-height:1.28;color:var(--text-2);margin-top:.45em;max-width:40ch}
+.lead b{color:var(--text)}
+.note{font-size:var(--fs-small);color:var(--text-3);line-height:1.35}
+.note b{color:var(--text-2)}
+.didactic{font-family:var(--mono);font-size:clamp(11px,.72vw,14px);color:var(--text-3);letter-spacing:.02em}
+.sh-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:.6em 2em;margin-bottom:var(--gap)}
+.hint-inline{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3);max-width:46ch}
+
+/* aparición */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease var(--d,0s),transform .8s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.js .rv.in{opacity:1;transform:none}
+
+/* ============================================================
+   COMPONENTES
+   ============================================================ */
+.panel{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.028),rgba(255,255,255,0) 60%),var(--surface);
+  border:1px solid var(--line);border-radius:var(--radius);padding:clamp(14px,1.5vw,28px)}
+.panel.tight{padding:clamp(10px,1vw,18px)}
+.panel-t{font-family:var(--mono);font-size:var(--fs-small);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);margin-bottom:.7em;display:flex;justify-content:space-between;gap:1em;align-items:baseline}
+.stat .v{font-family:var(--mono);font-weight:600;font-size:var(--fs-data);line-height:1;letter-spacing:-.02em;color:var(--acc)}
+.stat .l{font-size:var(--fs-body);color:var(--text-2);margin-top:.4em;line-height:1.3}
+.tags{display:flex;flex-wrap:wrap;gap:.45em .5em}
+.tag{display:inline-flex;align-items:center;gap:.45em;font-family:var(--mono);font-size:var(--fs-small);font-weight:500;padding:.28em .7em;border-radius:7px;border:1px solid var(--line-2);color:var(--text-2);background:rgba(255,255,255,.02);white-space:nowrap}
+.tag.on{border-color:var(--acc);color:var(--acc)}
+.tag.no b{color:var(--bad);font-weight:700}
+.tag.yes b{color:var(--ok);font-weight:700}
+.quote{font-size:var(--fs-h3);font-weight:600;line-height:1.18;letter-spacing:-.01em;border-left:4px solid var(--acc);padding:.15em 0 .15em .8em;text-wrap:balance}
+.quote small{display:block;font-size:var(--fs-small);font-weight:500;color:var(--text-3);margin-top:.5em;letter-spacing:0}
+.arrow{color:var(--text-3);font-family:var(--mono)}
+.btn{font:500 var(--fs-small)/1.1 var(--mono);display:inline-flex;align-items:center;gap:.5em;padding:.6em 1em;border-radius:10px;border:1px solid var(--line-2);
+  background:var(--surface-2);color:var(--text);cursor:pointer;text-decoration:none;transition:border-color .2s,background .2s}
+.btn:hover{border-color:var(--acc)}
+.btn svg{width:1em;height:1em}
+.btn.primary{background:var(--acc);border-color:transparent;color:var(--ink);font-weight:700}
+.btn.ghost{background:transparent}
+.btn[aria-pressed="true"].danger{background:var(--bad);color:#fff;border-color:transparent}
+.btns{display:flex;flex-wrap:wrap;gap:.5em}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line-2);border-radius:12px;padding:4px;gap:4px;background:var(--bg-2)}
+.seg button{font:600 var(--fs-body)/1 var(--mono);color:var(--text-2);background:transparent;border:0;border-radius:9px;padding:.5em .95em;cursor:pointer;transition:background .2s,color .2s}
+.seg button:hover{color:var(--text)}
+.seg button[aria-pressed="true"]{background:var(--acc);color:var(--ink)}
+.seg.sm button{font-size:var(--fs-small);padding:.5em .8em}
+
+/* sliders */
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:.1em 1em}
+.ctl+.ctl{margin-top:clamp(8px,1.4vh,20px)}
+.ctl label{font-size:var(--fs-body);color:var(--text-2)}
+.ctl output{font:600 var(--fs-h3)/1 var(--mono);color:var(--text);text-align:right;min-width:5ch}
+.ctl input{grid-column:1/-1}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:34px;margin:0;background:transparent;cursor:pointer;--p:50%}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(90deg,var(--acc) var(--p),rgba(150,180,220,.24) var(--p))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-10px;border-radius:50%;background:var(--bg);border:4px solid var(--acc)}
+input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:rgba(150,180,220,.24)}
+input[type=range]::-moz-range-progress{height:6px;border-radius:3px;background:var(--acc)}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--bg);border:4px solid var(--acc)}
+input[type=range]:disabled{opacity:.3;cursor:not-allowed}
+
+/* lecturas tipo instrumento */
+.readout{font-family:var(--mono);font-weight:600;font-size:var(--fs-big);line-height:.95;letter-spacing:-.03em;color:var(--text);font-variant-numeric:tabular-nums}
+.readout .u{font-size:.42em;font-weight:500;color:var(--text-3);margin-left:.15em;letter-spacing:0}
+.readout.sm{font-size:var(--fs-data)}
+.delta{font-family:var(--mono);font-size:var(--fs-body);font-weight:600;margin-top:.45em}
+.delta.bad{color:var(--bad)} .delta.ok{color:var(--ok)}
+
+/* figuras SVG */
+.fig{margin:0;position:relative}
+.fig svg{display:block;width:100%;height:auto}
+.fig .didactic{position:absolute;right:.4em;bottom:.2em}
+svg text{font-family:var(--mono)}
+.svg-l{fill:var(--text-2);font-size:17px}
+.svg-l.s{font-size:15px;fill:var(--text-3)}
+.svg-l.b{font-weight:700;fill:var(--text)}
+.svg-line{stroke:var(--line-2);fill:none}
+.flow{fill:none;stroke-linecap:round;stroke-dasharray:2 16;animation:flow var(--dur,1.1s) linear infinite}
+@keyframes flow{to{stroke-dashoffset:-18}}
+.paused .flow,.flow.off{animation-play-state:paused}
+
+/* ============================================================
+   VISOR DE HOJAS TÉCNICAS (lectura guiada)
+   La página ocupa casi toda la pantalla; a la derecha, el dato clave
+   del paso y por qué importa.
+   ============================================================ */
+.screen.fv-screen{padding-top:calc(var(--nav-h) + 12px);padding-bottom:12px;justify-content:flex-start}
+.fv{--fv-h:calc(100vh - var(--nav-h) - 24px);display:grid;grid-template-columns:minmax(0,1fr) clamp(320px,27vw,540px);
+  gap:clamp(14px,1.6vw,32px);height:var(--fv-h);min-width:0}
+.fv-stage{position:relative;height:100%;min-height:0;border-radius:14px;overflow:hidden;cursor:zoom-out;outline:none;
+  background:radial-gradient(120% 140% at 50% 0%,#1B2738 0%,#0D141F 70%);border:1px solid var(--line-2)}
+.fv-stage.is-full{cursor:zoom-in}
+.fv-stage:focus-visible{box-shadow:0 0 0 2px var(--acc)}
+.fv-page{position:absolute;left:0;top:0;transform-origin:0 0;background:#fff;box-shadow:0 24px 70px -24px rgba(0,0,0,.9);
+  transition:transform .9s cubic-bezier(.22,.8,.18,1),opacity .22s ease;will-change:transform}
+.fv-page.swap{opacity:0}
+.fv-page img{display:block;width:100%;height:100%;user-select:none;-webkit-user-drag:none}
+.fv-mask{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transition:opacity .45s}
+.fv-mask path{fill:rgba(9,13,21,.55);fill-rule:evenodd}
+.fv-stage.is-full .fv-mask{opacity:.45}
+.fv-box{position:absolute;border:calc(3px / var(--s,1)) solid var(--acc);border-radius:calc(5px / var(--s,1));
+  box-shadow:0 0 0 calc(2px / var(--s,1)) rgba(255,255,255,.8);pointer-events:none}
+.fv-box[data-n]::after{content:attr(data-n);position:absolute;left:0;top:0;width:calc(34px / var(--s,1));height:calc(34px / var(--s,1));
+  transform:translate(-58%,-58%);border-radius:50%;background:var(--acc);color:var(--ink);text-align:center;
+  font:700 calc(19px / var(--s,1))/calc(34px / var(--s,1)) var(--mono);box-shadow:0 0 0 calc(3px / var(--s,1)) #fff}
+.fv-pg{position:absolute;right:12px;bottom:12px;font:600 var(--fs-small)/1 var(--mono);color:var(--text);background:rgba(8,12,20,.82);
+  border:1px solid var(--line-2);border-radius:8px;padding:.45em .7em;pointer-events:none}
+.fv-hint{position:absolute;left:12px;bottom:12px;font:500 var(--fs-small)/1 var(--mono);color:var(--text-2);background:rgba(8,12,20,.82);
+  border:1px solid var(--line-2);border-radius:8px;padding:.45em .7em;pointer-events:none;opacity:0;transition:opacity .3s}
+.fv-stage:hover .fv-hint{opacity:1}
+.fv-miss{position:absolute;inset:16px;display:none;place-items:center;text-align:center;border:2px dashed var(--acc);border-radius:10px;
+  font:600 var(--fs-body)/1.4 var(--font);color:var(--acc)}
+.fv-miss span{font:500 var(--fs-small) var(--mono);color:var(--text-3)}
+.fv.missing .fv-miss{display:grid}
+.fv.missing .fv-page{visibility:hidden}
+/* panel derecho */
+.fv-side{display:flex;flex-direction:column;min-height:0;min-width:0;gap:clamp(8px,1.5vh,18px)}
+.fv-side .kicker{margin:0}
+.fv-h{font-size:clamp(26px,min(2.5vw,4.4vh),54px);line-height:1.04;letter-spacing:-.025em}
+.fv-meta{display:flex;flex-wrap:wrap;align-items:center;gap:.5em .8em;font:500 var(--fs-small)/1.2 var(--mono);color:var(--text-3)}
+.fv-map{display:flex;align-items:flex-end;gap:2px;height:16px}
+.fv-map i{width:4px;height:7px;border-radius:1px;background:rgba(150,180,220,.22);transition:height .3s,background .3s}
+.fv-map i.sel{height:11px;background:color-mix(in srgb,var(--acc) 50%,transparent)}
+.fv-map i.cur{height:16px;background:var(--acc)}
+.fv-step{flex:1;min-height:0;display:flex;flex-direction:column;gap:clamp(8px,1.6vh,18px);border-top:1px solid var(--line-2);padding-top:clamp(12px,2.2vh,26px)}
+.fv-step > *{animation:fvIn .45s ease both}
+.fv-step > *:nth-child(2){animation-delay:.05s} .fv-step > *:nth-child(3){animation-delay:.1s} .fv-step > *:nth-child(4){animation-delay:.15s}
+@keyframes fvIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fv-top{display:flex;align-items:center;gap:.8em;font:600 var(--fs-small)/1 var(--mono);color:var(--text-3)}
+.fv-n{flex:none;width:2.2em;height:2.2em;border-radius:50%;background:var(--acc);color:var(--ink);display:grid;place-items:center;font:700 var(--fs-body)/1 var(--mono)}
+.fv-t{font-size:var(--fs-h3);font-weight:700;line-height:1.12;letter-spacing:-.01em}
+.fv-v{font:600 clamp(26px,min(2.35vw,4.2vh),50px)/1.12 var(--mono);color:var(--acc);letter-spacing:-.02em}
+.fv-pts{list-style:none;margin:0;padding:0;display:grid;gap:.75em}
+.fv-pts li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.65em;font-size:var(--fs-body);line-height:1.28;color:var(--text)}
+.fv-pts li::before{content:"";width:.55em;height:.55em;margin-top:.42em;border-radius:2px;background:var(--acc)}
+.fv-twins{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:300px}
+.fv-twins figure{margin:0}
+.fv-twins div{background:#fff;border-radius:8px;padding:6% 18%;height:clamp(110px,17vh,190px);display:grid;place-items:center}
+.fv-twins img{max-height:100%;max-width:100%;object-fit:contain}
+.fv-twins figcaption{font:600 var(--fs-small)/1.3 var(--mono);margin-top:.35em}
+.fv-twins .c-tc figcaption span{color:var(--c-tc)} .fv-twins .c-rtd figcaption span{color:var(--c-rtd)}
+.fv-nav{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.fv-nav button{width:2.35em;height:2.35em;border-radius:50%;border:1px solid var(--line-2);background:var(--bg-2);color:var(--text-2);
+  font:700 var(--fs-small)/1 var(--mono);cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.fv-nav button:hover{border-color:var(--acc);color:var(--text)}
+.fv-nav button[aria-current="step"]{background:var(--acc);border-color:var(--acc);color:var(--ink)}
+.fv-nav .sep{flex:1}
+.fv-nav .btn{padding:.55em .8em}
+.fv-app{font-size:var(--fs-small);color:var(--text-2);line-height:1.35;border-top:1px solid var(--line);padding-top:.7em}
+.fv-app span{display:block;font:600 var(--fs-small)/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+/* referencia a la hoja técnica desde una diapositiva */
+.src{display:inline-flex;align-items:center;gap:.45em;font:600 var(--fs-small)/1 var(--mono);color:var(--acc);white-space:nowrap;vertical-align:middle;
+  background:color-mix(in srgb,var(--acc) 10%,transparent);border:1px solid color-mix(in srgb,var(--acc) 50%,transparent);border-radius:8px;padding:.38em .65em;cursor:pointer;
+  transition:background .2s,transform .2s}
+.src:hover{background:color-mix(in srgb,var(--acc) 22%,transparent);transform:translateY(-1px)}
+.src svg{width:1.05em;height:1.05em;flex:none}
+
+/* hoja técnica ampliada (desde una referencia) + ayuda */
+.lb{position:fixed;inset:0;z-index:100;display:none;padding:2.4vh 2.2vw;background:var(--bg)}
+.lb.open{display:block}
+#lb-body .fv{--fv-h:95.2vh}
+.lb-close{position:absolute;top:2.4vh;right:2.2vw;z-index:2}
+#lb-body .fv-side{padding-top:clamp(44px,6vh,64px)}
+.help{position:fixed;inset:0;z-index:110;display:none;place-items:center;background:rgba(4,7,12,.82)}
+.help.open{display:grid}
+.help .panel{width:min(560px,92vw);--acc:var(--c-sys)}
+.help h3{margin-bottom:.6em}
+.help dl{display:grid;grid-template-columns:auto 1fr;gap:.55em 1.2em;margin:0;font-size:var(--fs-body)}
+.help dt{text-align:right}
+.help dd{margin:0;color:var(--text-2)}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{overflow:hidden;isolation:isolate;justify-content:center}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-3;opacity:.7;filter:saturate(1.05)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;
+  background:linear-gradient(90deg,rgba(10,15,23,.94) 0%,rgba(10,15,23,.72) 42%,rgba(10,15,23,.18) 75%,rgba(10,15,23,.35) 100%),
+             linear-gradient(0deg,rgba(10,15,23,1) 0%,rgba(10,15,23,0) 30%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.6;
+  background-image:linear-gradient(rgba(150,180,220,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(150,180,220,.06) 1px,transparent 1px);background-size:72px 72px}
+.hero .kicker{color:var(--text-2)}
+.hero h1{font-size:var(--fs-hero);line-height:.9;letter-spacing:-.04em;max-width:9.5ch;margin:.12em 0 .18em}
+.hero h1 .grad{background:var(--thermal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .lead{font-size:clamp(19px,min(1.75vw,3.1vh),36px);max-width:33ch;color:var(--text)}
+.hero-sensors{margin:clamp(22px,5vh,64px) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:clamp(10px,1.2vw,22px)}
+.hero-sensors a{position:relative;display:flex;flex-direction:column;gap:.2em;padding:.65em 2.4em .7em 1em;min-width:10ch;border-top:3px solid var(--acc);background:rgba(10,15,23,.6);font-size:var(--fs-small);color:var(--text-2);text-decoration:none;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),background .3s,box-shadow .3s}
+.hero-sensors a b{font-family:var(--mono);font-size:var(--fs-h3);color:var(--acc);font-weight:600;letter-spacing:-.02em}
+.hero-sensors a i{position:absolute;right:.8em;top:50%;font-style:normal;font-family:var(--mono);color:var(--acc);opacity:0;transform:translate(-6px,-50%);transition:opacity .3s,transform .3s}
+.hero-sensors a:hover,.hero-sensors a:focus-visible{transform:translateY(-6px);background:color-mix(in srgb,var(--acc) 14%,rgba(10,15,23,.8));box-shadow:0 14px 30px -14px color-mix(in srgb,var(--acc) 60%,transparent);color:var(--text)}
+.hero-sensors a:hover i,.hero-sensors a:focus-visible i{opacity:1;transform:translate(0,-50%)}
+.hero .hint{position:absolute;left:var(--gut);bottom:clamp(14px,3vh,36px);font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
+.hero .reticle{position:absolute;right:clamp(16px,7vw,140px);top:50%;width:clamp(90px,9vw,170px);aspect-ratio:1;transform:translateY(-50%);opacity:.75;z-index:-1}
+.th-scale{position:absolute;right:clamp(12px,1.6vw,30px);top:calc(var(--nav-h) + 6vh);bottom:10vh;width:10px;border-radius:5px;background:linear-gradient(0deg,#13246B,#2F5BFF,#2EE6F6,#FFD23F,#FF8A1F,#FF3B3B);opacity:.85}
+.th-scale span{position:absolute;right:18px;font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3);white-space:nowrap}
+.th-scale .hi{top:-4px} .th-scale .lo{bottom:-4px}
+
+/* ============================================================
+   BLOQUE 1
+   ============================================================ */
+.q-big{font-size:clamp(34px,min(4.5vw,8vh),92px);line-height:1.04;letter-spacing:-.03em;max-width:21ch}
+.q-big .hl{background:var(--thermal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.answer{font-size:var(--fs-lead);color:var(--text-2);max-width:48ch;margin-top:clamp(16px,3.4vh,44px);line-height:1.3}
+.answer b{color:var(--text)}
+.route{list-style:none;margin:clamp(20px,4.5vh,60px) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1px solid var(--line-2)}
+.route li{position:relative;padding:.9em 1em 0 0;font-size:var(--fs-body);font-weight:600;color:var(--text)}
+.route li .k{display:block;font-family:var(--mono);font-size:var(--fs-small);font-weight:500;color:var(--text-3);margin-bottom:.35em}
+.route li::before{content:"";position:absolute;top:-6px;left:0;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--c-sys)}
+.focus-line{margin-top:clamp(18px,4vh,52px);font-size:var(--fs-body);color:var(--text-2)}
+.focus-line b{font-weight:700}
+.mtx-wrap{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);overflow:hidden}
+.matrix{width:100%;border-collapse:collapse;table-layout:fixed;font-size:clamp(14px,min(1.2vw,2.15vh),25px);line-height:1.28}
+.matrix col.c1{width:14%} .matrix col.c2{width:15%} .matrix col.c3{width:16%} .matrix col.c4{width:10.5%} .matrix col.c5{width:13.5%} .matrix col.c6{width:20%} .matrix col.c7{width:11%}
+.matrix th{font-family:var(--mono);font-size:var(--fs-small);font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--text-3);text-align:left;padding:.85em .8em;border-bottom:1px solid var(--line-2);vertical-align:bottom;line-height:1.2}
+.matrix td{padding:clamp(8px,1.35vh,18px) .8em;border-bottom:1px solid var(--line);vertical-align:top;color:var(--text-2);transition:opacity .3s,background .3s,color .3s}
+.matrix tbody tr{cursor:pointer}
+.matrix tbody tr:last-child td{border-bottom:0}
+.matrix td:first-child{border-left:5px solid var(--acc);color:var(--text);font-weight:700}
+.matrix td:first-child small{display:block;font-weight:500;color:var(--text-3);font-family:var(--mono);font-size:.78em;margin-top:.2em}
+.matrix .sig{font-family:var(--mono);font-weight:600;color:var(--acc)}
+.matrix .ad{font-family:var(--mono);font-size:.92em}
+.matrix .pn{font-family:var(--mono);font-weight:600}
+.matrix .pn.yes{color:var(--c-ir)}
+.matrix.dim tbody tr:not(.on) td{opacity:.22}
+.matrix tbody tr.on td{background:color-mix(in srgb,var(--acc) 9%,transparent);color:var(--text)}
+.matrix td:first-child{position:relative}
+.matrix .go{display:inline-block;margin-top:.45em;font:600 .78em/1 var(--mono);color:var(--acc);opacity:0;transform:translateX(-8px);transition:opacity .3s,transform .3s}
+.matrix tbody tr.on .go{opacity:1;transform:none}
+.matrix tbody tr td{transition:opacity .3s,background .3s,color .3s}
+
+/* ============================================================
+   BLOQUE 2 · TERMOCUPLA
+   ============================================================ */
+.g-b2a{display:grid;grid-template-columns:minmax(0,.86fr) minmax(0,1.14fr);grid-template-areas:"txt fig" "stats stats";gap:clamp(18px,3.4vh,52px) clamp(24px,3vw,64px);align-items:center}
+.g-b2a .txt{grid-area:txt} .g-b2a .fig{grid-area:fig} .g-b2a .stats3{grid-area:stats}
+.stats3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,48px);border-top:1px solid var(--line);padding-top:clamp(14px,2.6vh,36px)}
+.stats3 .stat{padding-left:clamp(12px,1vw,20px);border-left:3px solid var(--acc)}
+.g-b2b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);gap:clamp(18px,3vh,44px) clamp(22px,3vw,60px);align-items:start}
+.analogy{margin:clamp(12px,2.4vh,30px) 0 0;font-size:var(--fs-lead);line-height:1.3;color:var(--text-2)}
+.analogy q{color:var(--text);font-weight:600}
+.cj-ctl{margin-top:clamp(14px,2.8vh,36px)}
+.cj-v{display:flex;align-items:baseline;justify-content:space-between;gap:1em;margin-top:clamp(10px,2vh,24px);padding-top:clamp(10px,2vh,24px);border-top:1px solid var(--line)}
+.cj-v .lbl{font-size:var(--fs-body);color:var(--text-2)}
+.cj-res{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.2vw,22px)}
+.cj-card{border-radius:12px;padding:clamp(12px,1.4vw,24px);border:1px solid var(--line);background:var(--bg-2)}
+.cj-card .t{font-size:var(--fs-body);font-weight:600;color:var(--text)}
+.cj-card .s{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3);margin:.2em 0 .7em}
+.cj-card.bad{border-color:rgba(255,90,90,.55);background:rgba(255,90,90,.06)}
+.cj-card.good{border-color:rgba(91,227,138,.5);background:rgba(91,227,138,.05)}
+.cj-scale{margin-top:clamp(12px,2.2vh,28px)}
+.cj-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,40px);margin-top:clamp(12px,2.6vh,34px);border-top:1px solid var(--line);padding-top:clamp(12px,2.4vh,30px)}
+.cj-strip div{font-size:var(--fs-body);color:var(--text-2);line-height:1.3}
+.cj-strip b{display:block;font-family:var(--mono);font-size:var(--fs-small);letter-spacing:.06em;text-transform:uppercase;color:var(--acc);margin-bottom:.35em}
+.linea{display:flex;flex-wrap:wrap;gap:.5em 1.4em;align-items:baseline;margin-top:clamp(16px,3vh,40px);padding-top:clamp(12px,2.2vh,26px);border-top:1px solid var(--line);font-size:var(--fs-body);color:var(--text-2)}
+.linea .lt{font-family:var(--mono);font-size:var(--fs-small);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--acc)}
+.linea b{color:var(--text)}
+
+/* ============================================================
+   BLOQUE 3 · RTD
+   ============================================================ */
+.g-b3a{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(18px,3vh,44px) clamp(24px,3.4vw,72px);align-items:center}
+.chain{list-style:none;margin:clamp(14px,3vh,38px) 0 0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:.35em .4em;font-size:var(--fs-body)}
+.chain li{display:inline-flex;align-items:center;gap:.4em;color:var(--text-2)}
+.chain li+li::before{content:"→";font-family:var(--mono);color:var(--text-3);margin-right:.1em}
+.chain li:last-child{color:var(--acc);font-weight:700}
+.measure{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1fr);gap:clamp(12px,1.6vw,30px);align-items:center;margin-top:clamp(14px,3vh,38px);padding:clamp(12px,1.4vw,24px);border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.measure p{font-size:var(--fs-body);color:var(--text-2);line-height:1.32}
+.measure .f{font-family:var(--mono);font-weight:600;color:var(--text);font-size:var(--fs-h3);display:block;margin-bottom:.25em}
+.g-b3a .tags{margin-top:clamp(12px,2.6vh,32px)}
+.chart-t{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3);margin-bottom:.4em}
+.g-b3b{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(18px,3vw,64px);align-items:stretch;margin-top:var(--gap)}
+.cmp{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);border-top:1px solid var(--line-2)}
+.cmp>*{padding:clamp(10px,1.8vh,24px) .6em clamp(10px,1.8vh,24px) 0;border-bottom:1px solid var(--line)}
+.cmp .h{font-family:var(--mono);font-size:var(--fs-h3);font-weight:700;color:var(--acc)}
+.cmp .h.alt{color:#9FF3FA}
+.cmp .k{font-size:var(--fs-body);color:var(--text-2);align-self:center}
+.cmp .v{font-family:var(--mono);font-weight:600;font-size:var(--fs-data);line-height:1;letter-spacing:-.02em;align-self:center}
+.cmp .v small{font-size:.45em;color:var(--text-3);font-weight:500;margin-left:.1em}
+.cmp-note{grid-column:1/-1;font-size:var(--fs-body);color:var(--text-2);border-bottom:0!important}
+.why h3{margin-bottom:.4em}
+.why p{font-size:var(--fs-body);color:var(--text-2)}
+.cable-ex{display:flex;align-items:baseline;gap:.6em;flex-wrap:wrap;margin:clamp(12px,2.4vh,30px) 0 clamp(8px,1.6vh,20px);font-family:var(--mono);font-size:var(--fs-h3);font-weight:600}
+.cable-ex .arrow{font-size:.8em}
+.ebar{display:grid;grid-template-columns:6.5ch minmax(0,1fr) 8ch;align-items:center;gap:.8em;margin-top:clamp(8px,1.4vh,16px)}
+.ebar .n{font-family:var(--mono);font-weight:700;font-size:var(--fs-body)}
+.ebar .track{display:block;height:clamp(14px,2vh,24px);border-radius:4px;background:rgba(150,180,220,.1);overflow:hidden}
+.ebar .fill{display:block;height:100%;width:var(--w,0%);background:var(--acc);border-radius:4px;transition:width .35s ease}
+.ebar .fill.hot{background:linear-gradient(90deg,var(--acc),#FFD23F 70%,#FF8A1F)}
+.ebar .val{font-family:var(--mono);font-weight:600;font-size:var(--fs-body);text-align:right;font-variant-numeric:tabular-nums}
+.selfheat{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.4em 1.4em;align-items:baseline;margin-top:clamp(18px,4vh,52px);padding-top:clamp(12px,2.4vh,28px);border-top:1px solid var(--line);font-size:var(--fs-body);color:var(--text-2)}
+.selfheat .lt{font-family:var(--mono);font-size:var(--fs-small);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--warn)}
+.selfheat .f{font-family:var(--mono);color:var(--text);font-weight:600}
+.g-b3c{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(18px,2.6vw,52px);align-items:start}
+.wires svg{max-height:52vh}
+.wires .didactic{top:.3em;bottom:auto}
+.w{fill:none;stroke:#516279;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;transition:opacity .35s,stroke .35s}
+.w.int{stroke-width:3}
+.wires[data-mode="2"] .w1,.wires[data-mode="2"] .w4,.wires[data-mode="3"] .w4{opacity:.07}
+.wires[data-mode="3"] .w1,.wires[data-mode="4"] .w1,.wires[data-mode="4"] .w4{stroke:#C6D0DE;stroke-dasharray:9 9;stroke-width:3.5}
+.vl{fill:none;stroke:#C6D0DE;stroke-width:2.5;display:none}
+.wires[data-mode="2"] .vl2,.wires[data-mode="3"] .vl3,.wires[data-mode="4"] .vl4{display:inline}
+.cur-flow{stroke:var(--c-rtd);stroke-width:6}
+.rc rect{fill:var(--surface-3);stroke:#7D8DA5;stroke-width:1.5;transition:fill .3s,stroke .3s,opacity .3s}
+.rc text{font-size:17px;font-weight:700;fill:var(--text-2)}
+.wires[data-mode="2"] .rc1,.wires[data-mode="2"] .rc4,.wires[data-mode="3"] .rc4{opacity:0}
+.wires[data-mode="2"] .rc2 rect,.wires[data-mode="2"] .rc3 rect{fill:rgba(255,90,90,.25);stroke:var(--bad)}
+.wires[data-mode="3"] .rc2 rect,.wires[data-mode="3"] .rc3 rect{fill:rgba(255,210,63,.2);stroke:var(--warn)}
+.wires[data-mode="4"] .rc1 rect,.wires[data-mode="4"] .rc4 rect{fill:rgba(91,227,138,.14);stroke:var(--ok)}
+.rc-note{font-size:17px;font-weight:700}
+.wires .m-only{display:none}
+.wires[data-mode="2"] .m2,.wires[data-mode="3"] .m3,.wires[data-mode="4"] .m4{display:inline}
+.wmode{font-size:var(--fs-body);color:var(--text-2);margin-top:clamp(8px,1.6vh,18px);min-height:2.7em;line-height:1.32;max-width:62ch}
+.wmode b{color:var(--text)}
+.sim .seg{margin-bottom:clamp(12px,2.2vh,26px)}
+.sim .res{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1vw,20px);margin-top:clamp(14px,2.6vh,30px);padding-top:clamp(12px,2.2vh,26px);border-top:1px solid var(--line)}
+.sim .res .t{font-family:var(--mono);font-size:var(--fs-body);font-weight:700;color:var(--acc);margin-bottom:.25em}
+.sim .res .t.alt{color:#9FF3FA}
+.sim .formula{font-family:var(--mono);font-size:var(--fs-body);color:var(--text);margin-top:clamp(12px,2vh,22px)}
+.sim .tol{font-size:var(--fs-small);color:var(--text-3);margin-top:.5em;transition:color .3s}
+.sim .tol.hl{color:var(--warn)}
+.g-b3c+.quote{margin-top:clamp(16px,3.2vh,40px)}
+
+/* ============================================================
+   BLOQUE 4 · TERMISTOR · INTEGRADO · INFRARROJO
+   ============================================================ */
+.g-b4a{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(18px,3vw,64px);align-items:start;margin-top:clamp(10px,2vh,26px)}
+.sub{border-top:3px solid var(--acc);padding-top:clamp(10px,1.8vh,22px);min-width:0}
+.sub-h{display:flex;justify-content:space-between;align-items:baseline;gap:.4em 1em;flex-wrap:wrap}
+.sub-h h3 .mono{color:var(--acc);font-size:.72em;margin-left:.25em;font-weight:600}
+.sub-h .who{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
+.sub-l{font-size:var(--fs-body);color:var(--text-2);margin-top:.4em;line-height:1.3}
+.sub-l b{color:var(--text)}
+.sub .fig svg{max-height:27vh}
+.sub .fig .didactic{position:static;display:block;margin-top:.15em}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.2vw,24px);margin-top:clamp(6px,1.2vh,14px)}
+.duo>div{font-size:var(--fs-body);color:var(--text-2);line-height:1.28;padding-left:.75em;border-left:3px solid var(--line-2)}
+.duo>div.ntc{border-left-color:var(--c-ntc)} .duo>div.ptc{border-left-color:#E7DCFF}
+.duo b{display:block;font-family:var(--mono);color:var(--text)}
+.sub .tags{margin-top:clamp(8px,1.5vh,16px)}
+.sub-foot{display:flex;flex-wrap:wrap;align-items:center;gap:.8em 1.6em;margin-top:clamp(8px,1.6vh,18px)}
+.ic-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(10px,1.2vw,22px);margin-top:clamp(8px,1.6vh,18px)}
+.ic-card{border:1px solid var(--line);border-radius:12px;padding:clamp(10px,1.1vw,20px);background:var(--surface);min-width:0}
+.ic-card .hd{display:flex;justify-content:space-between;align-items:baseline;gap:.5em;font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3);margin-bottom:.35em}
+.ic-card .hd b{color:var(--text);font-size:var(--fs-body)}
+.ic-card .big{font-family:var(--mono);font-weight:600;font-size:var(--fs-data);color:var(--acc);line-height:1;letter-spacing:-.02em}
+.ic-card .ctl{margin-top:.6em}
+.ic-card .ctl output{font-size:var(--fs-body)}
+.ic-card .sm{font-size:var(--fs-small);color:var(--text-2);margin-top:.4em;line-height:1.3}
+.ic-card svg{display:block;width:100%;height:auto;max-height:15vh}
+.sub .quote{margin-top:clamp(10px,2vh,22px);font-size:var(--fs-lead)}
+.g-b4b{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:clamp(18px,2.6vw,56px);align-items:start}
+.g-b4b .fig svg{max-height:46vh}
+.g-b4b .fig .didactic{right:auto;left:.4em}
+.surf-seg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.surf-seg button{font:500 var(--fs-small)/1.2 var(--font);text-align:left;color:var(--text-2);background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;padding:.55em .75em;cursor:pointer;display:flex;justify-content:space-between;gap:.4em;align-items:baseline}
+.surf-seg button .mono{color:var(--text-3)}
+.surf-seg button[aria-pressed="true"]{border-color:var(--acc);color:var(--text);background:color-mix(in srgb,var(--acc) 12%,var(--bg-2))}
+.surf-seg button[aria-pressed="true"] .mono{color:var(--acc)}
+.ir-out{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.3em 1.2em;align-items:end;margin-top:clamp(12px,2vh,24px);padding-top:clamp(10px,1.8vh,22px);border-top:1px solid var(--line)}
+.ir-out .lbl{font-size:var(--fs-small);color:var(--text-3);font-family:var(--mono)}
+.ir-out .meta{font-family:var(--mono);font-size:var(--fs-body);color:var(--text-2);line-height:1.5}
+.ir-ghost{min-height:2.6em;margin-top:.6em;font-size:var(--fs-body);color:var(--warn);line-height:1.3}
+.surface-box{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(12px,1.4vw,26px);align-items:center;margin-top:clamp(10px,2vh,24px);padding:clamp(10px,1.2vw,20px);border-radius:var(--radius);border:1px solid color-mix(in srgb,var(--c-ir) 45%,transparent);background:color-mix(in srgb,var(--c-ir) 6%,transparent)}
+.surface-box svg{width:clamp(64px,6vw,112px);height:auto}
+.surface-box .big{font-size:var(--fs-h3);font-weight:700;line-height:1.1}
+.surface-box p{font-size:var(--fs-body);color:var(--text-2);margin-top:.2em}
+
+/* ============================================================
+   BLOQUE 5 · DEL SENSOR AL PLC
+   ============================================================ */
+.g-b5a .fig svg{max-height:46vh}
+.big-line{font-size:var(--fs-h3);font-weight:600;line-height:1.2;margin-top:clamp(8px,1.6vh,18px);text-align:center;text-wrap:balance}
+.big-line .acc{color:var(--warn)}
+.outs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,30px);margin-top:clamp(14px,3vh,40px)}
+.out{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.2em 1em;align-items:center;padding:clamp(12px,1.3vw,22px);border-radius:var(--radius);border:1px solid var(--line-2);background:var(--surface)}
+.out svg{grid-row:1/4;width:clamp(56px,5vw,96px);height:auto}
+.out .k{font-family:var(--mono);font-size:var(--fs-small);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
+.out b{font-size:var(--fs-h3);line-height:1.1}
+.out .ex{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-2)}
+.out.sw{border-color:color-mix(in srgb,var(--c-ir) 55%,transparent)}
+.g-b5b{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(18px,2.6vw,56px);align-items:start}
+.loop svg{max-height:34vh}
+.facts{list-style:none;margin:clamp(12px,2.4vh,30px) 0 0;padding:0;display:grid;gap:clamp(8px,1.4vh,16px)}
+.facts li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.8em;font-size:var(--fs-body);color:var(--text-2);line-height:1.3}
+.facts li .i{font-family:var(--mono);font-weight:700;color:var(--acc)}
+.facts b{color:var(--text)}
+.gauge svg{display:block;width:100%;max-height:30vh}
+.gauge .cap{display:flex;justify-content:space-between;font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3);margin-top:.2em}
+.alarm{margin-top:clamp(10px,1.8vh,20px);padding:.75em 1em;border-radius:12px;border:1px solid var(--bad);background:rgba(255,90,90,.1);font-size:var(--fs-body);color:var(--text);display:none}
+.alarm.on{display:block;animation:blink 1.2s ease-in-out 2}
+.alarm b{color:var(--bad);font-family:var(--mono)}
+@keyframes blink{50%{background:rgba(255,90,90,.28)}}
+.g-b5c{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.95fr);gap:clamp(14px,2vw,40px);align-items:start}
+.sw-fig{margin:0}
+.sw-fig h3{display:flex;align-items:baseline;gap:.5em;margin-bottom:.3em}
+.sw-fig h3 .mono{color:var(--acc)}
+.sw-fig p{font-size:var(--fs-body);color:var(--text-2);margin-top:.3em;line-height:1.3}
+.sw-fig svg{display:block;width:100%;height:auto;max-height:44vh}
+.sw-path{fill:none;stroke:#516279;stroke-width:4;stroke-linejoin:round}
+.sw-flow{stroke:var(--ok);stroke-width:6;opacity:0;transition:opacity .3s}
+.sw-fig.on .sw-flow{opacity:1}
+.sw-load{fill:var(--surface-3);stroke:#7D8DA5;stroke-width:2;transition:fill .3s,stroke .3s}
+.sw-fig.on .sw-load{fill:rgba(91,227,138,.35);stroke:var(--ok)}
+.sw-tr{fill:var(--bg-2);stroke:#7D8DA5;stroke-width:2.5;transition:stroke .3s}
+.sw-fig.on .sw-tr{stroke:var(--ok)}
+.sw-state{font-family:var(--mono);font-weight:700;font-size:var(--fs-data);line-height:1;margin-top:.3em}
+.sw-state.on{color:var(--ok)} .sw-state.off{color:var(--text-3)}
+.key{margin-top:clamp(14px,2.8vh,34px)}
+
+/* ============================================================
+   BLOQUE 6 · SELECCIÓN Y APLICACIÓN
+   ============================================================ */
+.rules{list-style:none;margin:clamp(16px,3.4vh,44px) 0 0;padding:0;border-top:1px solid var(--line)}
+.rules li{display:grid;grid-template-columns:calc(var(--fs-h3) * 6.6) minmax(0,1fr);gap:.4em 1.6em;align-items:baseline;padding:clamp(10px,2.1vh,26px) 0 clamp(10px,2.1vh,26px) 1em;border-bottom:1px solid var(--line);position:relative}
+.rules li::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:4px;border-radius:2px;background:var(--acc)}
+.rules .nm{font-family:var(--mono);font-weight:700;font-size:var(--fs-h3);color:var(--acc)}
+.rules .rl{font-size:var(--fs-lead);color:var(--text-2);line-height:1.25}
+.rules .rl b{color:var(--text)}
+.g-b6b{display:grid;grid-template-columns:minmax(0,2.15fr) minmax(0,1fr);gap:clamp(16px,2.4vw,48px);align-items:start;margin-top:clamp(10px,2vh,24px)}
+.plant svg{display:block;width:100%;height:auto;max-height:56vh}
+.pl-box{fill:var(--surface);stroke:var(--line-2);stroke-width:1.5}
+.pl-n{font-family:var(--font);font-size:22px;font-weight:700;fill:var(--text)}
+.pl-r{font-size:18px;fill:var(--text-2)}
+.mk{cursor:pointer;outline:none}
+.mk .ring{fill:var(--bg);stroke:var(--text-3);stroke-width:2;transition:stroke .2s}
+.mk text{font-size:18px;font-weight:700;fill:var(--ink);pointer-events:none}
+.mk:hover .ring,.mk:focus-visible .ring{stroke:var(--text)}
+.mk.on .ring{stroke:#fff;stroke-width:3.5}
+.mk .pulse{fill:none;stroke:#fff;stroke-width:2;opacity:0}
+.mk.on .pulse{animation:pulse 1.8s ease-out infinite}
+@keyframes pulse{0%{opacity:.8;r:24}100%{opacity:0;r:40}}
+.legend{display:flex;flex-wrap:wrap;gap:.5em 1.4em;margin-top:.6em;font-family:var(--mono);font-size:var(--fs-small);color:var(--text-2)}
+.legend span{display:inline-flex;align-items:center;gap:.45em}
+.legend i{width:.9em;height:.9em;border-radius:50%;display:inline-block}
+.pl-info{min-height:clamp(200px,34vh,380px)}
+.pl-info h3{margin-bottom:.5em}
+.pl-info .lbl{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
+.pl-info .readout{color:var(--acc);margin:.15em 0 .5em}
+.pl-info .readout.txt{font-size:var(--fs-h3);font-family:var(--font);letter-spacing:-.01em;line-height:1.15}
+.pl-tec{font-size:var(--fs-h3);font-weight:700;line-height:1.15;color:var(--text)}
+.pl-tec i{font-style:normal;display:inline-block;width:.6em;height:.6em;border-radius:50%;margin-right:.35em;vertical-align:.12em}
+.pl-why{font-size:var(--fs-body);color:var(--text-2);margin-top:.6em;line-height:1.3}
+.warnbox{margin-top:clamp(10px,2vh,22px);padding:clamp(10px,1.2vw,20px);border-radius:var(--radius);border:1px solid color-mix(in srgb,var(--c-ir) 55%,transparent);background:color-mix(in srgb,var(--c-ir) 8%,transparent);font-size:var(--fs-body);line-height:1.3}
+.warnbox b{color:var(--c-ir)}
+details.tbl{overflow-x:auto;margin-top:clamp(10px,2vh,24px);border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+details.tbl summary{cursor:pointer;padding:.7em 1em;font-family:var(--mono);font-size:var(--fs-small);color:var(--text-2)}
+details.tbl table{width:100%;border-collapse:collapse;font-size:var(--fs-body)}
+details.tbl th,details.tbl td{text-align:left;padding:.5em 1em;border-top:1px solid var(--line)}
+details.tbl th{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3);font-weight:600}
+details.tbl td:nth-child(2){font-family:var(--mono);white-space:nowrap}
+details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
+.myth{text-align:left}
+.myth-tag{display:inline-block;font-family:var(--mono);font-weight:700;font-size:var(--fs-small);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:var(--warn);padding:.3em .8em;border-radius:6px}
+.myth-h{font-size:clamp(36px,min(5.4vw,9.6vh),116px);line-height:1.02;margin-top:.35em;letter-spacing:-.03em}
+.myth-h s{text-decoration-color:var(--bad);text-decoration-thickness:.07em;color:var(--text-2)}
+.myth-a{font-size:var(--fs-lead);color:var(--text-2);margin-top:clamp(16px,3.4vh,40px);max-width:52ch;line-height:1.3}
+.myth-a b{color:var(--text)}
+.myth .quote{margin-top:clamp(18px,4vh,52px);font-size:clamp(22px,min(2.4vw,4.3vh),52px);max-width:30ch}
+
+/* ============================================================
+   BLOQUE 7 · CIERRE + FUENTES
+   ============================================================ */
+.back-q{font-size:var(--fs-lead);color:var(--text-2);max-width:56ch;line-height:1.3}
+.back-q b{color:var(--text)}
+.final5{list-style:none;margin:clamp(18px,4vh,52px) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(10px,1.4vw,28px)}
+.final5 li{border-top:3px solid var(--acc);padding-top:clamp(10px,1.8vh,22px);display:flex;flex-direction:column;gap:.25em}
+.final5 svg{width:clamp(44px,3.8vw,74px);height:auto;margin-bottom:.4em}
+.final5 .nm{font-size:var(--fs-body);font-weight:600;color:var(--text-2)}
+.final5 .sg{font-family:var(--mono);font-weight:600;font-size:var(--fs-data);color:var(--acc);line-height:1.05;letter-spacing:-.02em}
+.final5 .vb{font-size:var(--fs-small);color:var(--text-3)}
+.final-q{font-size:clamp(30px,min(3.7vw,6.6vh),78px);line-height:1.06;letter-spacing:-.03em;margin-top:clamp(20px,4.4vh,56px);max-width:30ch}
+.final-q span{background:var(--thermal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.thanks{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5em 2em;margin-top:clamp(20px,4.6vh,60px);padding-top:clamp(12px,2.4vh,28px);border-top:1px solid var(--line)}
+.thanks .g{font-size:var(--fs-h2);font-weight:700;letter-spacing:-.03em}
+.names{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.3em 1.6em;font-family:var(--mono);font-size:var(--fs-body);color:var(--text-2)}
+.refs{list-style:none;margin:var(--gap) 0 0;padding:0;counter-reset:r;border-top:1px solid var(--line)}
+.refs li{counter-increment:r;display:grid;grid-template-columns:3ch minmax(0,1.6fr) minmax(0,1fr) auto;gap:.4em 1.4em;align-items:baseline;padding:clamp(8px,1.6vh,18px) 0;border-bottom:1px solid var(--line);font-size:var(--fs-body)}
+.refs li::before{content:counter(r,decimal-leading-zero);font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
+.refs .r-m{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
+.refs .r-l{font-family:var(--mono);font-size:var(--fs-small);white-space:nowrap}
+.refs a{color:var(--c-sys);text-underline-offset:3px}
+.refs a:hover{color:var(--text)}
+.colophon{margin-top:clamp(16px,3vh,40px);font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
+
+.ebar.nv{grid-template-columns:6.5ch minmax(0,1fr)}
+.co-badge.sec{width:calc(var(--bs)*.78);height:calc(var(--bs)*.78);font-size:calc(var(--bs)*.44)}
+.gauge .readout{margin-top:-.1em}
+
+/* @@CSS-REST */
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1100px){
+  .nav .brand span:last-child{display:none}
+}
+/* proyector 1280×720 y notebooks bajas: menos aire vertical */
+@media (max-height:820px) and (min-width:901px){
+  .screen{padding-top:calc(var(--nav-h) + 10px);padding-bottom:10px}
+  .g-b5a .fig svg{max-height:40vh}
+  .outs{margin-top:12px}
+  .out{padding:10px 14px}
+  .cj-strip{margin-top:12px;padding-top:10px}
+  .cj-ctl{margin-top:12px}
+  .analogy{margin-top:8px}
+  .wires svg{max-height:46vh}
+  .g-b3c+.quote{margin-top:10px}
+  .sub .fig svg{max-height:24vh}
+  .linea{margin-top:12px;padding-top:10px}
+  .fv-app{display:none}
+}
+@media (max-width:900px){
+  :root{--nav-h:52px}
+  .nav .e{display:none}
+  .nav .t .lbl{display:none}
+  .nav ol a{align-items:center;padding:0 4px}
+  .nav .t .n{margin:0}
+  .screen{min-height:auto;padding-top:calc(var(--nav-h) + 40px);padding-bottom:56px}
+  .hero{min-height:100svh}
+  .hero .reticle,.th-scale{display:none}
+  .g-b2a,.g-b2b{grid-template-columns:minmax(0,1fr);grid-template-areas:none}
+  .g-b2a .txt,.g-b2a .fig,.g-b2a .stats3{grid-area:auto}
+  .stats3,.cj-strip{grid-template-columns:minmax(0,1fr)}
+  .route{grid-template-columns:minmax(0,1fr);border-top:0;border-left:1px solid var(--line-2);padding-left:16px}
+  .route li{padding:.4em 0 .8em}
+  .route li::before{left:-23px;top:.75em}
+  .cj-res{grid-template-columns:minmax(0,1fr)}
+  .matrix,.matrix tbody,.matrix tr,.matrix td{display:block;width:100%}
+  .matrix thead,.matrix colgroup{display:none}
+  .matrix tr{border-bottom:1px solid var(--line-2);border-left:5px solid var(--acc)}
+  .matrix td{border:0;padding:.3em .8em;display:grid;grid-template-columns:42% 1fr;gap:.6em}
+  .matrix td:first-child{border-left:0;display:block;padding-top:.8em;font-size:1.1em}
+  .matrix td::before{content:attr(data-label);font-family:var(--mono);font-size:.8em;color:var(--text-3);text-transform:uppercase}
+  .matrix td:first-child::before{content:none}
+  .g-b3a,.g-b3b,.g-b3c,.g-b4a,.g-b4b,.g-b5b,.g-b5c,.g-b6b{grid-template-columns:minmax(0,1fr)}
+  .fv{grid-template-columns:minmax(0,1fr);height:auto}
+  .fv-stage{height:62vh}
+  .screen.fv-screen{padding-top:calc(var(--nav-h) + 24px)}
+  .measure,.ic-grid,.duo,.outs,.final5{grid-template-columns:minmax(0,1fr)}
+  .final5{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cmp .v{font-size:clamp(22px,7vw,40px)}
+  .rules li{grid-template-columns:minmax(0,1fr)}
+  .refs li{grid-template-columns:3ch minmax(0,1fr)}
+  .refs .r-m,.refs .r-l{grid-column:2}
+  .selfheat{grid-template-columns:minmax(0,1fr)}
+  .sh-row{align-items:flex-start}
+  .surf-seg{grid-template-columns:minmax(0,1fr)}
+  details.tbl td:nth-child(2){white-space:normal}
+  details.tbl th,details.tbl td{padding:.45em .6em}
+}
+@media (prefers-reduced-motion:reduce){
+  .js .rv{opacity:1;transform:none;transition:none}
+  .flow{animation:none}
+}
+/* Ilustración realista de termocupla */ #b2 .g-b2a{display:flex;flex-direction:column;gap:clamp(12px,2vh,24px)} #b2 .lead{max-width:1100px} #b2 .tc-realistic{margin:0;width:100%} #b2 .tc-realistic a{display:block;background:#fff;border-radius:14px;overflow:hidden} #b2 .tc-realistic img{display:block;width:100%;height:auto;max-height:62vh;object-fit:contain} #b2 .tc-realistic figcaption{display:block;margin-top:8px;line-height:1.4} #b2 .stats3{width:100%} @media(max-width:800px){#b2 .tc-realistic img{max-height:none}}/* Junta fría: ilustración y etiquetas vinculadas al simulador */
+.cj-scene{margin:0 0 22px}.cj-scene-image{position:relative;background:#fff;border-radius:14px;overflow:hidden}.cj-scene-image img{display:block;width:100%;height:auto}.cj-tag{position:absolute;padding:8px 12px;border-radius:9px;background:rgba(255,255,255,.95);color:#123354;box-shadow:0 2px 12px #0002;font-size:clamp(12px,1.05vw,18px);line-height:1.25;border:1px solid #bdd1e3}.cj-tag span{display:block}.cj-tag strong{display:block;font-family:var(--mono);font-size:1.4em;margin-top:3px}.cj-process{left:3%;top:15%;border-left:4px solid #dc720d}.cj-reference{left:55%;bottom:3%;border-left:4px solid #1673be}.cj-sensor{left:48%;top:48%;font-size:clamp(11px,.9vw,16px)}.cj-instrument{right:4%;top:12%;border-left:4px solid #248347}.cj-scene figcaption{font-size:var(--fs-small);color:var(--text-2);margin-top:10px} @media(max-width:700px){.cj-tag{padding:4px 6px;font-size:10px}.cj-sensor{font-size:9px}.cj-tag strong{font-size:1.2em}}/* Ajuste de composición para proyección */
+#b2 .tc-realistic a{aspect-ratio:1672/811;position:relative}
+#b2 .tc-realistic img{max-height:none;width:100%;height:auto;margin-top:-7.78%;object-fit:initial}
+#b2 .tc-realistic figcaption{position:static;right:auto;bottom:auto;padding:0;white-space:normal}
+#b2-2 .g-b2b{grid-template-columns:minmax(0,1.35fr) minmax(280px,1fr);gap:20px;align-items:start}
+#b2-2 .cj-scene{margin:0;min-width:0}
+#b2-2 .g-b2b>div:last-child{grid-column:1/-1}
+#b2-2 .cj-res{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#b2-2 .cj-scale{display:none}
+#b2-2 .cj-ctl{padding:18px}
+#b2-2 .analogy{margin-bottom:18px}
+#b2-2 .cj-scene figcaption{font-size:clamp(13px,1vw,18px)}
+#b2-2 .cj-reference{left:52%;bottom:3%}
+#b2-2 .cj-sensor{left:38%;top:44%;font-size:clamp(10px,.8vw,14px)}
+#b2-2 .cj-tag{font-size:clamp(10px,.85vw,15px)}
+@media(max-width:900px){#b2-2 .g-b2b{grid-template-columns:1fr}#b2-2 .cj-res{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#b2-2 .cj-res{grid-template-columns:1fr}}/* Conexión de termocupla: recorrido guiado */
+.tc-route-nav{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.tc-route-nav button{font:inherit;font-size:var(--fs-small);padding:10px 16px;border:1px solid var(--line-2);border-radius:9px;background:var(--surface);color:var(--text);cursor:pointer}.tc-route-nav button[aria-pressed="true"]{background:var(--c-tc);color:#101926;border-color:var(--c-tc)}.tc-route-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:22px;align-items:start}.tc-source-card,.tc-path{padding:20px;background:var(--surface);border:1px solid var(--line-2);border-radius:14px}.tc-source-photo{height:145px;overflow:hidden;border-radius:8px;background:#fff}.tc-source-photo img{width:135%;max-width:none;transform:translate(-2%,-21%)}.tc-source-card h3,.tc-path h3{font-size:var(--fs-h3);margin:12px 0}.tc-source-card p,.tc-path p{font-size:var(--fs-small);margin:10px 0}.tc-source-card svg{width:100%;height:55px}.tc-cable-note{border-top:1px solid var(--line-2);padding-top:12px}.tc-paths{display:grid;gap:16px}.tc-path[hidden],.tc-route-placeholder[hidden]{display:none}.tc-path-a{border-left:4px solid #3fa9ed}.tc-path-b{border-left:4px solid var(--ok)}.tc-path-letter{float:right;font-family:var(--mono);font-size:30px;color:var(--c-tc)}.tc-path-chain{display:flex;gap:8px;align-items:center;justify-content:space-between;font-size:var(--fs-small)}.tc-unit{padding:10px;background:var(--surface-2);border-radius:8px;text-align:center}.tc-unit small{display:block;color:var(--text-2);font-size:.85em;margin-top:5px}.tc-current{color:var(--ok);font-family:var(--mono);white-space:nowrap}.tc-route-placeholder{padding:40px 24px;border:1px dashed var(--line-2);border-radius:14px;color:var(--text-2)}.tc-route-takeaway{font-size:var(--fs-small);padding:14px 18px;border-left:4px solid var(--c-tc);background:var(--surface);margin-top:20px}.tc-route-takeaway b{display:block;margin-top:5px}@media(max-width:900px){.tc-route-layout{grid-template-columns:1fr}.tc-source-photo{height:190px}.tc-path-chain{flex-wrap:wrap;justify-content:flex-start}}/* Imagen de conexión: selección visual de rutas */
+.tc-connection-figure{margin:0}.tc-connection-scene{position:relative;aspect-ratio:1672/790;background:#fff;border-radius:14px;overflow:hidden}.tc-connection-scene>img{display:block;width:100%;height:auto;margin-top:-6.8%}.tc-zone-mask{position:absolute;background:rgba(244,247,251,.87);transition:opacity .25s;pointer-events:none;opacity:0}.tc-mask-source{left:0;top:0;width:43%;height:83%}.tc-mask-a{left:43%;top:0;width:57%;height:41%}.tc-mask-b{left:43%;top:41%;width:57%;height:42%}.tc-connection-scene[data-step="0"] .tc-mask-a,.tc-connection-scene[data-step="0"] .tc-mask-b{opacity:1}.tc-connection-scene[data-step="1"] .tc-mask-source,.tc-connection-scene[data-step="1"] .tc-mask-b{opacity:1}.tc-connection-scene[data-step="2"] .tc-mask-source,.tc-connection-scene[data-step="2"] .tc-mask-a{opacity:1}.tc-connection-caption{margin-top:14px;padding:14px 18px;border-left:4px solid var(--c-tc);background:var(--surface);border-radius:8px;font-size:var(--fs-small);line-height:1.45}.tc-signal-correction{position:absolute;left:8.6%;top:47%;width:17.5%;height:26%;background:#fff2df;color:#ad4a00;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;font-size:clamp(10px,1.15vw,20px);text-align:center;pointer-events:none}.tc-signal-correction span{font-size:.7em}.tc-dc-line{width:75%;height:3px;background:#e47b17;margin-top:10px}.tc-connection-scene[data-step="1"] .tc-signal-correction,.tc-connection-scene[data-step="2"] .tc-signal-correction{opacity:.15}@media(prefers-reduced-motion:reduce){.tc-zone-mask{transition:none}}/* Fichas y aplicaciones: foco visual y explicación */
+.tc-guide-figure{margin:0}.tc-focus-image{position:relative;overflow:hidden;border-radius:14px;background:#fff}.tc-focus-image img{display:block;width:100%;height:auto}.tc-focus-box{position:absolute;left:var(--fx,0%);top:var(--fy,0%);width:var(--fw,100%);height:var(--fh,100%);border:3px solid #f59326;border-radius:10px;box-shadow:0 0 0 2000px rgba(245,248,251,.78);pointer-events:none;transition:left .25s,top .25s,width .25s,height .25s}.tc-focus-image[data-all="true"] .tc-focus-box{display:none}.tc-explain{padding:16px 20px;margin-top:14px;border-left:4px solid var(--c-tc);border-radius:8px;background:var(--surface);font-size:var(--fs-small);line-height:1.5}.tc-guide-proof{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0;font-size:var(--fs-small)}@media(prefers-reduced-motion:reduce){.tc-focus-box{transition:none}}/* Primera pantalla: dos representaciones del mismo principio */
+#b2 .tc-dual-view{display:flex;flex-direction:column;align-items:center;gap:clamp(8px,1.4vh,16px)}
+#b2 .tc-dual-view .tc-real-crop{position:relative;aspect-ratio:4/1;width:100%;background:#0B1A33;border-radius:14px;overflow:hidden}
+#b2 .tc-dual-view .tc-real-crop img{display:block;width:100%;height:100%;margin:0;max-height:none;object-fit:cover}
+#b2 .tc-inset-cover{position:absolute;left:0;top:66%;width:30%;bottom:0;background:#fff}
+#b2 .tc-dual-view #tc-diagram-view{aspect-ratio:4/1;width:100%;border-radius:14px;border:1px solid var(--line-2);background:var(--surface);display:grid;place-items:center;overflow:hidden}
+#b2 .tc-dual-view #tc-diagram-view{position:relative;grid-template-columns:minmax(0,1fr) auto;padding-right:clamp(12px,1.5vw,28px)}
+#b2 .tc-dual-view #tc-diagram-view svg{display:block;height:100%;width:auto;max-width:100%;margin:0 auto}
+#b2 .tc-facts{display:grid;gap:clamp(8px,1.6vh,18px);border-left:1px solid var(--line-2);padding-left:clamp(12px,1.5vw,28px)}
+#b2 .tc-facts b{display:block;font:600 var(--fs-h3)/1.05 var(--mono);color:var(--c-tc)}
+#b2 .tc-facts span{font-size:var(--fs-small);color:var(--text-2)}
+#b2 .tc-did{position:absolute;right:14px;top:8px}
+#b2 h2{font-size:clamp(30px,min(3.4vw,6vh),70px)}
+#b2.screen{padding-top:calc(var(--nav-h) + 8px);padding-bottom:10px;height:100vh;height:100svh;justify-content:flex-start}
+#b2 .in-wrap.g-b2a{flex:1;min-height:0}
+#b2 .tc-dual-view{flex:1;min-height:0;container-type:size;justify-content:center}
+#b2 .tc-dual-view .tc-real-crop,#b2 .tc-dual-view #tc-diagram-view{width:min(100cqw,calc((50cqh - 5px) * 4))!important;flex:none}
+#b2 .txt{align-self:stretch;width:100%}
+#b2 .g-b2a{gap:10px!important}
+#b2 .tc-dual-view{gap:10px}
+#b2 .stats3{padding-top:clamp(8px,1.4vh,16px);gap:clamp(12px,1.6vw,32px)}
+#b2 .stats3 .stat .v{font-size:var(--fs-h3)}
+#b2 .stats3 .stat .l{font-size:var(--fs-small);margin-top:.25em}
+#b2 .lead{font-size:var(--fs-body);max-width:none}
+#b2 .g-b2a{gap:clamp(8px,1.4vh,16px)}
+#b2 .tc-dual-view [hidden]{display:none}
+#b2 .tc-dual-view figcaption{position:static;margin-top:12px;font-family:var(--font);font-size:var(--fs-small);line-height:1.45}
+#b2 .tc-route-nav{margin:0}
+/* cuadro resumen reducido a 3 columnas */
+.matrix.m3{font-size:clamp(20px,min(2.5vw,4.1vh),54px);line-height:1.25}
+.matrix.m3 tbody tr.on td.sig{color:var(--acc)}
+.matrix.m3 col.c1{width:45%} .matrix.m3 col.c3{width:55%}
+.matrix.m3 th{font-size:clamp(14px,min(1.1vw,2vh),24px);padding:1em 1.2em}
+.matrix.m3 td{padding:clamp(10px,2vh,26px) 1.2em;vertical-align:middle}
+.matrix.m3 td:first-child small{font-size:.62em}
+.matrix.m3 .go{position:absolute;right:1em;top:50%;margin:0;transform:translate(-8px,-50%)}
+.matrix.m3 tbody tr.on .go{transform:translate(0,-50%)}
+
+/* bloque 1: pregunta + tres aplicaciones */
+#b1.screen{height:100vh;height:100svh;padding-top:calc(var(--nav-h) + 14px);padding-bottom:14px}
+#b1 .b1-grid{flex:1;min-height:0;height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,auto);gap:clamp(20px,3vw,64px);align-items:center}
+#b1 .q-big{font-size:clamp(30px,min(4.5vw,8.4vh),104px);line-height:1.04}
+#b1 .answer{font-size:clamp(18px,min(1.8vw,3.3vh),40px)}
+#b1 .b1-pics{height:100%;min-height:0;display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(8px,1.4vh,16px);justify-items:end}
+#b1 .b1-pics figure{position:relative;margin:0;height:90%;align-self:center;aspect-ratio:2.444/1;max-width:44vw;border-radius:12px;overflow:hidden;box-shadow:0 16px 40px -20px rgba(0,0,0,.8)}
+#b1 .b1-pics img{display:block;width:100%;height:100%;object-fit:cover}
+#b1 .b1-pics figcaption{position:absolute;left:10px;bottom:10px;padding:.3em .7em;border-radius:7px;background:rgba(8,12,20,.82);color:var(--c);font:600 var(--fs-small)/1.2 var(--mono)}
+@media (max-width:900px){#b1.screen{height:auto}#b1 .b1-grid{grid-template-columns:1fr}#b1 .b1-pics{height:auto;grid-template-rows:none;justify-items:stretch}#b1 .b1-pics figure{height:auto;width:100%;max-width:none}}
+</style>
+</head>
+<body>
+<a class="sr-only" href="#b1">Saltar al contenido</a>
+
+<!-- ============================================================
+     NAVEGACIÓN FIJA
+     ============================================================ -->
+<nav class="nav" aria-label="Bloques de la exposición">
+  <a class="brand" href="#top" aria-label="Volver al inicio"><span class="th-dot" aria-hidden="true"></span><span>F6 · Temperatura</span></a>
+  <ol>
+    <li><a href="#b1" data-nav="1" style="--bc:var(--c-sys)"><span class="t"><b class="n">1</b><span class="lbl">Mapa</span></span><span class="e" data-exp="b1">Expositor 1</span></a></li>
+    <li><a href="#b2" data-nav="2" style="--bc:var(--c-tc)"><span class="t"><b class="n">2</b><span class="lbl">Termocupla</span></span><span class="e" data-exp="b2">Expositor 2</span></a></li>
+    <li><a href="#b3" data-nav="3" style="--bc:var(--c-rtd)"><span class="t"><b class="n">3</b><span class="lbl">RTD Pt100</span></span><span class="e" data-exp="b3">Expositor 3</span></a></li>
+    <li><a href="#b4" data-nav="4" style="--bc:linear-gradient(90deg,var(--c-ntc) 0 33%,var(--c-ic) 33% 66%,var(--c-ir) 66%);--bt:var(--c-ntc)"><span class="t"><b class="n">4</b><span class="lbl">NTC · IC · IR</span></span><span class="e"><span data-exp="b1">Expositor 1</span> + <span data-exp="b4">Expositor 4</span></span></a></li>
+    <li><a href="#b5" data-nav="5" style="--bc:var(--c-sys)"><span class="t"><b class="n">5</b><span class="lbl">Al PLC</span></span><span class="e" data-exp="b4">Expositor 4</span></a></li>
+    <li><a href="#b6" data-nav="6" style="--bc:var(--warn)"><span class="t"><b class="n">6</b><span class="lbl">Selección</span></span><span class="e" data-exp="b6">Expositor 5</span></a></li>
+    <li><a href="#b7" data-nav="7" style="--bc:var(--text)"><span class="t"><b class="n">7</b><span class="lbl">Cierre</span></span><span class="e" data-exp="b6">Expositor 5</span></a></li>
+  </ol>
+  <button class="nav-help" type="button" data-help aria-label="Atajos de teclado">?</button>
+  <div class="progress" aria-hidden="true"></div>
+</nav>
+
+<main>
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<header class="screen hero" id="top" data-block="0">
+  <canvas id="thermal" aria-hidden="true"></canvas>
+  <svg class="reticle" viewBox="0 0 100 100" aria-hidden="true">
+    <g fill="none" stroke="#EEF2F8" stroke-width="1.4">
+      <path d="M8 26V8h18M74 8h18v18M92 74v18H74M26 92H8V74"/>
+      <path d="M50 38v-14M50 62v14M38 50H24M62 50h14" stroke-width="1.2"/>
+      <circle cx="50" cy="50" r="2.4" fill="#EEF2F8"/>
+    </g>
+  </svg>
+  <div class="th-scale" aria-hidden="true"><span class="hi">caliente</span><span class="lo">frío</span></div>
+  <div class="in-wrap">
+    <p class="kicker rv">ING2222 · Tecnología de Control · Familia 6 · FI-UNMdP</p>
+    <h1 class="rv" style="--d:.08s">Sensores de <span class="grad">temperatura</span></h1>
+    <p class="lead rv" style="--d:.16s">Cómo cada tecnología convierte la temperatura en una señal que entiende un sistema de control</p>
+    <nav class="hero-sensors rv" style="--d:.26s" aria-label="Ir a cada sensor">
+      <a class="c-tc" href="#b2">Termocupla<b>mV</b><i>→</i></a>
+      <a class="c-rtd" href="#b3">RTD Pt100<b>Ω</b><i>→</i></a>
+      <a class="c-ntc" href="#b4">Termistor<b>Ω</b><i>→</i></a>
+      <a class="c-ic" href="#b4">Integrado<b>mV · dato</b><i>→</i></a>
+      <a class="c-ir" href="#b4-2">Infrarrojo<b>radiación</b><i>→</i></a>
+    </nav>
+  </div>
+  <p class="hint">Seminario de Sensores · <kbd>1</kbd>–<kbd>7</kbd> bloques · <kbd>F</kbd> pantalla completa · <kbd>?</kbd> ayuda</p>
+</header>
+
+<!-- ============================================================
+     BLOQUE 1 · MAPA DE LA FAMILIA
+     ============================================================ -->
+<section class="screen first" id="b1" data-block="1" aria-labelledby="b1-t">
+  <div class="in-wrap b1-grid">
+   <div class="b1-txt">
+    <p class="kicker rv">01 · Mapa de la familia <span class="who" data-exp="b1">Expositor 1</span></p>
+    <h2 id="b1-t" class="q-big rv" style="--d:.06s">¿Cómo medimos la temperatura de <span style="color:#FF8A1F">un horno</span>, de <span style="color:#2EE6F6">una cámara a −18&nbsp;°C</span> y de <span style="color:#FF5C93">un producto que viaja sobre una cinta</span>?</h2>
+    <p class="answer rv" style="--d:.14s">Ninguno entrega «grados»: cada uno convierte un <b>fenómeno físico distinto</b> en una <b>señal eléctrica distinta</b>.</p>
+   </div>
+   <div class="b1-pics rv" style="--d:.2s">
+    <figure style="--c:#FF8A1F"><img src="img/aplicacion-horno.webp" alt="Sonda de temperatura en la pared de un horno industrial"></figure>
+    <figure style="--c:#2EE6F6"><img src="img/aplicacion-camara.webp" alt="Sonda de temperatura en una cámara de frío"></figure>
+    <figure style="--c:#FF5C93"><img src="img/aplicacion-cinta.webp" alt="Pirómetro infrarrojo midiendo producto sobre una cinta transportadora"></figure>
+   </div>
+  </div>
+</section>
+
+<section class="screen" id="b1-2" data-block="1" aria-labelledby="b1-2-t">
+  <div class="in-wrap">
+    <div class="sh-row rv">
+      <div>
+        <p class="kicker">01 · Mapa de la familia <span class="pg">2/2</span></p>
+        <h2 id="b1-2-t">Cinco sensores, <span class="acc">cinco señales</span></h2>
+      </div>
+    </div>
+    <div class="mtx-wrap rv" style="--d:.1s">
+      <table class="matrix m3" id="matrix">
+        <caption class="sr-only">Comparación de los cinco sensores de temperatura</caption>
+        <colgroup><col class="c1"><col class="c3"></colgroup>
+        <thead>
+          <tr>
+            <th scope="col">Sensor</th>
+            <th scope="col">Señal primaria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="c-tc" tabindex="0" data-go="#b2" title="Ir a la sección">
+            <td>Termocupla<span class="go" aria-hidden="true">Ver sección →</span></td>
+            <td data-label="Señal" class="sig">Tensión en mV</td>
+          </tr>
+          <tr class="c-rtd" tabindex="0" data-go="#b3" title="Ir a la sección">
+            <td>RTD <small>Pt100 / Pt1000</small><span class="go" aria-hidden="true">Ver sección →</span></td>
+            <td data-label="Señal" class="sig">Resistencia (Ω)</td>
+          </tr>
+          <tr class="c-ntc" tabindex="0" data-go="#b4" title="Ir a la sección">
+            <td>Termistor <small>NTC / PTC</small><span class="go" aria-hidden="true">Ver sección →</span></td>
+            <td data-label="Señal" class="sig">Resistencia (Ω)</td>
+          </tr>
+          <tr class="c-ic" tabindex="0" data-go="#b4" title="Ir a la sección">
+            <td>Integrado <small>LM35 / DS18B20</small><span class="go" aria-hidden="true">Ver sección →</span></td>
+            <td data-label="Señal" class="sig">mV o dato digital</td>
+          </tr>
+          <tr class="c-ir" tabindex="0" data-go="#b4-2" title="Ir a la sección">
+            <td>Infrarrojo <small>ifm TW2000</small><span class="go" aria-hidden="true">Ver sección →</span></td>
+            <td data-label="Señal" class="sig">Radiación IR</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOQUE 2 · TERMOCUPLA
+     ============================================================ -->
+<section class="screen first" id="b2" data-block="2" aria-labelledby="b2-t">
+  <div class="in-wrap g-b2a">
+    <div class="txt rv">
+      <p class="kicker">02 · Termocupla <span class="who" data-exp="b2">Expositor 2</span></p>
+      <h2 id="b2-t">Termocupla: <span class="acc">principio y construcción</span></h2>
+      <p class="lead">Dos metales distintos unidos en la punta generan una tensión: <b>efecto Seebeck</b>.</p>
+    </div>
+<figure class="fig tc-realistic tc-dual-view">
+ <div id="tc-real-view" class="tc-real-crop"><img src="img/termocupla-construccion-oscura.webp" width="2000" height="500" alt="Sonda industrial en corte: dos conductores separados por cerámica, unidos en la punta y conectados a los bornes."></div>
+ <div id="tc-diagram-view"><svg viewBox="0 32 1000 386" role="img" aria-labelledby="seebeck-t">
+        <title id="seebeck-t">Termocupla: dos conductores distintos unidos en el proceso; entre los bornes aparece una tensión en mV</title>
+        <defs>
+          <radialGradient id="g-hot" cx="35%" cy="50%" r="70%">
+            <stop offset="0" stop-color="#FF8A1F" stop-opacity=".55"/>
+            <stop offset=".55" stop-color="#FF3B3B" stop-opacity=".14"/>
+            <stop offset="1" stop-color="#FF3B3B" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="g-cold" cx="50%" cy="50%" r="60%">
+            <stop offset="0" stop-color="#2F5BFF" stop-opacity=".28"/>
+            <stop offset="1" stop-color="#2F5BFF" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+        </defs>
+        <!-- zona de proceso -->
+        <rect x="14" y="40" width="300" height="330" rx="20" fill="url(#g-hot)" stroke="rgba(255,164,58,.45)" stroke-dasharray="4 6"/>
+        <text x="34" y="74" class="svg-l b" style="fill:var(--c-tc)">PROCESO</text>
+        <text x="34" y="98" class="svg-l s">temperatura de medida · Tm</text>
+        <!-- zona de bornes -->
+        <rect x="640" y="70" width="190" height="280" rx="20" fill="url(#g-cold)" stroke="rgba(157,180,255,.35)" stroke-dasharray="4 6"/>
+        <!-- conductores -->
+        <path d="M196 214 C 300 150 420 140 560 140 L 726 140" fill="none" stroke="var(--c-tc)" stroke-width="7" stroke-linecap="round"/>
+        <path d="M196 214 C 300 278 420 288 560 288 L 726 288" fill="none" stroke="#8FA3BF" stroke-width="7" stroke-linecap="round"/>
+        <text x="420" y="124" class="svg-l" style="fill:var(--c-tc)">metal A (+)</text>
+        <text x="420" y="322" class="svg-l" style="fill:#AFC0D8">metal B (−)</text>
+        <!-- unión de medida -->
+        <circle cx="196" cy="214" r="22" fill="var(--c-tc)" opacity=".5" filter="url(#glow)"/>
+        <circle cx="196" cy="214" r="11" fill="var(--c-tc)" stroke="#fff" stroke-width="2"/>
+        <text x="80" y="262" class="svg-l b">unión de medida</text>
+        <!-- bornes de referencia -->
+        <rect x="700" y="112" width="58" height="204" rx="10" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="1.5"/>
+        <circle cx="729" cy="140" r="13" fill="var(--bg)" stroke="#C6D0DE" stroke-width="2"/><path d="M721 140h16" stroke="#C6D0DE" stroke-width="2"/>
+        <circle cx="729" cy="288" r="13" fill="var(--bg)" stroke="#C6D0DE" stroke-width="2"/><path d="M721 288h16" stroke="#C6D0DE" stroke-width="2"/>
+        <text x="652" y="96" class="svg-l b" style="fill:var(--c-sys)">BORNES · Tref</text>
+        <text x="652" y="342" class="svg-l s">junta fría (de referencia)</text>
+        <!-- cables al instrumento -->
+        <path d="M742 140 H 860 V 172" fill="none" stroke="#C6D0DE" stroke-width="3"/>
+        <path d="M742 288 H 860 V 256" fill="none" stroke="#C6D0DE" stroke-width="3"/>
+        <!-- instrumento -->
+        <circle cx="900" cy="214" r="62" fill="var(--bg-2)" stroke="var(--c-tc)" stroke-width="3"/>
+        <text x="900" y="230" text-anchor="middle" style="font-size:44px;font-weight:700;fill:var(--c-tc)">mV</text>
+        <text x="900" y="304" text-anchor="middle" class="svg-l s">instrumento</text>
+        <!-- diferencia -->
+        <path d="M196 396 V 406 H 729 V 396" fill="none" stroke="var(--text-3)" stroke-width="1.5"/>
+        <text x="462" y="398" text-anchor="middle" class="svg-l" style="fill:var(--text)">V ≈ S · (Tm − Tref)</text>
+      </svg><div class="tc-facts"><div><b>mV</b><span>señal analógica de bajo nivel</span></div><div><b>Autogenerada</b><span>no requiere alimentación</span></div><div><b>2 conductores</b><span>por elemento, con polaridad</span></div></div><span class="didactic tc-did">Ilustración didáctica, no a escala</span></div>
+</figure>
+  </div>
+</section>
+
+<section class="screen" id="b2-2" data-block="2" aria-labelledby="b2-2-t">
+  <div class="in-wrap">
+
+    <p class="kicker">02 · Termocupla <span class="pg">2/5</span></p>
+        <h2 id="b2-2-t">¿Por qué compensar la <span class="acc">junta fría</span>?</h2>
+        <p class="analogy"><span class="mono" style="color:var(--text);font-weight:600">V ≈ S · (Tm − Tref)</span><br>La tensión depende de <b>Tm y Tref</b>. El instrumento mide la temperatura de sus bornes para obtener la del proceso. “Fría” no significa refrigerada.</p>
+<div class="g-b2b">
+<figure class="cj-scene rv">
+ <div class="cj-scene-image">
+  <img src="img/termocupla-junta-fria.png" width="1672" height="941" alt="Sonda en un proceso caliente conectada al instrumento; ampliación de los bornes y del sensor de temperatura de referencia.">
+  <div class="cj-tag cj-process"><span>Punta en el proceso · Tm</span><strong id="cj-img-tm">200 °C</strong></div>
+  <div class="cj-tag cj-reference"><span>Bornes de referencia · Tref</span><strong id="cj-img-tr">25 °C</strong></div>
+  <div class="cj-tag cj-sensor">El sensor auxiliar mide<br>la temperatura de los bornes</div>
+  <div class="cj-tag cj-instrument"><span>Lectura compensada</span><strong id="cj-img-ok">200 °C</strong></div>
+ </div>
+ <figcaption>Dejá Tm fija y mové Tref. Cambian los mV y la lectura sin compensar; la lectura compensada conserva la temperatura del proceso.</figcaption>
+</figure>
+      <div class="rv">
+        
+        <div class="panel cj-ctl">
+          <div class="ctl">
+            <label for="cj-tm">Temperatura del proceso · Tm</label>
+            <output id="cj-tm-o" for="cj-tm" class="num">200 °C</output>
+            <input type="range" id="cj-tm" min="0" max="600" step="1" value="200">
+          </div>
+          <div class="ctl">
+            <label for="cj-tr">Temperatura de bornes · Tref</label>
+            <output id="cj-tr-o" for="cj-tr" class="num">25 °C</output>
+            <input type="range" id="cj-tr" min="0" max="50" step="1" value="25">
+          </div>
+          <div class="cj-v">
+            <span class="lbl">Tensión generada</span>
+            <span class="readout sm" id="cj-v">7,18<span class="u">mV</span></span>
+          </div>
+        </div>
+        <p class="note" style="margin-top:.7em">Modelo lineal simplificado (tipo K); el instrumento usa la curva normalizada.</p>
+      </div>
+      <div class="rv" style="--d:.12s">
+        <div class="cj-res" aria-live="polite">
+          <div class="cj-card bad" id="cj-card-raw">
+            <div class="t">Sin compensar</div>
+            <div class="s">supone Tref = 0 °C</div>
+            <div class="readout" id="cj-raw">175<span class="u">°C</span></div>
+            <div class="delta bad" id="cj-raw-e">error −25 °C</div>
+          </div>
+          <div class="cj-card good">
+            <div class="t">Con compensación de junta fría</div>
+            <div class="s">usa la temperatura medida en los bornes</div>
+            <div class="readout" id="cj-ok">200<span class="u">°C</span></div>
+            <div class="delta ok">temperatura del proceso en este modelo</div>
+          </div>
+        </div>
+        <figure class="fig cj-scale" aria-hidden="true">
+          <svg viewBox="0 0 700 120" id="cj-scale">
+            <rect id="cj-gap" x="20" y="51" width="0" height="18" fill="rgba(255,90,90,.28)"/>
+            <line x1="20" y1="60" x2="680" y2="60" stroke="var(--line-2)" stroke-width="2"/>
+            <g id="cj-ticks"></g>
+            <text x="20" y="92" class="svg-l s">0 °C</text><text x="680" y="92" text-anchor="end" class="svg-l s">600 °C</text>
+            <g id="cj-m-ok"><path d="M0 54 L-10 36 H10 Z" fill="var(--ok)"/><text x="0" y="26" text-anchor="middle" class="svg-l b" style="fill:var(--ok)">real = compensada</text></g>
+            <g id="cj-m-raw"><path d="M0 66 L-10 84 H10 Z" fill="var(--bad)"/><text x="0" y="110" text-anchor="middle" class="svg-l b" style="fill:var(--bad)">sin compensar</text></g>
+          </svg>
+        </figure>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="screen" id="b2-conexion" data-block="2" aria-labelledby="tc-plc-title">
+ <div class="in-wrap">
+  <p class="kicker">02 · Termocupla <span class="pg">3/5</span></p>
+  <h2 id="tc-plc-title">Termocupla: <span class="acc">conexión y lectura</span></h2>
+  <div class="tc-route-nav" aria-label="Zona de la ilustración">
+   <button type="button" data-tc-step="0" aria-pressed="true">Sensor y cable</button>
+   <button type="button" data-tc-step="1" aria-pressed="false">Entrada TC</button>
+   <button type="button" data-tc-step="2" aria-pressed="false">Transmisor</button>
+   <button type="button" data-tc-step="3" aria-pressed="false">Ver todo</button>
+  </div>
+  <figure class="tc-connection-figure">
+   <div class="tc-connection-scene" id="tc-connection-scene" data-step="0">
+    <img src="img/termocupla-conexion.png" width="1672" height="941" alt="Termocupla y cable compatible, con dos caminos: módulo de entrada TC o transmisor hacia el sistema de control.">
+    <div class="tc-zone-mask tc-mask-source" aria-hidden="true"></div>
+    <div class="tc-zone-mask tc-mask-a" aria-hidden="true"></div>
+    <div class="tc-zone-mask tc-mask-b" aria-hidden="true"></div>
+    <div class="tc-signal-correction"><b>mV · señal continua</b><span>Polaridad definida + / −</span><div class="tc-dc-line"></div></div>
+   </div>
+   <figcaption class="tc-connection-caption" id="tc-connection-caption" aria-live="polite">El elemento genera milivoltios. Respetamos la polaridad y usamos cable de extensión o compensación compatible.</figcaption>
+  </figure>
+  <p class="tc-route-takeaway">Dos caminos para la misma señal: <b style="display:inline">módulo TC o transmisor 4–20 mA</b>. PNP/NPN describe una salida conmutada; no la señal analógica de la termocupla.</p>
+ </div>
+</section>
+<section class="screen" id="b2-3" data-block="2" aria-labelledby="tc-guide-title">
+ <div class="in-wrap">
+  <p class="kicker">02 · Termocupla <span class="pg">4/5</span></p>
+  <h2 id="tc-guide-title">La ficha técnica: <span class="acc">decisiones de selección</span></h2>
+  <p class="note">WIKA TC10-C es un ejemplo concreto. Primero elegimos qué necesita el proceso; después lo comprobamos en la ficha.</p>
+  <div class="tc-route-nav" aria-label="Decisiones de selección">
+   <button type="button" data-guide="0" aria-pressed="true">Tipo, rango y clase</button>
+   <button type="button" data-guide="1" aria-pressed="false">Vaina y montaje</button>
+   <button type="button" data-guide="2" aria-pressed="false">Punta de medición</button>
+   <button type="button" data-guide="3" aria-pressed="false">Configuración y salida</button>
+   <button type="button" data-guide="4" aria-pressed="false">Ver todo</button>
+  </div>
+  <figure class="tc-guide-figure">
+   <div class="tc-focus-image" id="tc-guide-image"><img src="img/termocupla-guia.png" width="1672" height="941" alt="Guía visual de una termocupla: tipo, montaje, punta, configuración, conexión, rango, vaina y dimensiones."><div class="tc-focus-box" aria-hidden="true"></div></div>
+   <figcaption class="tc-explain" id="tc-guide-note" aria-live="polite"></figcaption>
+  </figure>
+  <div class="tc-guide-proof" aria-label="Respaldo en la ficha oficial">
+   <span>Comprobar en la ficha TC10-C:</span>
+   <button type="button" class="src" data-src="tc10c:3">Tipo y rango</button>
+   <button type="button" class="src" data-src="tc10c:5">Vaina y montaje</button>
+   <button type="button" class="src" data-src="tc10c:4">Simple o doble</button>
+   <button type="button" class="src" data-src="tc10c:6">Transmisor</button>
+  </div>
+  <p class="note">El rango no depende solo de K/J/T: también de la clase, la vaina y las condiciones de uso. La ilustración es general; la ficha confirma las opciones del modelo.</p>
+ </div>
+</section>
+<section class="screen" id="b2-aplicaciones" data-block="2" aria-labelledby="tc-app-title">
+ <div class="in-wrap">
+  <p class="kicker">02 · Termocupla <span class="pg">5/5</span></p>
+  <h2 id="tc-app-title">Dónde se utiliza <span class="acc">y por qué</span></h2>
+  <p class="note">En nuestro trabajo: chimenea de caldera y aceite de prefritura. Los otros casos amplían el contexto.</p>
+  <div class="tc-route-nav" aria-label="Aplicaciones de termocupla">
+   <button type="button" data-app-choice="0" aria-pressed="true">Chimenea</button>
+   <button type="button" data-app-choice="1" aria-pressed="false">Horno industrial</button>
+   <button type="button" data-app-choice="2" aria-pressed="false">Prefritura</button>
+   <button type="button" data-app-choice="3" aria-pressed="false">Tuberías</button>
+   <button type="button" data-app-choice="4" aria-pressed="false">Ver todo</button>
+  </div>
+  <figure class="tc-guide-figure">
+   <div class="tc-focus-image" id="tc-app-image"><img src="img/termocupla-aplicaciones.png" width="1672" height="941" alt="Termocuplas instaladas en chimenea, horno industrial, aceite de prefritura y tubería."><div class="tc-focus-box" aria-hidden="true"></div></div>
+   <figcaption class="tc-explain" id="tc-app-note" aria-live="polite"></figcaption>
+  </figure>
+  <p class="note">Una respuesta rápida depende de la punta, el diámetro, la vaina y el montaje. “Uso industrial” describe el contexto, no un criterio de selección por sí solo.</p>
+ </div>
+</section>
+
+<!-- ============================================================
+     BLOQUE 3 · RTD PT100 / PT1000
+     ============================================================ -->
+<section class="screen first" id="b3" data-block="3" aria-labelledby="b3-t">
+  <div class="in-wrap g-b3a">
+    <div class="rv">
+      <p class="kicker">03 · RTD: Pt100 y Pt1000 <span class="who" data-exp="b3">Expositor 3</span></p>
+      <h2 id="b3-t">RTD: <span class="acc">resistencia de platino</span></h2>
+      <p class="lead">Elemento pasivo: su resistencia aumenta con la temperatura de forma <b>conocida y repetible</b>.</p>
+      <ol class="chain" aria-label="Por qué sube la resistencia">
+        <li>Mayor temperatura</li>
+        <li>mayor resistencia del platino</li>
+      </ol>
+      <div class="measure">
+        <svg viewBox="0 0 500 150" role="img" aria-label="El instrumento hace pasar una corriente por el platino y mide la tensión">
+          <path d="M70 49 V14 H265 V136 H70 V101" fill="none" stroke="#516279" stroke-width="3"/>
+          <path d="M70 49 V14 H265 V136 H70 V101" fill="none" stroke="var(--c-rtd)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+          <circle cx="70" cy="75" r="26" fill="var(--bg-2)" stroke="#C6D0DE" stroke-width="2.5"/>
+          <path d="M70 90 V60 M62 68 L70 58 L78 68" fill="none" stroke="#C6D0DE" stroke-width="2.5"/>
+          <text x="22" y="80" class="svg-l b" style="font-size:20px">I</text>
+          <rect x="240" y="30" width="50" height="90" rx="8" fill="rgba(46,230,246,.1)" stroke="var(--c-rtd)" stroke-width="2.5"/>
+          <path d="M252 40 V108 M261 108 V40 M270 40 V108 M279 108 V40 M252 40 H261 M270 40 H279 M261 108 H270" fill="none" stroke="var(--c-rtd)" stroke-width="2"/>
+          <path d="M265 22 H430 V49 M265 128 H430 V101" fill="none" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="5 5"/>
+          <circle cx="265" cy="22" r="4" fill="#C6D0DE"/><circle cx="265" cy="128" r="4" fill="#C6D0DE"/>
+          <circle cx="430" cy="75" r="26" fill="var(--bg-2)" stroke="#C6D0DE" stroke-width="2.5"/>
+          <text x="430" y="83" text-anchor="middle" class="svg-l b" style="font-size:22px">V</text>
+          <text x="306" y="80" class="svg-l b" style="fill:var(--c-rtd);font-size:18px">Pt</text>
+        </svg>
+        <p><span class="f">R = V / I</span>Excitación con <b>corriente baja</b>; la curva del platino convierte Ω en °C.</p>
+      </div>
+      <div class="tags">
+        <span class="tag on">analógica resistiva</span>
+        <span class="tag no"><b>NO</b> PNP / NPN</span>
+        <span class="tag no"><b>NO</b> 4–20 mA ni 0–10 V por sí sola</span>
+      </div>
+    </div>
+    <figure class="fig rv" style="--d:.12s">
+      <p class="chart-t">Pt100 · resistencia vs temperatura</p>
+      <svg viewBox="0 0 620 370" role="img" aria-labelledby="ptc-t">
+        <title id="ptc-t">Curva de la Pt100: 100 ohms a 0 grados, sube unos 0,385 ohms por grado entre 0 y 100 grados</title>
+        <g class="svg-line" stroke-width="1">
+          <path d="M70 297.7H570M70 253.1H570M70 208.5H570M70 163.8H570M70 119.2H570M70 74.6H570M70 30H570" stroke="rgba(150,180,220,.08)"/>
+          <path d="M153.3 30V320M236.7 30V320M320 30V320M403.3 30V320M486.7 30V320" stroke="rgba(150,180,220,.08)"/>
+          <path d="M70 30V320H570" stroke="var(--line-2)" stroke-width="1.5"/>
+        </g>
+        <g class="svg-l s" text-anchor="middle">
+          <text x="70" y="344">−50</text><text x="153.3" y="344">0</text><text x="236.7" y="344">50</text><text x="320" y="344">100</text><text x="403.3" y="344">150</text><text x="486.7" y="344">200</text><text x="560" y="344">250 °C</text>
+        </g>
+        <g class="svg-l s" text-anchor="end">
+          <text x="60" y="302">80</text><text x="60" y="257">100</text><text x="60" y="213">120</text><text x="60" y="168">140</text><text x="60" y="123">160</text><text x="60" y="79">180</text><text x="60" y="34">200</text>
+        </g>
+        <text x="16" y="20" class="svg-l s">R (Ω)</text>
+        <path d="M153.3 253.1 H320 V167.2" fill="none" stroke="var(--text-3)" stroke-width="1.5" stroke-dasharray="4 5"/>
+        <path d="M70.0,297.0 L78.3,292.6 L86.7,288.2 L95.0,283.8 L103.3,279.4 L111.7,275.0 L120.0,270.6 L128.3,266.2 L136.7,261.8 L145.0,257.4 L153.3,253.1 L161.7,248.7 L170.0,244.4 L178.3,240.0 L186.7,235.7 L195.0,231.4 L203.3,227.0 L211.7,222.7 L220.0,218.4 L228.3,214.1 L236.7,209.8 L245.0,205.5 L253.3,201.2 L261.7,197.0 L270.0,192.7 L278.3,188.4 L286.7,184.2 L295.0,179.9 L303.3,175.7 L311.7,171.4 L320.0,167.2 L328.3,163.0 L336.7,158.7 L345.0,154.5 L353.3,150.3 L361.7,146.1 L370.0,141.9 L378.3,137.7 L386.7,133.5 L395.0,129.4 L403.3,125.2 L411.7,121.0 L420.0,116.9 L428.3,112.7 L436.7,108.6 L445.0,104.4 L453.3,100.3 L461.7,96.2 L470.0,92.1 L478.3,88.0 L486.7,83.9 L495.0,79.8 L503.3,75.7 L511.7,71.6 L520.0,67.5 L528.3,63.4 L536.7,59.4 L545.0,55.3 L553.3,51.3 L561.7,47.2 L570.0,43.2" fill="none" stroke="var(--c-rtd)" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="153.3" cy="253.1" r="7" fill="var(--bg)" stroke="var(--c-rtd)" stroke-width="3"/>
+        <circle cx="320" cy="167.2" r="7" fill="var(--bg)" stroke="var(--c-rtd)" stroke-width="3"/>
+        <text x="166" y="284" class="svg-l b">0 °C → 100 Ω</text>
+        <text x="200" y="152" class="svg-l b">100 °C → 138,5 Ω</text>
+        <text x="330" y="232" class="svg-l" style="fill:var(--c-rtd)">≈ 0,385 Ω/°C</text>
+        <text x="330" y="252" class="svg-l s">media entre 0 y 100 °C</text>
+      </svg>
+      <span class="didactic">Ilustración didáctica</span>
+    </figure>
+  </div>
+</section>
+
+<section class="screen" id="b3-2" data-block="3" aria-labelledby="b3-2-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker">03 · RTD <span class="pg">2/5</span></p>
+      <h2 id="b3-2-t">Pt100 y Pt1000: <span class="acc">misma curva, distinta escala</span></h2>
+    </div>
+    <div class="g-b3b">
+      <div class="rv" style="--d:.08s">
+        <div class="cmp">
+          <span></span><span class="h">Pt100</span><span class="h alt">Pt1000</span>
+          <span class="k">Resistencia a 0 °C</span><span class="v">100<small>Ω</small></span><span class="v">1000<small>Ω</small></span>
+          <span class="k">Sensibilidad media entre 0 y 100 °C</span><span class="v">0,385<small>Ω/°C</small></span><span class="v">3,85<small>Ω/°C</small></span>
+          <p class="cmp-note">Platino en ambos casos: la Pt1000 tiene <b>diez veces</b> más resistencia y sensibilidad.</p>
+        </div>
+      </div>
+      <div class="why panel rv" style="--d:.16s">
+        <h3>Ventaja de la Pt1000: <span class="acc">menor error por cableado</span></h3>
+        <p>El instrumento mide sensor y conductores en serie.</p>
+        <div class="cable-ex"><span>2 × 0,5 Ω</span><span class="arrow">=</span><span class="acc">1 Ω de cable</span></div>
+        <div class="ebar"><span class="n acc">Pt100</span><span class="track"><span class="fill hot" style="--w:100%"></span></span><span class="val">+2,6 °C</span></div>
+        <div class="ebar"><span class="n" style="color:#9FF3FA">Pt1000</span><span class="track"><span class="fill" style="--w:10%"></span></span><span class="val">+0,26 °C</span></div>
+        <p style="margin-top:.8em">A igual cable, <b style="color:var(--text)">error diez veces menor</b>.</p>
+      </div>
+    </div>
+    <div class="selfheat rv" style="--d:.24s">
+      <span class="lt">Contrapartida</span>
+      <span>Autocalentamiento (<span class="f">P = I²R</span>): se mide con corrientes bajas, <span class="f">0,1 a 1 mA</span>. <button type="button" class="src" data-src="tr10c:3">TR10-C · p. 3</button></span>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="b3-3" data-block="3" aria-labelledby="b3-3-t">
+  <div class="in-wrap">
+    <div class="sh-row rv">
+      <div>
+        <p class="kicker">03 · RTD <span class="pg">3/5</span></p>
+        <h2 id="b3-3-t">Conexión a <span class="acc">2, 3 y 4 hilos</span></h2>
+      </div>
+      <div class="seg" role="group" aria-label="Cantidad de hilos" id="w-seg">
+        <button type="button" data-mode="2" aria-pressed="true">2 hilos</button>
+        <button type="button" data-mode="3" aria-pressed="false">3 hilos</button>
+        <button type="button" data-mode="4" aria-pressed="false">4 hilos</button>
+      </div>
+    </div>
+    <div class="g-b3c">
+      <div class="rv" style="--d:.08s">
+        <figure class="fig wires" id="wires" data-mode="2">
+          <svg viewBox="0 0 1000 430" role="img" aria-labelledby="wires-t">
+            <title id="wires-t">Conexión de una RTD a 2, 3 o 4 hilos, con el camino de la corriente de excitación</title>
+            <!-- instrumento -->
+            <rect x="16" y="36" width="262" height="364" rx="16" fill="var(--surface)" stroke="var(--line-2)" stroke-width="1.5"/>
+            <text x="38" y="68" class="svg-l b" style="letter-spacing:.08em">INSTRUMENTO</text>
+            <!-- cables externos -->
+            <path class="w w1" d="M278 90 H780 L820 150"/>
+            <path class="w w2" d="M278 150 H820"/>
+            <path class="w w3" d="M278 290 H820"/>
+            <path class="w w4" d="M278 350 H780 L820 290"/>
+            <!-- lazo interno de corriente -->
+            <path class="w int" d="M110 190 V150 H278 M278 290 H110 V250" style="stroke:#7D8DA5"/>
+            <!-- sensor -->
+            <path class="w" d="M820 150 H870 V176 M870 264 V290 H820" style="stroke-width:4"/>
+            <rect x="846" y="176" width="48" height="88" rx="8" fill="rgba(46,230,246,.12)" stroke="var(--c-rtd)" stroke-width="3"/>
+            <path d="M858 186 V254 M866 254 V186 M874 186 V254 M882 254 V186 M858 186 H866 M874 186 H882 M866 254 H874" fill="none" stroke="var(--c-rtd)" stroke-width="2"/>
+            <text x="910" y="214" class="svg-l b" style="fill:var(--c-rtd);font-size:20px">Pt100</text>
+            <text x="910" y="238" class="svg-l s">sensor</text>
+            <circle cx="820" cy="150" r="6" fill="#C6D0DE"/><circle cx="820" cy="290" r="6" fill="#C6D0DE"/>
+            <!-- colores de hilos según TR10-C -->
+            <g class="svg-l s">
+              <text x="640" y="80" class="m-only m3 m4">rojo</text>
+              <text x="640" y="140">rojo</text>
+              <text x="640" y="280">blanco</text>
+              <text x="640" y="340" class="m-only m4">blanco</text>
+            </g>
+            <!-- resistencias de cable -->
+            <g class="rc rc1"><rect x="436" y="80" width="68" height="20" rx="4"/><text x="470" y="72" text-anchor="middle">Rc</text></g>
+            <g class="rc rc2"><rect x="436" y="140" width="68" height="20" rx="4"/><text x="470" y="132" text-anchor="middle">Rc</text></g>
+            <g class="rc rc3"><rect x="436" y="280" width="68" height="20" rx="4"/><text x="470" y="272" text-anchor="middle">Rc</text></g>
+            <g class="rc rc4"><rect x="436" y="340" width="68" height="20" rx="4"/><text x="470" y="332" text-anchor="middle">Rc</text></g>
+            <text x="470" y="226" text-anchor="middle" class="rc-note m-only m2" style="fill:var(--bad)">se suman: 2·Rc</text>
+            <text x="470" y="226" text-anchor="middle" class="rc-note m-only m3" style="fill:var(--warn)">se compensan si son iguales</text>
+            <text x="470" y="216" text-anchor="middle" class="rc-note m-only m4" style="fill:var(--ok)">los punteados miden tensión:</text>
+            <text x="470" y="240" text-anchor="middle" class="rc-note m-only m4" style="fill:var(--ok)">I ≈ 0, su Rc no genera caída</text>
+            <!-- corriente animada -->
+            <path class="flow cur-flow" d="M110 190 V150 H870 V290 H110 V250" style="--dur:1.3s"/>
+            <!-- fuente de corriente -->
+            <circle cx="110" cy="220" r="30" fill="var(--bg-2)" stroke="var(--c-rtd)" stroke-width="2.5"/>
+            <path d="M110 238 V204 M101 213 L110 202 L119 213" fill="none" stroke="var(--c-rtd)" stroke-width="2.5"/>
+            <text x="54" y="226" class="svg-l b" style="font-size:20px;fill:var(--c-rtd)">I</text>
+            <text x="110" y="378" text-anchor="middle" class="svg-l s">excitación</text>
+            <!-- voltímetro y sus conexiones según modo -->
+            <path class="vl vl2" d="M205 196 V150 M205 244 V290"/>
+            <path class="vl vl3" d="M205 196 V158 A8 8 0 0 0 205 142 V90 H278 M205 244 V290"/>
+            <path class="vl vl4" d="M205 196 V158 A8 8 0 0 0 205 142 V90 H278 M205 244 V282 A8 8 0 0 1 205 298 V350 H278"/>
+            <circle class="vl vl2" cx="205" cy="150" r="4" fill="#C6D0DE"/><circle class="vl vl2" cx="205" cy="290" r="4" fill="#C6D0DE"/><circle class="vl vl3" cx="205" cy="290" r="4" fill="#C6D0DE"/>
+            <circle cx="205" cy="220" r="24" fill="var(--bg-2)" stroke="#C6D0DE" stroke-width="2.5"/>
+            <text x="205" y="228" text-anchor="middle" class="svg-l b" style="font-size:21px">V</text>
+            <text x="600" y="420" class="m-only m4 svg-l s" style="fill:var(--text-2)">— —  par que mide tensión</text>
+            <text x="300" y="420" class="svg-l s" style="fill:var(--c-rtd)">• • •  corriente de excitación</text>
+          </svg>
+          <span class="didactic">Ilustración didáctica, no a escala</span>
+        </figure>
+        <p class="wmode" id="wmode-txt" aria-live="polite"></p>
+      </div>
+      <div class="panel sim rv" style="--d:.16s">
+        <p class="panel-t"><span>Simulador · error por cable</span><span id="w-mode-l">2 hilos</span></p>
+        <div class="ctl">
+          <label for="w-rc">Resistencia por conductor · Rc</label>
+          <output id="w-rc-o" for="w-rc" class="num">0,50 Ω</output>
+          <input type="range" id="w-rc" min="0" max="5" step="0.05" value="0.5">
+        </div>
+        <div class="res" aria-live="polite">
+          <div><div class="t">Pt100</div><div class="readout sm" id="w-e100">+2,60<span class="u">°C</span></div></div>
+          <div><div class="t alt">Pt1000</div><div class="readout sm" id="w-e1000">+0,26<span class="u">°C</span></div></div>
+        </div>
+        <div class="ebar nv"><span class="n acc">Pt100</span><span class="track"><span class="fill hot" id="w-b100"></span></span></div>
+        <div class="ebar nv"><span class="n" style="color:#9FF3FA">Pt1000</span><span class="track"><span class="fill" id="w-b1000"></span></span></div>
+        <p class="formula" id="w-formula">error = 2·Rc / S</p>
+        <p class="tol" id="w-tol">El conexionado a 4 hilos no elimina la tolerancia propia del sensor.</p>
+      </div>
+    </div>
+    <p class="quote rv" style="--d:.24s">Criterio de selección: <span class="acc">el error de cableado admisible</span>. <button type="button" class="src" data-src="tr10c:5">TR10-C · clases A y AA</button></p>
+  </div>
+</section>
+
+<section class="screen fv-screen" id="b3-4" data-block="3" aria-label="Hoja técnica WIKA TR10-C">
+  <div class="in-wrap rv" data-fv="tr10c" data-kicker="03 · RTD · 4/4" data-app="Mezcladora · horno · túnel IQF · cámara (−18 °C)"></div>
+</section>
+
+<!-- ============================================================
+     BLOQUE 4 · TERMISTOR · INTEGRADO · INFRARROJO
+     ============================================================ -->
+<section class="screen first" id="b4" data-block="4" aria-labelledby="b4-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker">04 · Termistor · integrado · infrarrojo <span class="who"><span data-exp="b1">Expositor 1</span>&nbsp;+&nbsp;<span data-exp="b4">Expositor 4</span></span></p>
+      <h2 id="b4-t" style="font-size:clamp(30px,min(3.4vw,6vh),70px)">Termistor y <span class="acc">sensor integrado</span></h2>
+    </div>
+    <div class="g-b4a">
+      <article class="sub c-ntc rv" style="--d:.08s" aria-labelledby="ntc-t">
+        <header class="sub-h"><h3 id="ntc-t">Termistor <span class="mono">NTC / PTC</span></h3><span class="who" data-exp="b1">Expositor 1</span></header>
+        <p class="sub-l">Semiconductor: <b>alta sensibilidad</b>, respuesta <b>no lineal</b>.</p>
+        <figure class="fig">
+          <svg viewBox="0 0 620 350" role="img" aria-labelledby="ntcc-t">
+            <title id="ntcc-t">Curvas de resistencia: la NTC baja al calentarse, la PTC sube con un salto brusco</title>
+            <path d="M70 30V320H570" fill="none" stroke="var(--line-2)" stroke-width="1.5"/>
+            <path d="M70 247.5H570M70 175H570M70 102.5H570" stroke="rgba(150,180,220,.08)"/>
+            <g class="svg-l s" text-anchor="middle"><text x="70" y="342">−40</text><text x="266.9" y="342">25</text><text x="418.5" y="342">75</text><text x="570" y="342">125 °C</text></g>
+            <text x="16" y="22" class="svg-l s">R (escala log)</text>
+            <path d="M70.0,57.9 L85.2,69.2 L100.3,80.0 L115.5,90.4 L130.6,100.3 L145.8,109.9 L160.9,119.1 L176.1,128.0 L191.2,136.6 L206.4,144.8 L221.5,152.8 L236.7,160.4 L251.8,167.8 L267.0,175.0 L282.1,181.9 L297.3,188.6 L312.4,195.1 L327.6,201.4 L342.7,207.5 L357.9,213.4 L373.0,219.1 L388.2,224.7 L403.3,230.1 L418.5,235.3 L433.6,240.4 L448.8,245.4 L463.9,250.2 L479.1,254.9 L494.2,259.4 L509.4,263.9 L524.5,268.2 L539.7,272.4 L554.8,276.5 L570.0,280.5" fill="none" stroke="var(--c-ntc)" stroke-width="4.5" stroke-linejoin="round"/>
+            <path d="M70.0,280.1 L100.3,281.9 L130.6,283.7 L160.9,285.6 L191.2,287.4 L221.5,289.2 L251.8,291.0 L282.1,292.8 L312.4,294.6 L342.7,296.4 L373.0,298.2 L403.3,300.0 L426.1,301.1 L433.6,301.1 L441.2,300.6 L448.8,299.0 L456.4,295.1 L463.9,286.6 L471.5,270.0 L479.1,241.3 L486.7,201.4 L494.2,159.1 L501.8,125.4 L509.4,104.3 L517.0,93.1 L524.5,87.7 L532.1,85.4 L539.7,84.6 L547.3,84.4 L554.8,84.6 L562.4,84.9 L570.0,85.3" fill="none" stroke="#E7DCFF" stroke-width="4" stroke-dasharray="10 7" stroke-linejoin="round"/>
+            <circle cx="267" cy="175" r="6" fill="var(--bg)" stroke="var(--c-ntc)" stroke-width="3"/>
+            
+            <text x="96" y="52" class="svg-l b" style="fill:var(--c-ntc)">NTC baja</text>
+            <text x="326" y="76" class="svg-l b" style="fill:#E7DCFF">PTC: salto brusco</text>
+            <text x="96" y="272" class="svg-l s" style="fill:#E7DCFF">PTC (ilustrativa)</text>
+          </svg>
+          <span class="didactic">Curvas ilustrativas</span>
+        </figure>
+        <div class="duo">
+          <div class="ntc"><b>NTC</b>Medición en equipos de refrigeración y climatización</div>
+          <div class="ptc"><b>PTC</b>Protección térmica de bobinados de motor</div>
+        </div>
+        <div class="sub-foot">
+          <div class="tags">
+            <span class="tag on">analógica resistiva</span>
+            <span class="tag">2 terminales</span>
+            <span class="tag no"><b>NO</b> PNP / NPN · 4–20 mA</span>
+          </div>
+          <button type="button" class="src" data-src="ntcle100:2">NTCLE100E3 · −40…+125 °C</button>
+        </div>
+      </article>
+
+      <article class="sub c-ic rv" style="--d:.16s" aria-labelledby="ic-t">
+        <header class="sub-h"><h3 id="ic-t">Sensor integrado</h3><span class="who" data-exp="b1">Expositor 1</span></header>
+        <p class="sub-l">Unión semiconductora con electrónica incorporada: <b>requiere alimentación</b>.</p>
+        <div class="ic-grid">
+          <div class="ic-card">
+            <div class="hd"><b>LM35</b><span>analógico · 4–30 V</span></div>
+            <div class="big">10 mV/°C</div>
+            <div class="ctl">
+              <label for="lm-t">Temperatura <span class="note">(2–150 °C)</span></label>
+              <output id="lm-t-o" for="lm-t" class="num">25 °C</output>
+              <input type="range" id="lm-t" min="2" max="150" step="1" value="25">
+            </div>
+            <p class="sm">Salida: <span class="mono" style="color:var(--text);font-weight:600" id="lm-v">250 mV</span></p>
+          </div>
+          <div class="ic-card">
+            <div class="hd"><b>DS18B20</b><span>digital</span></div>
+            <svg viewBox="0 0 260 120" role="img" aria-label="DS18B20: terminales VDD, DQ y GND; el dato sale por 1-Wire">
+              <rect x="10" y="22" width="70" height="76" rx="8" fill="var(--surface-3)" stroke="var(--c-ic)" stroke-width="2"/>
+              <path d="M80 38H104M80 60H104M80 82H104" stroke="#C6D0DE" stroke-width="2.5"/>
+              <g class="svg-l s" style="font-size:13px;fill:var(--text-2)"><text x="108" y="43">VDD</text><text x="108" y="65" style="fill:var(--c-ic);font-weight:700">DQ</text><text x="108" y="87">GND</text></g>
+              <path d="M142 60 H160 V44 H174 V60 H182 V44 H190 V60 H206 V44 H214 V60 H222 V44 H238 V60 H252" fill="none" stroke="var(--c-ic)" stroke-width="2.5" stroke-linejoin="round"/>
+              <text x="146" y="100" class="svg-l s" style="font-size:12.5px">dato por 1-Wire</text>
+            </svg>
+            <p class="sm">Dato digital por protocolo <b style="color:var(--text)">1-Wire</b>.</p>
+          </div>
+        </div>
+        <div class="sub-foot">
+          <div class="tags"><span class="tag no"><b>NO</b> PNP / NPN</span></div>
+          <button type="button" class="src" data-src="lm35:1">LM35 · p. 1</button>
+        </div>
+        <p class="quote">Una Pt100 con transmisor sigue siendo una Pt100.<small>La electrónica agregada no modifica el principio de medición.</small></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="b4-2" data-block="4" style="--acc:var(--c-ir)" aria-labelledby="b4-2-t">
+  <div class="in-wrap">
+    <div class="g-b4b">
+      <div class="rv">
+        <p class="kicker">04 · Infrarrojo <span class="pg">2/3</span> <span class="who" data-exp="b4">Expositor 4</span></p>
+        <h2 id="b4-2-t">Pirómetro infrarrojo: <span class="acc">medición sin contacto</span></h2>
+        <p class="lead" style="max-width:52ch">Capta la radiación térmica de la superficie. La <b>emisividad (ε)</b> define cuánto emite y cuánto refleja.</p>
+        <figure class="fig" style="margin-top:clamp(8px,1.6vh,20px)">
+          <svg viewBox="0 0 1000 410" role="img" aria-labelledby="ir-t">
+            <title id="ir-t">El pirómetro capta la radiación que emite la superficie y la que refleja del entorno, dentro del cono del área observada</title>
+            <defs>
+              <filter id="ir-blur" x="-60%" y="-30%" width="220%" height="160%"><feGaussianBlur stdDeviation="16"/></filter>
+              <linearGradient id="g-steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A5B0BF"/><stop offset=".45" stop-color="#66738A"/><stop offset="1" stop-color="#3A4555"/></linearGradient>
+              <linearGradient id="g-inox" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#DDE3EC"/><stop offset=".35" stop-color="#7F8A99"/><stop offset=".55" stop-color="#EEF2F7"/><stop offset="1" stop-color="#5F6B7B"/></linearGradient>
+              <linearGradient id="g-sheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".38" stop-color="#fff" stop-opacity=".04"/><stop offset=".58" stop-color="#fff" stop-opacity=".7"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+            </defs>
+            <rect x="470" y="10" width="210" height="44" rx="8" fill="var(--surface-2)" stroke="var(--line-2)"/>
+            <text x="575" y="38" text-anchor="middle" class="svg-l">entorno · 25 °C</text>
+            <path d="M246 192 L760 90 L760 330 L246 228 Z" fill="rgba(255,92,147,.07)" stroke="var(--c-ir)" stroke-dasharray="6 7" stroke-width="1.5"/>
+            <text x="560" y="350" class="svg-l s" style="fill:var(--c-ir)">área observada</text>
+            <rect x="752" y="70" width="100" height="280" rx="14" id="ir-halo" fill="#FF8A1F" opacity=".5" filter="url(#ir-blur)"/>
+            <rect x="762" y="80" width="80" height="260" rx="6" id="ir-surf" fill="#1d1f24"/>
+            <rect x="762" y="80" width="80" height="260" rx="6" id="ir-heat" fill="#FF8A1F" opacity=".5"/>
+            <rect x="762" y="80" width="80" height="260" rx="6" id="ir-sheen" fill="url(#g-sheen)" opacity="0"/>
+            <rect x="762" y="80" width="80" height="260" rx="6" fill="none" stroke="var(--line-2)"/>
+            <text x="802" y="368" text-anchor="middle" class="svg-l b" id="ir-surf-l">Mate oscura</text>
+            <text x="802" y="392" text-anchor="middle" class="svg-l s" id="ir-surf-e">ε ≈ 0,95</text>
+            <g id="ir-em">
+              <path class="flow" d="M758 150 C 600 165 420 196 254 206" stroke="var(--c-ir)" stroke-width="4" style="--dur:1.5s"/>
+              <path class="flow" d="M758 210 C 600 210 420 210 254 210" stroke="var(--c-ir)" stroke-width="4" style="--dur:1.5s"/>
+              <path class="flow" d="M758 270 C 600 255 420 224 254 214" stroke="var(--c-ir)" stroke-width="4" style="--dur:1.5s"/>
+              <text x="470" y="270" class="svg-l b" style="fill:var(--c-ir)">emite</text>
+            </g>
+            <g id="ir-ref" opacity=".1">
+              <path class="flow" d="M600 56 L758 128 L254 204" stroke="#9DB4FF" stroke-width="3.5" style="--dur:1.5s"/>
+              <text x="664" y="112" class="svg-l b" style="fill:#9DB4FF">refleja</text>
+            </g>
+            <rect x="24" y="180" width="200" height="60" rx="8" fill="url(#g-steel)"/>
+            <path d="M36 180V240M46 180V240M56 180V240M66 180V240M76 180V240M86 180V240" stroke="rgba(0,0,0,.28)" stroke-width="2"/>
+            <rect x="96" y="168" width="22" height="84" rx="3" fill="#7D8999"/>
+            <rect x="208" y="172" width="34" height="76" rx="6" fill="#3A4555"/>
+            <ellipse cx="244" cy="210" rx="6" ry="28" fill="rgba(46,230,246,.55)"/>
+            <rect x="128" y="192" width="74" height="36" rx="4" fill="#05080D"/>
+            <text x="165" y="217" text-anchor="middle" id="ir-disp" style="font-size:17px;font-weight:700;fill:var(--c-ir)">150</text>
+            <text x="24" y="280" class="svg-l b">TW2000</text>
+            <text x="24" y="302" class="svg-l s">pirómetro</text>
+          </svg>
+          <span class="didactic">Ilustración didáctica, no a escala</span>
+        </figure>
+        <div class="surface-box">
+          <svg viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="50" fill="#22324C"/>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--c-ir)" stroke-width="11"/>
+            <text x="60" y="58" text-anchor="middle" style="font-size:15px;fill:#C6D0DE">núcleo</text>
+            <text x="60" y="78" text-anchor="middle" style="font-size:18px;font-weight:700;fill:#C6D0DE">?</text>
+          </svg>
+          <div><p class="big">Mide la superficie, <span class="acc">no el núcleo</span>.</p><p>En producto congelado se obtiene solo la temperatura superficial.</p></div>
+        </div>
+      </div>
+      <div class="panel rv" style="--d:.14s">
+        <p class="panel-t"><span>Simulador · emisividad</span><span>entorno 25 °C</span></p>
+        <div class="surf-seg" role="group" aria-label="Superficie" id="ir-seg"></div>
+        <div class="ctl" style="margin-top:clamp(10px,2vh,22px)">
+          <label for="ir-t-in">Temperatura real de la superficie</label>
+          <output id="ir-t-o" for="ir-t-in" class="num">150 °C</output>
+          <input type="range" id="ir-t-in" min="0" max="300" step="1" value="150">
+        </div>
+        <div class="ctl">
+          <label for="ir-ec">Emisividad configurada en el instrumento</label>
+          <output id="ir-ec-o" for="ir-ec" class="num">0,95</output>
+          <input type="range" id="ir-ec" min="0.10" max="1" step="0.01" value="0.95">
+        </div>
+        <div class="btns" style="margin-top:.7em"><button type="button" class="btn" id="ir-fix">Configurar la emisividad correcta</button></div>
+        <div class="ir-out" aria-live="polite">
+          <div><div class="lbl">lectura del instrumento</div><div class="readout" id="ir-read">150<span class="u">°C</span></div></div>
+          <div class="meta">real <span id="ir-real">150 °C</span><br><span id="ir-err">error 0 °C</span></div>
+        </div>
+        <p class="ir-ghost" id="ir-ghost"></p>
+        <p class="note">Modelo simplificado · emisividades ilustrativas. <button type="button" class="src" data-src="tw2000:5">TW2000 · emisividad</button></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen fv-screen" id="b4-3" data-block="4" style="--acc:var(--c-ir)" aria-label="Hoja técnica ifm TW2000">
+  <div class="in-wrap rv" data-fv="tw2000" data-kicker="04 · Infrarrojo · 3/3" data-app="Superficie del producto en la cinta"></div>
+</section>
+
+<!-- ============================================================
+     BLOQUE 5 · DEL SENSOR AL PLC
+     ============================================================ -->
+<section class="screen first" id="b5" data-block="5" aria-labelledby="b5-t">
+  <div class="in-wrap g-b5a">
+    <div class="rv">
+      <p class="kicker">05 · Del sensor al PLC <span class="who" data-exp="b4">Expositor 4</span></p>
+      <h2 id="b5-t">Señal primaria <span class="acc">≠</span> salida industrial</h2>
+    </div>
+    <figure class="fig rv" style="--d:.1s;margin-top:clamp(10px,2vh,24px)">
+      <svg viewBox="0 0 1400 410" role="img" aria-labelledby="flow-t">
+        <title id="flow-t">La termocupla da mV y la Pt100 da ohms; con un transmisor, las dos llegan al PLC por el mismo 4 a 20 mA</title>
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#C6D0DE"/></marker>
+          <marker id="ar-tc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FFA43A"/></marker>
+          <marker id="ar-rtd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2EE6F6"/></marker>
+        </defs>
+        <g class="svg-l s" style="letter-spacing:.08em" text-anchor="middle">
+          <text x="110" y="24">SENSOR</text><text x="390" y="24">SEÑAL PRIMARIA</text><text x="690" y="24">ACONDICIONAMIENTO</text><text x="1000" y="24">SALIDA INDUSTRIAL</text><text x="1270" y="24">CONTROL</text>
+        </g>
+        <!-- alternativas: entrada específica -->
+        <path d="M390 104 V62 H1240 V138" fill="none" stroke="var(--c-tc)" stroke-width="2" stroke-dasharray="6 7" opacity=".7" marker-end="url(#ar-tc)"/>
+        <text x="700" y="54" text-anchor="middle" class="svg-l s" style="fill:#FFC88A">o entrada específica para termocupla (compensa junta fría)</text>
+        <path d="M390 316 V362 H1240 V284" fill="none" stroke="var(--c-rtd)" stroke-width="2" stroke-dasharray="6 7" opacity=".7" marker-end="url(#ar-rtd)"/>
+        <text x="700" y="386" text-anchor="middle" class="svg-l s" style="fill:#9FF3FA">o entrada específica para RTD</text>
+        <!-- termocupla -->
+        <rect x="20" y="100" width="180" height="60" rx="10" fill="var(--surface)" stroke="var(--c-tc)" stroke-width="2.5"/>
+        <text x="110" y="137" text-anchor="middle" class="svg-l b" style="font-size:19px">Termocupla</text>
+        <path d="M200 130 H316" stroke="var(--c-tc)" stroke-width="3" marker-end="url(#ar-tc)"/>
+        <rect x="320" y="104" width="140" height="52" rx="26" fill="rgba(255,164,58,.14)" stroke="var(--c-tc)" stroke-width="2.5"/>
+        <text x="390" y="140" text-anchor="middle" style="font-size:28px;font-weight:700;fill:var(--c-tc)">mV</text>
+        <path d="M460 130 H596" stroke="var(--c-tc)" stroke-width="3" marker-end="url(#ar-tc)"/>
+        <rect x="600" y="98" width="180" height="64" rx="10" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="2"/>
+        <text x="690" y="136" text-anchor="middle" class="svg-l b" style="font-size:18px">transmisor</text>
+        <!-- pt100 -->
+        <rect x="20" y="260" width="180" height="60" rx="10" fill="var(--surface)" stroke="var(--c-rtd)" stroke-width="2.5"/>
+        <text x="110" y="297" text-anchor="middle" class="svg-l b" style="font-size:19px">Pt100</text>
+        <path d="M200 290 H316" stroke="var(--c-rtd)" stroke-width="3" marker-end="url(#ar-rtd)"/>
+        <rect x="320" y="264" width="140" height="52" rx="26" fill="rgba(46,230,246,.12)" stroke="var(--c-rtd)" stroke-width="2.5"/>
+        <text x="390" y="300" text-anchor="middle" style="font-size:28px;font-weight:700;fill:var(--c-rtd)">Ω</text>
+        <path d="M460 290 H596" stroke="var(--c-rtd)" stroke-width="3" marker-end="url(#ar-rtd)"/>
+        <rect x="600" y="258" width="180" height="64" rx="10" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="2"/>
+        <text x="690" y="296" text-anchor="middle" class="svg-l b" style="font-size:18px">transmisor</text>
+        <!-- 4-20 mA -->
+        <path d="M780 130 H900 C 950 130 960 210 1010 210 M780 290 H900 C 950 290 960 210 1010 210" fill="none" stroke="#C6D0DE" stroke-width="3.5"/>
+        <text x="840" y="118" text-anchor="middle" class="svg-l b">4–20 mA</text>
+        <text x="840" y="278" text-anchor="middle" class="svg-l b">4–20 mA</text>
+        <path d="M1010 210 H1136" stroke="#C6D0DE" stroke-width="8"/><path d="M1134 196 L1158 210 L1134 224 Z" fill="#C6D0DE"/>
+        
+        <text x="1076" y="190" text-anchor="middle" class="svg-l b" style="fill:var(--warn);font-size:17px">¿TC o Pt100?</text>
+        <!-- PLC -->
+        <rect x="1160" y="140" width="220" height="140" rx="12" fill="var(--surface)" stroke="var(--c-sys)" stroke-width="2.5"/>
+        <text x="1270" y="200" text-anchor="middle" style="font-size:32px;font-weight:700;fill:var(--text)">PLC</text>
+        <text x="1270" y="230" text-anchor="middle" class="svg-l s">entrada analógica</text>
+        <text x="1270" y="254" text-anchor="middle" class="svg-l">4–20 mA</text>
+      </svg>
+    </figure>
+    <p class="big-line rv" style="--d:.16s">Desde el lazo de 4–20 mA <span class="acc">no puede identificarse el sensor</span>.</p>
+    <div class="outs rv" style="--d:.24s">
+      <div class="out">
+        <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M4 40 C 16 8, 28 8, 40 30 S 64 52, 76 20" fill="none" stroke="var(--c-sys)" stroke-width="4" stroke-linecap="round"/></svg>
+        <span class="k">Salida analógica</span><b>continua</b><span class="ex">mV · Ω · 0–10 V · 4–20 mA</span>
+      </div>
+      <div class="out">
+        <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M4 44 H16 V16 H28 V44 H36 V16 H56 V44 H64 V16 H76" fill="none" stroke="var(--c-ic)" stroke-width="4" stroke-linejoin="round"/></svg>
+        <span class="k">Salida digital</span><b>dato por protocolo</b><span class="ex">1-Wire (DS18B20) · IO-Link (TW2000)</span>
+      </div>
+      <div class="out sw">
+        <svg viewBox="0 0 80 60" aria-hidden="true"><path d="M4 40 H24 L54 18 M56 40 H76" fill="none" stroke="var(--c-ir)" stroke-width="4" stroke-linecap="round"/><circle cx="24" cy="40" r="4" fill="var(--c-ir)"/><circle cx="56" cy="40" r="4" fill="var(--c-ir)"/></svg>
+        <span class="k">Salida conmutada</span><b>PNP / NPN: dos estados</b><span class="ex">OUT1 del TW2000</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="b5-2" data-block="5" aria-labelledby="b5-2-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker">05 · Del sensor al PLC <span class="pg">2/3</span></p>
+      <h2 id="b5-2-t">Lazo de corriente <span class="acc">4–20 mA</span></h2>
+    </div>
+    <div class="g-b5b" style="margin-top:var(--gap)">
+      <div class="rv" style="--d:.08s">
+        <figure class="fig loop">
+          <svg viewBox="0 0 900 290" role="img" aria-labelledby="loop-t">
+            <title id="loop-t">Lazo de corriente: la misma corriente circula por todo el recorrido, del transmisor al PLC</title>
+            <rect x="20" y="80" width="200" height="130" rx="12" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="2"/>
+            <text x="120" y="138" text-anchor="middle" class="svg-l b" style="font-size:19px">transmisor</text>
+            <text x="120" y="166" text-anchor="middle" class="svg-l s">desde TC o Pt100</text>
+            <path d="M220 115 H700 V175 H220" fill="none" stroke="#516279" stroke-width="5"/>
+            <path class="flow" id="lz-flow" d="M220 115 H700 V175 H220" stroke="var(--c-sys)" stroke-width="7" style="--dur:2s"/>
+            <path d="M444 104 l-8 22 M456 104 l-8 22 M444 164 l-8 22 M456 164 l-8 22" stroke="var(--bg)" stroke-width="7"/>
+            <path d="M444 104 l-8 22 M456 104 l-8 22 M444 164 l-8 22 M456 164 l-8 22" stroke="#7D8DA5" stroke-width="2"/>
+            <text x="450" y="236" text-anchor="middle" class="svg-l s">tendido extenso</text>
+            <g class="svg-l b" text-anchor="middle" style="fill:var(--c-sys)">
+              <text x="310" y="96" id="lz-i1">12,0 mA</text><text x="590" y="96" id="lz-i2">12,0 mA</text><text x="330" y="204" id="lz-i3">12,0 mA</text>
+            </g>
+            <g id="lz-cut" style="display:none">
+              <rect x="370" y="100" width="34" height="30" fill="var(--bg)"/>
+              <path d="M374 102 l26 26 M400 102 l-26 26" stroke="var(--bad)" stroke-width="4" stroke-linecap="round"/>
+              <text x="387" y="78" text-anchor="middle" class="svg-l b" style="fill:var(--bad)">corte</text>
+            </g>
+            <rect x="680" y="60" width="200" height="170" rx="12" fill="var(--surface)" stroke="var(--c-sys)" stroke-width="2.5"/>
+            <path d="M700 115 V126 l9 5 -18 9 18 9 -18 9 9 5 V175" fill="none" stroke="#C6D0DE" stroke-width="2.5"/>
+            <text x="800" y="140" text-anchor="middle" style="font-size:30px;font-weight:700;fill:var(--text)">PLC</text>
+            <text x="800" y="170" text-anchor="middle" class="svg-l s">lee mA</text>
+          </svg>
+        </figure>
+        <ul class="facts">
+          <li><span class="i">I</span><span><b>Misma corriente en todo el lazo:</b> la longitud del cable influye menos que en tensión.</span></li>
+          <li><span class="i">~</span><span><b>Menor sensibilidad al ruido</b> que una señal de tensión (no es inmune).</span></li>
+          <li><span class="i">4</span><span><b>Cero vivo:</b> 4 mA es el mínimo; 0 mA indica falla.</span></li>
+        </ul>
+      </div>
+      <div class="panel rv" style="--d:.16s">
+        <p class="panel-t"><span>Simulador · lazo 4–20 mA</span><span class="mono">rango 0–200 °C</span></p>
+        <div class="gauge">
+          <svg viewBox="0 0 400 236" id="lz-gauge" role="img" aria-label="Amperímetro del lazo"></svg>
+          <div class="readout" id="lz-read" aria-live="polite" style="text-align:center">12,00<span class="u">mA</span></div>
+        </div>
+        <div class="ctl">
+          <label for="lz-t">Temperatura medida</label>
+          <output id="lz-t-o" for="lz-t" class="num">100 °C</output>
+          <input type="range" id="lz-t" min="0" max="200" step="1" value="100">
+        </div>
+        <p class="note mono" style="margin-top:.4em">I = 4 + 16 · (T − Tmin) / (Tmax − Tmin)</p>
+        <div class="btns" style="margin-top:.8em"><button type="button" class="btn danger" id="lz-cut-btn" aria-pressed="false">Cortar cable</button></div>
+        <div class="alarm" id="lz-alarm" role="alert"><b>0 mA</b> · Falla: cable cortado o sin alimentación</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="b5-3" data-block="5" style="--acc:var(--c-ir)" aria-labelledby="b5-3-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker">05 · Del sensor al PLC <span class="pg">3/3</span></p>
+      <h2 id="b5-3-t">Salidas conmutadas <span class="acc">PNP y NPN</span></h2>
+    </div>
+    <div class="g-b5c" style="margin-top:var(--gap)">
+      <figure class="sw-fig rv" id="sw-pnp" style="--d:.06s">
+        <h3>Salida <span class="mono">PNP</span></h3>
+        <svg viewBox="0 0 380 430" role="img" aria-label="Salida PNP: al activarse conecta la carga al positivo">
+          <path d="M40 40 H340 M40 400 H340" stroke="#C6D0DE" stroke-width="3"/>
+          <text x="40" y="28" class="svg-l b">+24 V</text><text x="40" y="424" class="svg-l b">0 V</text>
+          <path class="sw-path" d="M230 40 V96 L198 116 M198 144 L230 164 V250 M230 340 V400"/>
+          <path class="sw-flow flow" d="M230 40 V96 L198 116 V144 L230 164 V400"/>
+          <circle class="sw-tr" cx="212" cy="130" r="38"/>
+          <path d="M198 108 V152" stroke="#C6D0DE" stroke-width="4"/>
+          <path d="M198 116 L230 96 M198 144 L230 164" stroke="#C6D0DE" stroke-width="2.5"/>
+          <path d="M209.2 109 L220.4 107.9 L215 99.5 Z" fill="#C6D0DE"/>
+          <path d="M80 130 H198" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="4 4"/>
+          <rect x="30" y="108" width="86" height="44" rx="8" fill="var(--surface-2)" stroke="var(--line-2)"/>
+          <text x="73" y="136" text-anchor="middle" class="svg-l s" style="font-size:13px">T ≥ umbral</text>
+          <circle cx="230" cy="210" r="6" fill="#C6D0DE"/>
+          <text x="244" y="216" class="svg-l b">OUT</text>
+          <rect class="sw-load" x="200" y="250" width="60" height="90" rx="8"/>
+          <text x="272" y="300" class="svg-l">carga</text>
+        </svg>
+        <p>Conmuta el <b style="color:var(--text)">positivo</b> hacia la carga (conectada a 0 V).</p>
+      </figure>
+      <figure class="sw-fig rv" id="sw-npn" style="--d:.12s">
+        <h3>Salida <span class="mono">NPN</span></h3>
+        <svg viewBox="0 0 380 430" role="img" aria-label="Salida NPN: al activarse conecta la carga a 0 V">
+          <path d="M40 40 H340 M40 400 H340" stroke="#C6D0DE" stroke-width="3"/>
+          <text x="40" y="28" class="svg-l b">+24 V</text><text x="40" y="424" class="svg-l b">0 V</text>
+          <path class="sw-path" d="M230 40 V70 M230 160 V266 L198 286 M198 314 L230 334 V400"/>
+          <path class="sw-flow flow" d="M230 40 V266 L198 286 V314 L230 334 V400"/>
+          <rect class="sw-load" x="200" y="70" width="60" height="90" rx="8"/>
+          <text x="272" y="120" class="svg-l">carga</text>
+          <circle cx="230" cy="210" r="6" fill="#C6D0DE"/>
+          <text x="244" y="216" class="svg-l b">OUT</text>
+          <circle class="sw-tr" cx="212" cy="300" r="38"/>
+          <path d="M198 278 V322" stroke="#C6D0DE" stroke-width="4"/>
+          <path d="M198 286 L230 266 M198 314 L230 334" stroke="#C6D0DE" stroke-width="2.5"/>
+          <path d="M223.6 330 L212.5 328.9 L217.8 320.5 Z" fill="#C6D0DE"/>
+          <path d="M80 300 H198" stroke="#C6D0DE" stroke-width="2" stroke-dasharray="4 4"/>
+          <rect x="30" y="278" width="86" height="44" rx="8" fill="var(--surface-2)" stroke="var(--line-2)"/>
+          <text x="73" y="306" text-anchor="middle" class="svg-l s" style="font-size:13px">T ≥ umbral</text>
+        </svg>
+        <p>Conmuta la carga hacia <b style="color:var(--text)">0 V</b> (conectada a +V).</p>
+      </figure>
+      <div class="panel rv" style="--d:.18s">
+        <p class="panel-t"><span>Simulador · salida conmutada</span></p>
+        <div class="ctl">
+          <label for="sw-t">Temperatura</label>
+          <output id="sw-t-o" for="sw-t" class="num">90 °C</output>
+          <input type="range" id="sw-t" min="0" max="200" step="1" value="90">
+        </div>
+        <div class="ctl">
+          <label for="sw-sp">Umbral</label>
+          <output id="sw-sp-o" for="sw-sp" class="num">120 °C</output>
+          <input type="range" id="sw-sp" min="0" max="200" step="1" value="120">
+        </div>
+        <div class="sw-state off" id="sw-state" aria-live="polite">inactiva</div>
+        <p class="note" style="margin-top:.6em">Única salida PNP entre los equipos presentados: <button type="button" class="src" data-src="tw2000:4">TW2000 · OUT1</button></p>
+      </div>
+    </div>
+    <p class="quote key rv" style="--d:.24s">PNP/NPN describe una salida conmutada, no el principio de medición. <span class="acc">Una Pt100 no es PNP ni NPN.</span></p>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOQUE 6 · SELECCIÓN Y APLICACIÓN
+     ============================================================ -->
+<section class="screen first" id="b6" data-block="6" aria-labelledby="b6-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker" style="color:var(--warn)">06 · Selección y aplicación <span class="who" data-exp="b6">Expositor 5</span></p>
+      <h2 id="b6-t">Criterios de <span style="color:var(--warn)">selección</span></h2>
+      <p class="lead" style="max-width:none">Ninguna tecnología es óptima en todos los aspectos: cada elección es un compromiso.</p>
+    </div>
+    <ul class="rules rv" style="--d:.1s">
+      <li class="c-rtd"><span class="nm">RTD</span><span class="rl"><b>Exactitud, estabilidad y repetibilidad</b>, dentro del rango de la sonda</span></li>
+      <li class="c-tc"><span class="nm">Termocupla</span><span class="rl"><b>Alta temperatura</b>, ambiente severo, robustez y respuesta rápida</span></li>
+      <li class="c-ntc"><span class="nm">Termistor</span><span class="rl"><b>Bajo costo</b> dentro de equipos; <b>protección</b> térmica</span></li>
+      <li class="c-ic"><span class="nm">Integrado</span><span class="rl">Sistemas <b>electrónicos</b> que requieren una señal acondicionada</span></li>
+      <li class="c-ir"><span class="nm">Infrarrojo</span><span class="rl"><b>Sin contacto</b>: objetos en movimiento, muy calientes o inaccesibles</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="screen" id="b6-2" data-block="6" aria-labelledby="b6-2-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker" style="color:var(--warn)">06 · Selección y aplicación <span class="pg">2/3</span></p>
+      <h2 id="b6-2-t" style="font-size:clamp(30px,min(3.4vw,6vh),70px)">Aplicación: <span style="color:var(--warn)">línea de patitas de pollo congeladas</span></h2>
+    </div>
+    <div class="g-b6b">
+      <div class="rv" style="--d:.08s">
+        <figure class="fig plant">
+          <svg viewBox="0 0 1200 420" id="plant" role="group" aria-labelledby="plant-t">
+            <title id="plant-t">Diagrama de la línea con los puntos de medición de temperatura</title>
+            <defs>
+              <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7D8DA5"/></marker>
+            </defs>
+            <!-- vapor -->
+            <path d="M250 120 H990" fill="none" stroke="#C6D0DE" stroke-width="2.5" stroke-dasharray="8 7" opacity=".7"/>
+            <path d="M502 120 V236" fill="none" stroke="#C6D0DE" stroke-width="2.5" stroke-dasharray="8 7" opacity=".7" marker-end="url(#ar2)"/>
+            <text x="300" y="108" class="pl-r">vapor</text>
+            <!-- calderas -->
+            <rect class="pl-box" x="10" y="70" width="240" height="100" rx="10"/>
+            <rect x="196" y="6" width="32" height="64" rx="3" fill="var(--surface-3)" stroke="var(--line-2)"/>
+            <text x="28" y="110" class="pl-n">Sala de calderas</text>
+            <text x="28" y="148" class="pl-r">gases de combustión</text>
+            <!-- CIP -->
+            <rect class="pl-box" x="990" y="70" width="200" height="100" rx="10"/>
+            <text x="1062" y="110" class="pl-n">CIP · agua</text>
+            <text x="1062" y="148" class="pl-r">80–85 °C</text>
+            <!-- línea principal -->
+            <rect class="pl-box" x="10" y="240" width="165" height="145" rx="10"/>
+            <rect class="pl-box" x="210" y="240" width="160" height="145" rx="10"/>
+            <rect class="pl-box" x="405" y="240" width="195" height="145" rx="10"/>
+            <rect class="pl-box" x="790" y="240" width="165" height="145" rx="10" style="stroke:rgba(46,230,246,.45)"/>
+            <rect class="pl-box" x="990" y="240" width="200" height="145" rx="10" style="stroke:rgba(46,230,246,.45)"/>
+            <g text-anchor="middle">
+              <text x="92" y="274" class="pl-n">Mezcladora</text><text x="92" y="372" class="pl-r">0 a 8 °C</text>
+              <text x="290" y="274" class="pl-n">Prefritura</text><text x="290" y="372" class="pl-r">180–195 °C</text>
+              <text x="502" y="274" class="pl-n">Horno</text><text x="502" y="294" class="pl-r" style="font-size:15px">cocción / vapor</text><text x="502" y="372" class="pl-r">90–120 °C</text>
+              <text x="872" y="274" class="pl-n">Túnel IQF</text><text x="872" y="372" class="pl-r">−35 a −40 °C</text>
+              <text x="1090" y="274" class="pl-n">Cámara</text><text x="1090" y="372" class="pl-r">−18 °C</text>
+            </g>
+            <path d="M175 312 H206 M370 312 H401 M955 312 H986" stroke="#7D8DA5" stroke-width="2.5" marker-end="url(#ar2)"/>
+            <!-- cinta -->
+            <path d="M600 352 H786" stroke="#7D8DA5" stroke-width="3" marker-end="url(#ar2)"/>
+            <g fill="#C98A55"><rect x="616" y="338" width="30" height="13" rx="6.5"/><rect x="672" y="338" width="30" height="13" rx="6.5"/><rect x="730" y="338" width="30" height="13" rx="6.5"/></g>
+            <text x="694" y="400" text-anchor="middle" class="pl-r" style="font-size:15px">producto en la cinta</text>
+            <!-- pirómetro sobre la cinta -->
+            <path d="M680 236 L696 236 L712 336 L664 336 Z" fill="rgba(255,92,147,.16)"/>
+            <rect x="674" y="200" width="28" height="36" rx="4" fill="#66738A"/>
+            <!-- sonda de punción -->
+            <rect x="739" y="262" width="12" height="22" rx="3" fill="#7D8999"/>
+            <path d="M745 284 V346" stroke="#C6D0DE" stroke-width="2.5"/>
+            <!-- marcadores -->
+            <g id="pl-marks"></g>
+          </svg>
+        </figure>
+        <div class="legend">
+          <span><i style="background:var(--c-rtd)"></i>Pt100 / Pt1000</span>
+          <span><i style="background:var(--c-tc)"></i>Termocupla</span>
+          <span><i style="background:var(--c-ir)"></i>Infrarrojo</span>
+          <span><i style="background:linear-gradient(90deg,var(--c-tc) 50%,var(--c-rtd) 50%)"></i>Cualquiera de las dos</span>
+        </div>
+      </div>
+      <div class="rv" style="--d:.16s">
+        <div class="panel pl-info" id="pl-info" aria-live="polite">
+          <p class="panel-t"><span>Punto <span id="pl-n">1</span> / 9</span><span>seleccionar un marcador</span></p>
+          <h3 id="pl-name">Masa en mezcladora</h3>
+          <div class="lbl">rango típico</div>
+          <div class="readout sm" id="pl-range">0 a 8 °C</div>
+          <div class="pl-tec" id="pl-tec">Pt100 clase A, ejecución higiénica</div>
+          <p class="pl-why" id="pl-why"></p>
+        </div>
+        <div class="warnbox"><b>Infrarrojo: solo superficie.</b> Para la temperatura de núcleo (inocuidad): <b style="color:var(--text)">sonda de punción</b>.</div>
+      </div>
+    </div>
+    <details class="tbl rv" style="--d:.22s">
+      <summary>Tabla de puntos de medición</summary>
+      <table>
+        <thead><tr><th>Punto</th><th>Rango típico</th><th>Tecnología</th></tr></thead>
+        <tbody id="pl-table"></tbody>
+      </table>
+    </details>
+  </div>
+</section>
+
+<section class="screen" id="b6-3" data-block="6" aria-labelledby="b6-3-t">
+  <div class="in-wrap myth">
+    <p class="kicker rv" style="color:var(--warn)">06 · Selección y aplicación <span class="pg">3/3</span></p>
+    <p class="myth-tag rv" style="--d:.06s">Mito</p>
+    <h2 id="b6-3-t" class="myth-h rv" style="--d:.12s"><s>«Por encima de 600&nbsp;°C, solo termocupla»</s></h2>
+    <p class="myth-a rv" style="--d:.2s">Falso: existen <b style="color:var(--c-rtd)">RTD para alta temperatura</b> y <b style="color:var(--c-tc)">termocuplas para temperaturas muy bajo cero</b>.</p>
+    <p class="quote rv" style="--d:.28s;--acc:var(--warn)">Decide la hoja técnica del sensor concreto, no el nombre de la tecnología.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     BLOQUE 7 · CIERRE
+     ============================================================ -->
+<section class="screen first" id="b7" data-block="7" aria-labelledby="b7-t">
+  <div class="in-wrap">
+    <p class="kicker rv">07 · Cierre <span class="who" data-exp="b6">Expositor 5</span></p>
+    <p class="back-q rv" style="--d:.06s">Una misma variable, <b>cinco señales eléctricas distintas</b>.</p>
+    <ul class="final5 rv" style="--d:.14s">
+      <li class="c-tc">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 52 L32 20 M54 52 L32 20" stroke="var(--c-tc)" stroke-width="4" stroke-linecap="round"/><path d="M54 52 L32 20" stroke="#8FA3BF" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="18" r="6" fill="var(--c-tc)"/></svg>
+        <span class="nm">Termocupla</span><span class="sg">mV</span><span class="vb">genera tensión</span>
+      </li>
+      <li class="c-rtd">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M4 32 H14 L18 22 L26 42 L34 22 L42 42 L48 32 H60" fill="none" stroke="var(--c-rtd)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></svg>
+        <span class="nm">RTD</span><span class="sg">Ω</span><span class="vb">varía su resistencia</span>
+      </li>
+      <li class="c-ntc">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="12" y="24" width="40" height="16" rx="3" fill="none" stroke="var(--c-ntc)" stroke-width="4"/><path d="M4 32H12M52 32H60M14 52 L20 46 H44 L52 12" fill="none" stroke="var(--c-ntc)" stroke-width="3" stroke-linecap="round"/></svg>
+        <span class="nm">Termistor</span><span class="sg">Ω</span><span class="vb">varía su resistencia</span>
+      </li>
+      <li class="c-ic">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="10" width="36" height="30" rx="4" fill="none" stroke="var(--c-ic)" stroke-width="4"/><path d="M22 40V56M32 40V56M42 40V56" stroke="var(--c-ic)" stroke-width="4" stroke-linecap="round"/></svg>
+        <span class="nm">Integrado</span><span class="sg">mV / dato</span><span class="vb">procesa en un chip</span>
+      </li>
+      <li class="c-ir">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 26H22V38H6Z" fill="none" stroke="var(--c-ir)" stroke-width="4"/><path d="M22 28 L58 12 M22 36 L58 52" stroke="var(--c-ir)" stroke-width="3" stroke-dasharray="4 4"/><path d="M36 32 q4 -6 8 0 t8 0" fill="none" stroke="var(--c-ir)" stroke-width="3"/></svg>
+        <span class="nm">Infrarrojo</span><span class="sg">radiación</span><span class="vb">capta radiación</span>
+      </li>
+    </ul>
+    <h2 id="b7-t" class="final-q rv" style="--d:.22s">Elegir un sensor es elegir su <span>principio</span>, su <span>señal</span>, su <span>conexionado</span> y <span>cómo llega al control</span>.</h2>
+    <div class="thanks rv" style="--d:.3s">
+      <span class="g">Gracias</span>
+      <ul class="names" id="names"><li>Expositor 1</li><li>Expositor 2</li><li>Expositor 3</li><li>Expositor 4</li><li>Expositor 5</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FUENTES
+     ============================================================ -->
+<section class="screen" id="fuentes" data-block="7" aria-labelledby="src-t">
+  <div class="in-wrap">
+    <p class="kicker rv">Fuentes</p>
+    <h2 id="src-t" class="rv" style="--d:.06s;font-size:clamp(30px,min(3.4vw,6vh),70px)">Bibliografía y fichas oficiales</h2>
+    <ol class="refs rv" style="--d:.12s">
+      <li><span>WIKA · Termopar roscado con vaina, modelo <b>TC10-C</b></span><span class="r-m">Hoja técnica TE 65.03</span><span class="r-l"><a href="https://www.wika.com/media/Data-sheets/Temperature/Thermocouples/ds_te6503_es_es.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="ds_te6503_es_es.pdf" target="_blank">copia local</a></span></li>
+      <li><span>WIKA · Termorresistencia roscada con vaina, modelo <b>TR10-C</b></span><span class="r-m">Hoja técnica TE 60.03</span><span class="r-l"><a href="https://www.wika.com/media/Data-sheets/Temperature/Resistance-thermometers/ds_te6003_es_es.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="ds_te6003_es_es.pdf" target="_blank">copia local</a></span></li>
+      <li><span>Vishay · NTC Thermistors, Radial Leaded, <b>NTCLE100E3</b></span><span class="r-m">Documento 29049</span><span class="r-l"><a href="https://www.vishay.com/docs/29049/ntcle100.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="ntcle100.pdf" target="_blank">copia local</a></span></li>
+      <li><span>Texas Instruments · <b>LM35</b> Precision Centigrade Temperature Sensors</span><span class="r-m">SNIS159H</span><span class="r-l"><a href="https://www.ti.com/lit/ds/symlink/lm35.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="lm35.pdf" target="_blank">copia local</a></span></li>
+      <li><span>ifm electronic · Sensor de temperatura por infrarrojos <b>TW2000</b></span><span class="r-m">TW-030KLBM30-KFDKG/US</span><span class="r-l"><a href="https://media.ifm.com/dam/5857b96d-1ba2-4a2b-a1fe-9d97140a9efe/Original/TW2000-01_EN-GB.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="TW2000-01_ES-ES.pdf" target="_blank">copia local</a></span></li>
+      <li><span>Apunte de cátedra, <b>Unidad 3</b></span><span class="r-m">ING2222 Tecnología de Control · FI-UNMdP</span><span class="r-l"></span></li>
+      <li><span>Creus Solé, A. <b><i>Instrumentación industrial</i></b></span><span class="r-m">Libro de texto</span><span class="r-l"></span></li>
+    </ol>
+    <p class="colophon rv" style="--d:.18s">Ilustraciones redibujadas con fines didácticos. Páginas de hojas técnicas reproducidas de los PDF oficiales.</p>
+  </div>
+</section>
+
+<!-- capas superpuestas -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Hoja técnica ampliada">
+  <button type="button" class="btn lb-close" id="lb-close">Esc · cerrar</button>
+  <div id="lb-body"></div>
+</div>
+<div class="help" id="help" role="dialog" aria-modal="true" aria-labelledby="help-t">
+  <div class="panel">
+    <h3 id="help-t">Atajos de teclado</h3>
+    <dl>
+      <dt><kbd>1</kbd>–<kbd>7</kbd></dt><dd>Ir a cada bloque</dd>
+      <dt><kbd>0</kbd></dt><dd>Volver arriba</dd>
+      <dt><kbd>Av Pág</kbd> <kbd>Espacio</kbd></dt><dd>Pantalla siguiente (sirve con presentador)</dd>
+      <dt><kbd>Re Pág</kbd></dt><dd>Pantalla anterior</dd>
+      <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Pasos de la hoja técnica en pantalla</dd>
+      <dt><kbd>F</kbd></dt><dd>Pantalla completa</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Cerrar la hoja técnica ampliada o esta ayuda</dd>
+      <dt><kbd>?</kbd></dt><dd>Mostrar u ocultar esta ayuda</dd>
+    </dl>
+  </div>
+</div>
+</main>
+
+<script>
+/* ============================================================
+   CONFIGURACIÓN EDITABLE
+   ============================================================ */
+
+// Nombres de los expositores (cambiá solo el texto entre comillas).
+const EXPOSITORES = {
+  b1: "Expositor 1", // apertura, mapa, termistor e integrado
+  b2: "Expositor 2", // termocupla
+  b3: "Expositor 3", // RTD
+  b4: "Expositor 4", // infrarrojo + del sensor al PLC
+  b6: "Expositor 5", // selección, aplicación y cierre
+};
+
+// Hojas técnicas: lectura guiada.
+// · Cada paso muestra una página (p) y la amplía sobre sus recuadros.
+// · e = etiqueta corta · t = título · v = dato clave (\n = salto de línea)
+// · pts = por qué importa (2 puntos breves) · extra = HTML opcional para el panel
+// · cajas = recuadros [x, y, ancho, alto] en % de la página.
+// · Páginas en img/fichas/<ficha>-pNN.png. Para regenerarlas o recalcular los
+//   recuadros desde los PDF:  python3 tools/fichas.py  (escribe img/fichas/fichas.json)
+const FICHAS = {
+  tc10c: {
+    nombre: "WIKA TC10-C", doc: "Hoja técnica TE 65.03", color: "tc", ratio: 0.7516, total: 23, paginas: [1, 2, 3, 8],
+    pdf: "https://www.wika.com/media/Data-sheets/Temperature/Thermocouples/ds_te6503_es_es.pdf", local: "ds_te6503_es_es.pdf",
+    pasos: [
+      { p: 1, e: "Modelo", t: "Termopar roscado con vaina", v: "Modelo TC10-C",
+        pts: ["Se rosca directamente en tuberías y recipientes", "Previsto para la industria de alimentos y bebidas"],
+        cajas: [[7.73, 8.84, 36.29, 7.32], [9.73, 38.95, 22.45, 1.86]] },
+      { p: 3, e: "Tipo", t: "Tipo de termopar", v: "K · J · E · N · T",
+        pts: ["El tipo define los metales, la curva y el rango", "Debe especificarse al comprar: «termocupla» no alcanza"],
+        cajas: [[8.4, 7.04, 63.31, 2.85]] },
+      { p: 3, e: "Rango", t: "Rango según tipo y clase", v: "K (clase 1): −40…1.000 °C\nJ en esta sonda: −40…750 °C",
+        pts: ["Chimenea de caldera → tipo K", "Prefritura (180–195 °C): tipo J; una Pt100 adecuada también es una alternativa"],
+        cajas: [[8.4, 40.22, 68.84, 7.2]] },
+      { p: 3, e: "Simple / doble", t: "Elemento simple o doble", v: "2 o 4 conductores",
+        pts: ["Polaridad marcada por color: respetarla al cablear", "El elemento doble da una medición de respaldo"],
+        cajas: [[8.4, 22.47, 83.32, 16.17]] },
+      { p: 2, e: "Vaina", t: "Vaina y conexión a proceso", v: "Seleccionables",
+        pts: ["La vaina protege al sensor del medio", "El inserto se cambia sin detener el proceso"],
+        cajas: [[56.44, 15.4, 21.17, 8.84], [10.42, 62.88, 23.18, 2.93]] },
+      { p: 8, e: "Transmisor", t: "Transmisor en el cabezal", v: "Salida 4…20 mA",
+        pts: ["Convierte los mV en una señal estándar", "Llega al PLC por una entrada analógica"],
+        cajas: [[8.4, 18.04, 59.97, 3.6]] },
+    ],
+  },
+  tr10c: {
+    nombre: "WIKA TR10-C", doc: "Hoja técnica TE 60.03", color: "rtd", ratio: 0.7516, total: 25, paginas: [1, 3, 8],
+    pdf: "https://www.wika.com/media/Data-sheets/Temperature/Resistance-thermometers/ds_te6003_es_es.pdf", local: "ds_te6003_es_es.pdf",
+    pasos: [
+      { p: 1, e: "Modelo", t: "Termorresistencia roscada con vaina", v: "Modelo TR10-C",
+        pts: ["Por fuera, igual que la TC10-C", "Por dentro, platino en lugar de termopar"],
+        cajas: [[7.73, 8.84, 36.29, 7.32], [55.44, 24.75, 30.57, 27.02]] },
+      { p: 3, e: "Elemento", t: "Elemento sensible", v: "Pt100 o Pt1000",
+        pts: ["Pt1000: menor error con cables largos", "Misma curva, resistencia diez veces mayor"],
+        cajas: [[8.4, 7.26, 53.35, 1.8]] },
+      { p: 3, e: "Corriente", t: "Corriente de medición", v: "0,1…1,0 mA",
+        pts: ["Corriente baja para evitar el autocalentamiento", "La suministra la entrada RTD o el transmisor"],
+        cajas: [[8.4, 9.06, 52.7, 1.8]] },
+      { p: 3, e: "Hilos", t: "Conexionado", v: "2, 3 o 4 hilos",
+        pts: ["Más hilos, menor error de cableado", "3 hilos: el más usado en la industria"],
+        cajas: [[8.4, 13.64, 41.66, 30.81]] },
+      { p: 3, e: "Exactitud", t: "Exactitud según conexionado", v: "Clases A y AA:\nno a 2 hilos",
+        pts: ["El cable anularía la exactitud del sensor", "Alta exactitud → 3 o 4 hilos"],
+        cajas: [[8.4, 52.78, 61.92, 7.32], [9.66, 61.38, 14.64, 1.24]] },
+      { p: 8, e: "Transmisor", t: "Transmisor en el cabezal", v: "Salida 4…20 mA",
+        pts: ["Convierte los Ω en una señal estándar", "Sigue siendo una Pt100: cambia la salida, no el principio"],
+        cajas: [[8.4, 18.04, 59.98, 3.6]] },
+    ],
+  },
+  tw2000: {
+    nombre: "ifm TW2000", doc: "Hoja de datos TW2000-01", color: "ir", ratio: 0.7077, total: 4, paginas: [1, 2, 4],
+    pdf: "https://media.ifm.com/dam/5857b96d-1ba2-4a2b-a1fe-9d97140a9efe/Original/TW2000-01_EN-GB.pdf", local: "TW2000-01_ES-ES.pdf",
+    pasos: [
+      { p: 1, e: "Rango", t: "Rango de medición", v: "0…999,5 °C",
+        pts: ["Producto a la salida del horno: dentro del rango", "No mide producto congelado (bajo 0 °C)"],
+        cajas: [[7.36, 43.3, 66.93, 1.64]] },
+      { p: 4, e: "Conexión", t: "Conexión eléctrica", v: "OUT1 + OUT2 · M12",
+        pts: ["Dos salidas en un mismo conector", "Alimentación 18–32 V CC: admite los 24 V de planta"],
+        cajas: [[32.78, 14.2, 40.8, 22.72], [7.02, 37.5, 36.45, 3.07]] },
+      { p: 2, e: "OUT2", t: "Salida analógica", v: "OUT2 · 4…20 mA",
+        pts: ["Indica cuánta temperatura hay", "Se conecta a una entrada analógica del PLC"],
+        cajas: [[7.36, 19.95, 60.39, 1.87]] },
+      { p: 1, e: "OUT1", t: "Salida conmutada", v: "OUT1 · PNP",
+        pts: ["Indica sí o no: límite superado", "Se conecta a una entrada digital del PLC (o vía IO-Link)"],
+        cajas: [[7.36, 80.82, 79.54, 3.75]] },
+      { p: 2, e: "Emisividad", t: "Parámetro «grado de emisión»", v: "Emisividad ajustable",
+        pts: ["Se configura según la superficie medida", "Mal ajustada, la lectura se desplaza"],
+        cajas: [[7.36, 75.37, 85.98, 3.22]] },
+      { p: 4, e: "Área", t: "Área observada", v: "Crece con la distancia",
+        pts: ["El objeto debe cubrir todo el punto medido", "Mide la superficie, no el núcleo"],
+        cajas: [[32.78, 58.93, 60.2, 23.91]] },
+    ],
+  },
+  ntcle100: {
+    nombre: "Vishay NTCLE100E3", doc: "Documento 29049", color: "ntc", ratio: 0.7727, total: 17, paginas: [1],
+    pdf: "https://www.vishay.com/docs/29049/ntcle100.pdf", local: "ntcle100.pdf",
+    pasos: [
+      { p: 1, e: "Tipo", t: "Termistor NTC", v: "R ↓ cuando T ↑",
+        pts: ["Chip semiconductor con dos terminales", "Señal resistiva: sin 4–20 mA ni PNP/NPN"],
+        cajas: [[51.96, 34.92, 39.54, 4.39]] },
+      { p: 1, e: "Rango", t: "Rango de operación", v: "−40…+125 °C",
+        pts: ["Pensado para medir dentro de equipos", "No apto para procesos de alta temperatura"],
+        cajas: [[8.99, 46.48, 38.73, 6.3]] },
+    ],
+  },
+  lm35: {
+    nombre: "TI LM35", doc: "SNIS159H", color: "ic", ratio: 0.7727, total: 38, paginas: [1, 3],
+    pdf: "https://www.ti.com/lit/ds/symlink/lm35.pdf", local: "lm35.pdf",
+    pasos: [
+      { p: 1, e: "Escala", t: "Salida lineal", v: "10 mV/°C",
+        pts: ["A 25 °C entrega 250 mV", "Se lee con una entrada analógica"],
+        cajas: [[10.78, 17.2, 24.24, 2.07]] },
+      { p: 1, e: "Alimentación", t: "Alimentación", v: "4 V a 30 V",
+        pts: ["Sensor activo: necesita alimentación", "Admite los 24 V de un tablero de control"],
+        cajas: [[10.78, 26.16, 20.71, 2.07]] },
+      { p: 3, e: "Terminales", t: "Encapsulado TO-92", v: "+VS · VOUT · GND",
+        pts: ["Alimentación, salida y masa", "Conexión directa a una placa o bornera"],
+        cajas: [[62.09, 12.37, 18.3, 12.37]] },
+    ],
+  },
+};
+
+// Puntos de medición de la línea (bloque 6). x, y = posición del marcador en el diagrama.
+const PUNTOS = [
+  { n: 1, x: 92, y: 322, nombre: "Masa en mezcladora",       rango: "0 a 8 °C",               tec: "Pt100 clase A, ejecución higiénica", c: ["rtd"],        porque: "Requiere exactitud y estabilidad." },
+  { n: 2, x: 290, y: 322, nombre: "Aceite de prefritura",     rango: "180 a 195 °C",           tec: "Termocupla J o Pt100 con vaina",     c: ["tc", "rtd"],  porque: "Ambas tecnologías cubren el rango: no hay una única solución." },
+  { n: 3, x: 502, y: 328, nombre: "Horno de cocción / vapor", rango: "90 a 120 °C",            tec: "Pt100 con transmisor 4–20 mA",       c: ["rtd"],        porque: "Exactitud y estabilidad; se integra al PLC mediante el lazo 4–20 mA." },
+  { n: 4, x: 642, y: 216, nombre: "Superficie en línea",      rango: "según proceso",          tec: "Pirómetro infrarrojo",               c: ["ir"],         porque: "Producto en movimiento: medición sin contacto, solo superficial." },
+  { n: 5, x: 776, y: 280, nombre: "Núcleo del producto",      rango: "según proceso validado", tec: "Sonda de punción (tipo T o RTD)",    c: ["tc", "rtd"],  porque: "Si por inocuidad interesa el centro de la pieza, el infrarrojo no alcanza." },
+  { n: 6, x: 872, y: 322, nombre: "Túnel IQF",                rango: "−35 a −40 °C",           tec: "Pt100",                              c: ["rtd"],        porque: "Exactitud y estabilidad a baja temperatura." },
+  { n: 7, x: 1090, y: 322, nombre: "Cámara de almacenamiento", rango: "−18 °C",                 tec: "Pt1000 con registro",                c: ["rtd"],        porque: "Exactitud y estabilidad, con registro de la temperatura." },
+  { n: 8, x: 1026, y: 120, nombre: "Agua CIP",                 rango: "80 a 85 °C",             tec: "Pt100",                              c: ["rtd"],        porque: "Exactitud y repetibilidad en el ciclo de limpieza." },
+  { n: 9, x: 212, y: 38,  nombre: "Chimenea de caldera",      rango: "gases de combustión",    tec: "Termocupla K (o RTD si soporta)",    c: ["tc"],         porque: "Alta temperatura y ambiente severo." },
+];
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+(function () {
+  "use strict";
+  document.documentElement.classList.add("js");
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  function fmt(v, d = 0) {
+    const k = 10 ** d;
+    let r = Math.round(v * k) / k;
+    if (r === 0) r = 0;
+    const s = Math.abs(r).toLocaleString("es-AR", { minimumFractionDigits: d, maximumFractionDigits: d });
+    return (r < 0 ? "−" : "") + s;
+  }
+  const fmtS = (v, d = 0) => (Math.round(v * 10 ** d) > 0 ? "+" : "") + fmt(v, d);
+  function el(tag, attrs = {}, html) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "style") n.style.cssText = v;
+      else n.setAttribute(k, v);
+    }
+    if (html != null) n.innerHTML = html;
+    return n;
+  }
+  const safe = (name, fn) => { try { fn(); } catch (e) { console.error("[" + name + "]", e); } };
+  function paintRange(i) {
+    const min = +i.min || 0, max = +i.max || 100;
+    i.style.setProperty("--p", ((i.value - min) / (max - min)) * 100 + "%");
+  }
+
+  safe("conexion-termocupla", () => {
+    const buttons = $$("[data-tc-step]");
+    const notes = [
+      "El elemento genera milivoltios. Respetamos la polaridad y usamos cable de extensión o compensación compatible.",
+      "Camino A: el módulo TC lee los milivoltios, mide la temperatura de sus bornes y compensa la junta fría para obtener la temperatura.",
+      "Camino B: el transmisor lee los milivoltios y compensa la junta fría. En nuestro ejemplo entrega 4–20 mA al PLC, que escala la corriente a temperatura.",
+      "Son dos alternativas de conexión. PNP/NPN no describe la señal primaria de una termocupla."
+    ];
+    function show(step) {
+      $("#tc-connection-scene").dataset.step = String(step);
+      $("#tc-connection-caption").textContent = notes[step];
+      buttons.forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.tcStep === step)));
+    }
+    buttons.forEach(b => b.addEventListener("click", () => show(+b.dataset.tcStep)));
+    show(0);
+  });
+  safe("guia-y-aplicaciones-termocupla", () => {
+    function bind(selector, imageId, noteId, notes, regions) {
+      const buttons = [...document.querySelectorAll(selector)];
+      const image = document.getElementById(imageId);
+      function select(index) {
+        buttons.forEach(b => b.setAttribute("aria-pressed", String(Number(b.getAttribute(selector === "[data-guide]" ? "data-guide" : "data-app-choice")) === index)));
+        document.getElementById(noteId).textContent = notes[index];
+        image.dataset.all = String(index === 4);
+        const r = regions[index] || [0,0,100,100];
+        ["--fx","--fy","--fw","--fh"].forEach((key,i) => image.style.setProperty(key, r[i] + "%"));
+      }
+      buttons.forEach((b,i) => b.addEventListener("click", () => select(i)));
+      select(0);
+    }
+    bind("[data-guide]", "tc-guide-image", "tc-guide-note", [
+      "Tipo, rango y clase: K/J/T/N/E cambian las aleaciones y la curva. En la TC10-C, el ejemplo K clase 1 llega de −40 a 1000 °C y J a 750 °C según la configuración indicada. No son límites universales de cualquier sonda.",
+      "Vaina y montaje: el material debe ser compatible con el medio. Longitud de inserción, diámetro y conexión se eligen según el punto de medida y las exigencias mecánicas; también influyen en la respuesta térmica.",
+      "Punta: una unión aislada queda eléctricamente separada de la vaina; una unión a tierra está unida a ella. Es una decisión sobre aislamiento y respuesta que debe verificarse con el instrumento y las opciones reales del modelo.",
+      "Configuración y salida: simple o doble significa uno o dos elementos. La bornera permite llevar los mV a un módulo TC; un transmisor opcional los convierte a 4–20 mA. Agregar un transmisor no cambia el principio de medición.",
+      "No alcanza con pedir una termocupla: hay que especificar tipo, rango/clase, construcción, montaje y lectura. Esta ilustración organiza las decisiones; la ficha oficial es el respaldo para el modelo concreto."
+    ], [[1,11,32,21],[33,10,65,76],[1,46,32,14],[1,61,32,25]]);
+    bind("[data-app-choice]", "tc-app-image", "tc-app-note", [
+      "Chimenea de caldera — caso de nuestra línea: temperatura elevada y ambiente exigente justifican considerar una termocupla K. Hay que comprobar el rango de la sonda y que la vaina resista los gases y las condiciones de instalación.",
+      "Horno industrial de tratamiento térmico — ejemplo general: una termocupla puede medir temperaturas altas con una construcción adecuada para la atmósfera del horno. Este ejemplo no es el horno de cocción de nuestra línea, donde elegimos Pt100.",
+      "Aceite de prefritura — caso de nuestra línea: 180–195 °C. Una termocupla J o una Pt100 con vaina adecuada son alternativas. El rango por sí solo no decide: también importan exactitud, estabilidad y montaje.",
+      "Tuberías y equipos de proceso: la sonda permite medir dentro del fluido. La temperatura, el medio y la instalación determinan qué tecnología conviene; estar en una tubería no hace preferible automáticamente a la termocupla.",
+      "En nuestro trabajo, concentramos el oral en chimenea y prefritura. Las aplicaciones no se eligen solo por la apariencia: se justifican por rango, condiciones del medio, exactitud requerida y construcción de la sonda."
+    ], [[.5,15,24.5,68],[25,15,24.5,68],[50,15,24.5,68],[75,15,24.5,68]]);
+  });
+  /* ---------- sliders ---------- */
+  safe("sliders", () => {
+    $$("input[type=range]").forEach((i) => { paintRange(i); i.addEventListener("input", () => paintRange(i)); });
+  });
+
+  /* ---------- expositores ---------- */
+  safe("expositores", () => {
+    $$("[data-exp]").forEach((n) => { const v = EXPOSITORES[n.dataset.exp]; if (v) n.textContent = v; });
+    const names = [...new Set(Object.values(EXPOSITORES))];
+    $("#names").innerHTML = names.map((x) => "<li>" + esc(x) + "</li>").join("");
+  });
+
+  /* ---------- aparición al entrar ---------- */
+  const screens = $$(".screen");
+  safe("reveal", () => {
+    if (!("IntersectionObserver" in window)) { $$(".rv").forEach((x) => x.classList.add("in")); return; }
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { $$(".rv", e.target).forEach((x) => x.classList.add("in")); io.unobserve(e.target); }
+    }), { threshold: 0.12 });
+    screens.forEach((s) => io.observe(s));
+  });
+
+  /* ---------- navegación: bloque activo + progreso ---------- */
+  const navLinks = $$(".nav ol a");
+  const prog = $(".progress");
+  let ticking = false, curScreen = null;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - innerHeight;
+      prog.style.transform = "scaleX(" + (max > 0 ? scrollY / max : 0) + ")";
+      const mid = innerHeight * 0.45;
+      let cur = null;
+      for (const s of screens) { const r = s.getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) { cur = s; break; } }
+      curScreen = cur;
+      const b = cur ? cur.dataset.block : "0";
+      navLinks.forEach((a) => {
+        const on = a.dataset.nav === b;
+        a.classList.toggle("on", on);
+        if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+      });
+    });
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  onScroll();
+
+  function go(target) {
+    const n = typeof target === "string" ? $(target) : target;
+    if (n) n.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  }
+  function step(dir) {
+    let i = 0;
+    screens.forEach((s, k) => { if (s.getBoundingClientRect().top <= innerHeight * 0.3) i = k; });
+    go(screens[clamp(i + dir, 0, screens.length - 1)]);
+  }
+
+  /* ---------- ayuda, pantalla completa, teclado ---------- */
+  const help = $("#help");
+  function toggleHelp(force) {
+    const open = force === undefined ? !help.classList.contains("open") : force;
+    help.classList.toggle("open", open);
+  }
+  $("[data-help]").addEventListener("click", () => toggleHelp());
+  help.addEventListener("click", (e) => { if (e.target === help) toggleHelp(false); });
+  function toggleFS() {
+    const d = document, r = d.documentElement;
+    try {
+      if (!d.fullscreenElement && !d.webkitFullscreenElement) {
+        const p = (r.requestFullscreen || r.webkitRequestFullscreen).call(r);
+        if (p && p.catch) p.catch(() => {});
+      } else (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+    } catch (e) { /* sin soporte */ }
+  }
+  const lb = $("#lb");
+  addEventListener("keydown", (e) => {
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target instanceof Element ? e.target : document.body;
+    const typing = t.closest("input,textarea,select,[contenteditable='true']");
+    if (e.key === "Escape") {
+      if (lb.classList.contains("open")) closeLB();
+      else if (help.classList.contains("open")) toggleHelp(false);
+      return;
+    }
+    if (typing) return;
+    const k = e.key;
+    if (/^[1-7]$/.test(k)) { e.preventDefault(); closeLB(); toggleHelp(false); go("#b" + k); }
+    else if (k === "0") { e.preventDefault(); closeLB(); go("#top"); }
+    else if (k === "f" || k === "F") { e.preventDefault(); toggleFS(); }
+    else if (k === "?" || (e.code === "Slash" && e.shiftKey)) { e.preventDefault(); toggleHelp(); }
+    else if (k === "ArrowRight" || k === "ArrowLeft") {
+      const v = lb.classList.contains("open") ? lbViewer : curScreen && viewers.get($("[data-fv]", curScreen));
+      if (v) { e.preventDefault(); if (k === "ArrowRight") v.next(); else v.prev(); }
+    }
+    else if (lb.classList.contains("open")) return;
+    else if (k === "PageDown" || (k === " " && !e.shiftKey && !t.closest("button,a,summary"))) { e.preventDefault(); step(1); }
+    else if (k === "PageUp" || (k === " " && e.shiftKey && !t.closest("button,a,summary"))) { e.preventDefault(); step(-1); }
+  });
+
+  /* ============================================================
+     HOJAS TÉCNICAS · LECTURA GUIADA
+     ============================================================ */
+  const pagSrc = (k, p) => "img/fichas/" + k + "-p" + String(p).padStart(2, "0") + ".png";
+  const ICON_DOC = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 1.5h6l3 3v10h-9z M9.5 1.5v3h3 M5.5 8.5h5 M5.5 11h5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+  const viewers = new Map(); // elemento contenedor → controlador
+
+  function createViewer(host, key, start = 0) {
+    const f = FICHAS[key];
+    const kicker = host.dataset.kicker || "Hoja técnica · lectura guiada";
+    const app = host.dataset.app || "";
+    host.classList.add("fv", "c-" + f.color);
+    const ticks = Array.from({ length: f.total }, (_, k) => `<i data-p="${k + 1}"${f.paginas.includes(k + 1) ? ' class="sel"' : ""}></i>`).join("");
+    host.innerHTML = `
+      <div class="fv-stage" tabindex="0" role="button" aria-label="Alternar entre el detalle y la página completa">
+        <div class="fv-page"><img alt="Página de la hoja técnica ${esc(f.nombre)}" draggable="false"><svg class="fv-mask" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path/></svg><div class="fv-boxes"></div></div>
+        <div class="fv-miss"><div>Página no disponible<br><span></span></div></div>
+        <div class="fv-hint">clic: página completa / detalle</div>
+        <div class="fv-pg"></div>
+      </div>
+      <aside class="fv-side">
+        <p class="kicker">${esc(kicker)}</p>
+        <h2 class="fv-h">Hoja técnica <span class="acc">${esc(f.nombre)}</span></h2>
+        <div class="fv-meta"><span>${esc(f.doc)} · ${f.paginas.length} de ${f.total} págs.</span><span class="fv-map" title="Páginas incluidas en la lectura">${ticks}</span></div>
+        <div class="fv-step" aria-live="polite"></div>
+        <div class="fv-nav">
+          ${f.pasos.map((st, k) => `<button type="button" data-i="${k}" title="${esc(st.e)} · p. ${st.p}" aria-label="Paso ${k + 1}: ${esc(st.e)}">${k + 1}</button>`).join("")}
+          <span class="sep"></span>
+          <button type="button" class="btn" data-a="full" aria-pressed="false" title="Página completa" aria-label="Página completa" style="width:auto;border-radius:10px">⤢</button>
+          <a class="btn" href="${f.pdf}" target="_blank" rel="noopener" title="Abrir el PDF oficial">PDF</a>
+        </div>
+        ${app ? `<p class="fv-app"><span>Aplicación en la línea</span>${esc(app)}</p>` : ""}
+      </aside>`;
+    const stage = $(".fv-stage", host), page = $(".fv-page", host), img = $("img", page);
+    const boxes = $(".fv-boxes", host), mask = $(".fv-mask path", host), stepEl = $(".fv-step", host);
+    let i = 0, full = false, curP = 0, t1 = 0, t2 = 0;
+    f.paginas.forEach((p) => { const im = new Image(); im.src = pagSrc(key, p); });
+    img.addEventListener("error", () => { host.classList.add("missing"); $(".fv-miss span", host).textContent = img.getAttribute("src"); });
+    img.addEventListener("load", () => host.classList.remove("missing"));
+
+    function place(animate) {
+      const W = stage.clientWidth, H = stage.clientHeight;
+      if (!W || !H) return;
+      const ph = Math.min(H, W / f.ratio), pw = ph * f.ratio, ox = (W - pw) / 2, oy = (H - ph) / 2;
+      const st = f.pasos[i];
+      let s = 1, cx = pw / 2, cy = ph / 2;
+      if (!full && st.cajas.length) {
+        let x0 = 100, y0 = 100, x1 = 0, y1 = 0;
+        st.cajas.forEach(([x, y, w, h]) => { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x + w); y1 = Math.max(y1, y + h); });
+        const mx = W * 0.05, my = H * 0.1;
+        s = clamp(Math.min((W - 2 * mx) / ((x1 - x0) / 100 * pw), (H - 2 * my) / ((y1 - y0) / 100 * ph)), 1, 5);
+        cx = (x0 + x1) / 200 * pw;
+        cy = (y0 + y1) / 200 * ph;
+      }
+      // centra la región y evita mostrar fondo más allá del borde de la página
+      const fit = (t, size, view, o) => (size * s <= view ? (view - size * s) / 2 - o : clamp(t, view - o - size * s, -o));
+      const tx = fit(W / 2 - ox - s * cx, pw, W, ox), ty = fit(H / 2 - oy - s * cy, ph, H, oy);
+      page.style.transition = animate && !reduce ? "" : "none";
+      Object.assign(page.style, { width: pw + "px", height: ph + "px", left: ox + "px", top: oy + "px", transform: `translate(${tx}px,${ty}px) scale(${s})` });
+      page.style.setProperty("--s", s);
+      stage.classList.toggle("is-full", full);
+      if (!animate || reduce) { void page.offsetWidth; page.style.transition = ""; }
+    }
+    function draw(panel) {
+      const st = f.pasos[i];
+      boxes.innerHTML = st.cajas.map(([x, y, w, h], k) => `<span class="fv-box"${k ? "" : ` data-n="${i + 1}"`} style="left:${x}%;top:${y}%;width:${w}%;height:${h}%"></span>`).join("");
+      mask.setAttribute("d", "M0 0H100V100H0Z" + st.cajas.map(([x, y, w, h]) => `M${x} ${y}h${w}v${h}h${-w}Z`).join(""));
+      $(".fv-pg", host).textContent = "p. " + st.p + " / " + f.total;
+      $$(".fv-map i", host).forEach((t) => t.classList.toggle("cur", +t.dataset.p === st.p));
+      $$(".fv-nav button[data-i]", host).forEach((b, k) => { if (k === i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+      $('[data-a="full"]', host).setAttribute("aria-pressed", String(full));
+      if (panel) {
+        stepEl.innerHTML = `
+          <div class="fv-top"><span class="fv-n">${i + 1}</span><span>Paso ${i + 1} de ${f.pasos.length} · p. ${st.p}</span></div>
+          <h3 class="fv-t">${esc(st.t)}</h3>
+          <div class="fv-v">${esc(st.v).replace(/\n/g, "<br>")}</div>
+          <ul class="fv-pts">${st.pts.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
+          ${st.extra || ""}`;
+      }
+    }
+    function go(n) {
+      i = clamp(n, 0, f.pasos.length - 1);
+      full = false;
+      const p = f.pasos[i].p;
+      clearTimeout(t1); clearTimeout(t2);
+      draw(true);
+      if (p === curP) { place(true); return; }
+      if (!curP || reduce) { curP = p; img.src = pagSrc(key, p); place(false); return; }
+      // cambio de página: fundido, página completa y acercamiento al recuadro
+      page.classList.add("swap");
+      t1 = setTimeout(() => {
+        curP = p;
+        img.src = pagSrc(key, p);
+        full = true; place(false); full = false;
+        stage.classList.remove("is-full");
+        page.classList.remove("swap");
+        t2 = setTimeout(() => place(true), 420);
+      }, 230);
+    }
+    function toggleFull() { full = !full; draw(false); place(true); }
+    stage.addEventListener("click", toggleFull);
+    stage.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleFull(); } });
+    host.addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b || !host.contains(b)) return;
+      if (b.dataset.i != null) go(+b.dataset.i);
+      else if (b.dataset.a === "full") toggleFull();
+    });
+    if ("ResizeObserver" in window) new ResizeObserver(() => place(false)).observe(stage);
+    else addEventListener("resize", () => place(false));
+    go(start);
+    const ctl = { next: () => go(i + 1), prev: () => go(i - 1), go, toggleFull };
+    viewers.set(host, ctl);
+    return ctl;
+  }
+
+  const lbBody = $("#lb-body");
+  let lbViewer = null, lastFocus = null;
+  function openLB(key, step = 0) {
+    lastFocus = document.activeElement;
+    lbBody.innerHTML = "";
+    const host = el("div");
+    host.dataset.kicker = "Hoja técnica · lectura guiada";
+    lbBody.append(host);
+    lb.classList.add("open");
+    document.body.style.overflow = "hidden";
+    lbViewer = createViewer(host, key, step);
+    $("#lb-close").focus();
+  }
+  function closeLB() {
+    if (!lb.classList.contains("open")) return;
+    lb.classList.remove("open");
+    lbBody.innerHTML = "";
+    lbViewer = null;
+    document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  $("#lb-close").addEventListener("click", closeLB);
+  lb.addEventListener("click", (e) => { if (e.target === lb) closeLB(); });
+  safe("hojas-tecnicas", () => {
+    $$("[data-fv]").forEach((h) => { if (FICHAS[h.dataset.fv]) createViewer(h, h.dataset.fv); });
+    $$("[data-src]").forEach((b) => {
+      const [k, n] = b.dataset.src.split(":");
+      const f = FICHAS[k];
+      if (!f) return;
+      b.classList.add("c-" + f.color);
+      b.insertAdjacentHTML("afterbegin", ICON_DOC);
+      b.setAttribute("aria-label", "Ver en la hoja técnica " + f.nombre + ": " + f.pasos[(+n || 1) - 1].t);
+      b.addEventListener("click", () => openLB(k, (+n || 1) - 1));
+    });
+  });
+
+  /* ============================================================
+     BLOQUE 1 · MATRIZ
+     ============================================================ */
+  safe("matriz", () => {
+    // cada fila resalta su sensor y lleva a su sección
+    const t = $("#matrix");
+    const rows = $$("tbody tr", t);
+    const hl = (r) => { t.classList.toggle("dim", !!r); rows.forEach((x) => x.classList.toggle("on", x === r)); };
+    rows.forEach((r) => {
+      r.addEventListener("mouseenter", () => hl(r));
+      r.addEventListener("mouseleave", () => hl(null));
+      r.addEventListener("focus", () => hl(r));
+      r.addEventListener("blur", () => hl(null));
+      r.addEventListener("click", () => go(r.dataset.go));
+      r.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(r.dataset.go); } });
+    });
+  });
+
+  /* ============================================================
+     BLOQUE 2 · JUNTA FRÍA
+     ============================================================ */
+  safe("junta-fria", () => {
+    const tm = $("#cj-tm"), tr = $("#cj-tr");
+    const S = 0.041; // mV/°C, tipo K, aproximación lineal
+    const X = (v) => 20 + (clamp(v, 0, 600) / 600) * 660;
+    let ticks = "";
+    for (let v = 0; v <= 600; v += 100) ticks += `<line x1="${X(v)}" y1="53" x2="${X(v)}" y2="67" stroke="#7D8DA5" stroke-width="1.5"/>`;
+    $("#cj-ticks").innerHTML = ticks;
+    function upd() {
+      const Tm = +tm.value, Tr = +tr.value;
+      const V = S * (Tm - Tr);          // tensión generada
+      const raw = V / S;                // sin compensar: supone bornes a 0 °C
+      const ok = raw + Tr;              // con compensación de junta fría
+      const err = raw - Tm;
+      $("#cj-img-tm").textContent = Tm + " °C";
+      $("#cj-img-tr").textContent = Tr + " °C";
+      $("#cj-img-ok").textContent = fmt(ok, 0) + " °C";
+      $("#cj-tm-o").textContent = Tm + " °C";
+      $("#cj-tr-o").textContent = Tr + " °C";
+      $("#cj-v").innerHTML = fmt(V, 2) + '<span class="u">mV</span>';
+      $("#cj-raw").innerHTML = fmt(raw, 0) + '<span class="u">°C</span>';
+      $("#cj-ok").innerHTML = fmt(ok, 0) + '<span class="u">°C</span>';
+      const bad = Math.abs(err) >= 0.5;
+      const e = $("#cj-raw-e");
+      e.textContent = bad ? "error " + fmt(err, 0) + " °C" : "sin error: bornes a 0 °C";
+      e.classList.toggle("bad", bad);
+      e.classList.toggle("ok", !bad);
+      $("#cj-card-raw").classList.toggle("bad", bad);
+      $("#cj-m-raw").setAttribute("transform", `translate(${X(raw)},0)`);
+      $("#cj-m-ok").setAttribute("transform", `translate(${X(ok)},0)`);
+      const gap = $("#cj-gap");
+      gap.setAttribute("x", Math.min(X(raw), X(ok)));
+      gap.setAttribute("width", Math.abs(X(ok) - X(raw)));
+    }
+    tm.addEventListener("input", upd);
+    tr.addEventListener("input", upd);
+    upd();
+  });
+
+  /* ============================================================
+     BLOQUE 3 · ERROR DE CABLE (2 / 3 / 4 HILOS)
+     ============================================================ */
+  safe("hilos", () => {
+    const fig = $("#wires"), rc = $("#w-rc");
+    const S100 = 0.385, S1000 = 3.85; // Ω/°C, sensibilidad media 0–100 °C
+    let mode = 2;
+    const TXT = {
+      2: "<b>2 hilos:</b> la resistencia de ambos conductores se suma a la del sensor. Aceptable con cables cortos o error tolerable.",
+      3: "<b>3 hilos:</b> el conductor adicional permite descontar la resistencia de línea. Supone conductores iguales.",
+      4: "<b>4 hilos:</b> un par conduce la corriente y el otro mide la tensión en bornes del sensor. Error de cable prácticamente nulo.",
+    };
+    const FORM = { 2: "error ≈ 2·Rc / sensibilidad", 3: "error ≈ 0 (si los cables son iguales)", 4: "error de cable ≈ 0" };
+    function upd() {
+      const R = +rc.value;
+      const rErr = mode === 2 ? 2 * R : 0;
+      const e100 = rErr / S100, e1000 = rErr / S1000;
+      fig.dataset.mode = mode;
+      $$("#w-seg button").forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.mode === mode)));
+      $("#w-rc-o").textContent = fmt(R, 2) + " Ω";
+      $("#w-e100").innerHTML = fmtS(e100, 2) + '<span class="u">°C</span>';
+      $("#w-e1000").innerHTML = fmtS(e1000, 2) + '<span class="u">°C</span>';
+      $("#w-b100").style.setProperty("--w", e100 > 0 ? "100%" : "0%");
+      $("#w-b1000").style.setProperty("--w", e100 > 0 ? (e1000 / e100) * 100 + "%" : "0%");
+      $("#w-formula").textContent = FORM[mode];
+      $("#wmode-txt").innerHTML = TXT[mode];
+      $("#w-mode-l").textContent = mode + " hilos";
+      $("#w-tol").classList.toggle("hl", mode === 4);
+    }
+    $$("#w-seg button").forEach((b) => b.addEventListener("click", () => { mode = +b.dataset.mode; upd(); }));
+    rc.addEventListener("input", upd);
+    upd();
+  });
+
+  /* ============================================================
+     BLOQUE 4 · LM35 + INFRARROJO
+     ============================================================ */
+  safe("lm35", () => {
+    const t = $("#lm-t");
+    const upd = () => { $("#lm-t-o").textContent = t.value + " °C"; $("#lm-v").textContent = fmt(10 * t.value, 0) + " mV"; };
+    t.addEventListener("input", upd);
+    upd();
+  });
+
+  safe("infrarrojo", () => {
+    // Emisividades ilustrativas
+    const SURF = [
+      { n: "Mate oscura", e: 0.95, fill: "#1B1E24" },
+      { n: "Producto alimenticio", e: 0.9, fill: "#C98A55" },
+      { n: "Metal oxidado", e: 0.7, fill: "#7A4632" },
+      { n: "Acero inox. pulido", e: 0.1, fill: "url(#g-inox)" },
+    ];
+    const TA = 25 + 273.15; // entorno
+    const tIn = $("#ir-t-in"), ec = $("#ir-ec"), seg = $("#ir-seg");
+    let idx = 0;
+    SURF.forEach((s, i) => {
+      const b = el("button", { type: "button", "aria-pressed": String(i === 0) }, esc(s.n) + '<span class="mono">ε≈' + fmt(s.e, 2) + "</span>");
+      b.addEventListener("click", () => { idx = i; upd(); });
+      seg.append(b);
+    });
+    const STOPS = [[0, [47, 91, 255]], [0.25, [46, 230, 246]], [0.55, [255, 210, 63]], [0.78, [255, 138, 31]], [1, [255, 59, 59]]];
+    function heat(T) {
+      const t = clamp(T / 300, 0, 1);
+      let k = 0;
+      while (k < STOPS.length - 2 && t > STOPS[k + 1][0]) k++;
+      const [t0, c0] = STOPS[k], [t1, c1] = STOPS[k + 1];
+      const u = (t - t0) / (t1 - t0);
+      return "rgb(" + c0.map((v, j) => Math.round(v + (c1[j] - v) * u)).join(",") + ")";
+    }
+    function upd() {
+      const s = SURF[idx], er = s.e, T = +tIn.value, eC = +ec.value;
+      const Tk = T + 273.15;
+      // Radiación que llega: emitida (ε·T⁴) + reflejada del entorno ((1−ε)·Ta⁴).
+      // El instrumento descuenta el reflejo con la ε configurada y despeja T.
+      const num = er * Tk ** 4 + (1 - er) * TA ** 4 - (1 - eC) * TA ** 4;
+      const read = num > 0 ? Math.pow(num / eC, 0.25) - 273.15 : NaN;
+      $$("button", seg).forEach((b, i) => b.setAttribute("aria-pressed", String(i === idx)));
+      $("#ir-t-o").textContent = T + " °C";
+      $("#ir-ec-o").textContent = fmt(eC, 2);
+      $("#ir-real").textContent = T + " °C";
+      if (isFinite(read)) {
+        const err = read - T;
+        $("#ir-read").innerHTML = fmt(read, 1) + '<span class="u">°C</span>';
+        $("#ir-err").textContent = "error " + fmtS(err, 1) + " °C";
+        $("#ir-err").style.color = Math.abs(err) >= 1 ? "var(--bad)" : "var(--ok)";
+        $("#ir-disp").textContent = fmt(read, 0);
+      } else {
+        $("#ir-read").innerHTML = "—";
+        $("#ir-err").textContent = "fuera de rango";
+        $("#ir-err").style.color = "var(--bad)";
+        $("#ir-disp").textContent = "----";
+      }
+      $("#ir-surf").setAttribute("fill", s.fill);
+      $("#ir-heat").setAttribute("fill", heat(T));
+      $("#ir-heat").setAttribute("opacity", (0.28 * er).toFixed(2));
+      $("#ir-halo").setAttribute("fill", heat(T));
+      $("#ir-halo").setAttribute("opacity", (0.85 * er).toFixed(2));
+      $("#ir-sheen").setAttribute("opacity", ((1 - er) * 0.95).toFixed(2));
+      $("#ir-em").setAttribute("opacity", (0.1 + 0.9 * er).toFixed(2));
+      $("#ir-ref").setAttribute("opacity", (0.06 + 0.94 * (1 - er)).toFixed(2));
+      $("#ir-surf-l").textContent = s.n;
+      $("#ir-surf-e").textContent = "ε ≈ " + fmt(er, 2);
+      const g = $("#ir-ghost");
+      if (er <= 0.3) g.textContent = "Baja emisividad: el sensor capta principalmente el reflejo del entorno.";
+      else if (isFinite(read) && Math.abs(read - T) >= 1) g.textContent = "Emisividad mal configurada: la lectura resulta desplazada.";
+      else g.textContent = "";
+    }
+    $("#ir-fix").addEventListener("click", () => { ec.value = SURF[idx].e; paintRange(ec); upd(); });
+    tIn.addEventListener("input", upd);
+    ec.addEventListener("input", upd);
+    upd();
+  });
+
+  /* ============================================================
+     BLOQUE 5 · LAZO 4–20 mA + PNP / NPN
+     ============================================================ */
+  safe("lazo", () => {
+    const TMIN = 0, TMAX = 200;
+    const svg = $("#lz-gauge"), t = $("#lz-t"), btn = $("#lz-cut-btn");
+    const cx = 200, cy = 200, R = 160, A = 100; // ±100° desde la vertical
+    const ang = (I) => -A + (2 * A * I) / 20;
+    const pt = (a, r) => [cx + r * Math.sin((a * Math.PI) / 180), cy - r * Math.cos((a * Math.PI) / 180)];
+    const arc = (i0, i1, r) => { const [x0, y0] = pt(ang(i0), r), [x1, y1] = pt(ang(i1), r); return `M${x0.toFixed(1)} ${y0.toFixed(1)} A${r} ${r} 0 ${ang(i1) - ang(i0) > 180 ? 1 : 0} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+    let h = `<path d="${arc(0, 4, R)}" fill="none" stroke="var(--bad)" stroke-width="10" opacity=".75"/>`;
+    h += `<path d="${arc(4, 20, R)}" fill="none" stroke="var(--c-sys)" stroke-width="10" opacity=".35"/>`;
+    for (let i = 0; i <= 20; i++) {
+      const major = i % 4 === 0;
+      const [x0, y0] = pt(ang(i), R - 14), [x1, y1] = pt(ang(i), R - (major ? 34 : 24));
+      h += `<line x1="${x0.toFixed(1)}" y1="${y0.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${y1.toFixed(1)}" stroke="#C6D0DE" stroke-width="${major ? 3 : 1.5}"/>`;
+      if (major) { const [tx, ty] = pt(ang(i), R - 56); h += `<text x="${tx.toFixed(1)}" y="${(ty + 6).toFixed(1)}" text-anchor="middle" class="svg-l b" style="font-size:17px">${i}</text>`; }
+    }
+    const [lx, ly] = pt(ang(2), R - 32);
+    h += `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" class="svg-l b" style="fill:var(--bad);font-size:14px">falla</text>`;
+    const [qx, qy] = pt(ang(4), R + 4);
+    h += `<path d="M40 40 L${qx.toFixed(1)} ${(qy - 6).toFixed(1)}" stroke="var(--warn)" stroke-width="1.5"/>`;
+    h += `<text x="6" y="30" class="svg-l b" style="font-size:15px;fill:var(--warn)">4 mA = cero vivo</text>`;
+    h += `<text x="${cx}" y="${cy - 52}" text-anchor="middle" class="svg-l s">mA</text>`;
+    h += `<g id="lz-needle"><line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - R + 30}" stroke="var(--text)" stroke-width="4" stroke-linecap="round"/></g>`;
+    h += `<circle cx="${cx}" cy="${cy}" r="11" fill="var(--bg)" stroke="var(--text)" stroke-width="3"/>`;
+    svg.innerHTML = h;
+    const needle = $("#lz-needle"), flow = $("#lz-flow");
+    let cut = false;
+    function upd() {
+      const T = +t.value;
+      const I = cut ? 0 : 4 + (16 * (T - TMIN)) / (TMAX - TMIN);
+      $("#lz-t-o").textContent = T + " °C";
+      needle.setAttribute("transform", `rotate(${ang(I).toFixed(2)} ${cx} ${cy})`);
+      needle.style.transition = reduce ? "none" : "transform .4s cubic-bezier(.2,.8,.2,1)";
+      $("#lz-read").innerHTML = fmt(I, 2) + '<span class="u">mA</span>';
+      $("#lz-read").style.color = cut ? "var(--bad)" : "";
+      ["#lz-i1", "#lz-i2", "#lz-i3"].forEach((s) => ($(s).textContent = fmt(I, 1) + " mA"));
+      flow.style.setProperty("--dur", I > 0 ? (26 / I).toFixed(2) + "s" : "1s");
+      flow.style.opacity = I > 0 ? "1" : "0";
+      $("#lz-cut").style.display = cut ? "" : "none";
+      $("#lz-alarm").classList.toggle("on", cut);
+      btn.setAttribute("aria-pressed", String(cut));
+      btn.textContent = cut ? "Reconectar cable" : "Cortar cable";
+    }
+    t.addEventListener("input", upd);
+    btn.addEventListener("click", () => { cut = !cut; upd(); });
+    upd();
+  });
+
+  safe("pnp-npn", () => {
+    const t = $("#sw-t"), sp = $("#sw-sp");
+    function upd() {
+      const T = +t.value, SP = +sp.value, on = T >= SP;
+      $("#sw-t-o").textContent = T + " °C";
+      $("#sw-sp-o").textContent = SP + " °C";
+      $("#sw-pnp").classList.toggle("on", on);
+      $("#sw-npn").classList.toggle("on", on);
+      const st = $("#sw-state");
+      st.textContent = on ? "OUT activa" : "OUT inactiva";
+      st.className = "sw-state " + (on ? "on" : "off");
+    }
+    t.addEventListener("input", upd);
+    sp.addEventListener("input", upd);
+    upd();
+  });
+
+  /* ============================================================
+     BLOQUE 6 · PLANTA
+     ============================================================ */
+  safe("planta", () => {
+    const COL = { rtd: "var(--c-rtd)", tc: "var(--c-tc)", ir: "var(--c-ir)" };
+    const g = $("#pl-marks");
+    g.innerHTML = PUNTOS.map((p) => {
+      const fill = p.c.length === 1
+        ? `<circle r="18" fill="${COL[p.c[0]]}"/>`
+        : `<path d="M0 -18 A18 18 0 0 0 0 18 Z" fill="${COL[p.c[0]]}"/><path d="M0 -18 A18 18 0 0 1 0 18 Z" fill="${COL[p.c[1]]}"/>`;
+      return `<g class="mk" data-n="${p.n}" transform="translate(${p.x} ${p.y})" tabindex="0" role="button" aria-pressed="false" aria-label="Punto ${p.n}: ${esc(p.nombre)}">
+        <circle class="pulse" r="24"/><circle class="ring" r="24"/>${fill}<text y="6" text-anchor="middle">${p.n}</text></g>`;
+    }).join("");
+    function select(n) {
+      const p = PUNTOS.find((x) => x.n === n);
+      $$(".mk", g).forEach((m) => { const on = +m.dataset.n === n; m.classList.toggle("on", on); m.setAttribute("aria-pressed", String(on)); });
+      $("#pl-n").textContent = p.n;
+      $("#pl-name").textContent = p.nombre;
+      const r = $("#pl-range");
+      r.textContent = p.rango;
+      r.classList.toggle("txt", !/°C/.test(p.rango));
+      r.style.color = COL[p.c[0]];
+      $("#pl-tec").innerHTML = p.c.map((c) => `<i style="background:${COL[c]}"></i>`).join("") + esc(p.tec);
+      $("#pl-why").textContent = p.porque;
+    }
+    $$(".mk", g).forEach((m) => {
+      const n = +m.dataset.n;
+      m.addEventListener("click", () => select(n));
+      m.addEventListener("mouseenter", () => select(n));
+      m.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(n); } });
+    });
+    $("#pl-table").innerHTML = PUNTOS.map((p) => `<tr><td>${esc(p.nombre)}</td><td>${esc(p.rango)}</td><td style="color:${COL[p.c[0]]}">${esc(p.tec)}</td></tr>`).join("");
+    select(1);
+  });
+
+  /* ============================================================
+     HERO · FONDO TÉRMICO
+     ============================================================ */
+  safe("hero", () => {
+    const c = $("#thermal");
+    if (!c || !c.getContext) return;
+    const ctx = c.getContext("2d");
+    const W = 160, H = 90;
+    c.width = W; c.height = H;
+    const img = ctx.createImageData(W, H);
+    const stops = [[0, [10, 15, 23]], [0.18, [19, 36, 107]], [0.34, [47, 91, 255]], [0.5, [46, 230, 246]], [0.66, [255, 210, 63]], [0.82, [255, 138, 31]], [1, [255, 59, 59]]];
+    const lut = new Uint8ClampedArray(256 * 3);
+    for (let i = 0; i < 256; i++) {
+      const t = i / 255;
+      let k = 0;
+      while (k < stops.length - 2 && t > stops[k + 1][0]) k++;
+      const [t0, c0] = stops[k], [t1, c1] = stops[k + 1];
+      const u = (t - t0) / (t1 - t0);
+      for (let j = 0; j < 3; j++) lut[i * 3 + j] = c0[j] + (c1[j] - c0[j]) * u;
+    }
+    const blobs = [
+      { x: 0.76, y: 0.46, r: 0.17, a: 1.0, f: 0.11, p: 0 },
+      { x: 0.64, y: 0.72, r: 0.14, a: 0.75, f: 0.08, p: 1.7 },
+      { x: 0.9, y: 0.26, r: 0.12, a: 0.7, f: 0.1, p: 3.1 },
+      { x: 0.52, y: 0.3, r: 0.2, a: 0.45, f: 0.06, p: 4.4 },
+      { x: 0.32, y: 0.82, r: 0.24, a: 0.35, f: 0.07, p: 2.2 },
+      { x: 0.96, y: 0.86, r: 0.16, a: 0.55, f: 0.09, p: 5.3 },
+    ];
+    function draw(ms) {
+      const s = ms / 1000, d = img.data;
+      const B = blobs.map((b) => ({
+        x: (b.x + 0.05 * Math.sin(s * b.f * 2 + b.p)) * W,
+        y: (b.y + 0.06 * Math.cos(s * b.f * 1.6 + b.p)) * H,
+        r2: (b.r * W) ** 2,
+        a: b.a * (0.85 + 0.15 * Math.sin(s * 0.25 + b.p)),
+      }));
+      let p = 0;
+      for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+        let v = 0.05;
+        for (const b of B) { const dx = x - b.x, dy = (y - b.y) * 1.25; v += b.a * Math.exp(-(dx * dx + dy * dy) / b.r2); }
+        const i = (Math.min(1, v * 0.8) * 255 | 0) * 3;
+        d[p++] = lut[i]; d[p++] = lut[i + 1]; d[p++] = lut[i + 2]; d[p++] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+    }
+    draw(0);
+    if (reduce || !("IntersectionObserver" in window)) return;
+    let running = false, raf = 0, last = 0, visible = false;
+    function loop(t) { if (!running) return; if (t - last > 60) { last = t; draw(t); } raf = requestAnimationFrame(loop); }
+    function setRun() { const r = visible && !document.hidden; if (r && !running) { running = true; raf = requestAnimationFrame(loop); } else if (!r) { running = false; cancelAnimationFrame(raf); } }
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; setRun(); }).observe(c.closest(".hero"));
+    document.addEventListener("visibilitychange", setRun);
+  });
+})();
+</script>
+</body>
+</html>

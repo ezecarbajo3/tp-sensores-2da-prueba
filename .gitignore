@@ -1,0 +1,8 @@
+.DS_Store
+.claude/
+tools/preview/
+__pycache__/
+# material de trabajo (no forma parte de la página publicada)
+prompt.md
+discurso-sensores-temperatura.md
+*.zip
