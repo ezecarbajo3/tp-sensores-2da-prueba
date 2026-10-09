@@ -989,25 +989,26 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   </div>
   <p class="note">El rango no depende solo de K/J/T: también de la clase, la vaina y las condiciones de uso. La ilustración es general; la ficha confirma las opciones del modelo.</p>
  </div>
-</section>
-<section class="screen" id="b2-aplicaciones" data-block="2" aria-labelledby="tc-app-title">
- <div class="in-wrap">
-  <p class="kicker">02 · Termocupla <span class="pg">4/4</span></p>
-  <h2 id="tc-app-title">Dónde se utiliza <span class="acc">y por qué</span></h2>
-  <p class="note">En nuestro trabajo: chimenea de caldera y aceite de prefritura. Los otros casos amplían el contexto.</p>
-  <div class="tc-route-nav" aria-label="Aplicaciones de termocupla">
-   <button type="button" data-app-choice="0" aria-pressed="true">Chimenea</button>
-   <button type="button" data-app-choice="1" aria-pressed="false">Horno industrial</button>
-   <button type="button" data-app-choice="2" aria-pressed="false">Prefritura</button>
-   <button type="button" data-app-choice="3" aria-pressed="false">Tuberías</button>
-   <button type="button" data-app-choice="4" aria-pressed="false">Ver todo</button>
-  </div>
-  <figure class="tc-guide-figure">
-   <div class="tc-focus-image" id="tc-app-image"><img src="img/termocupla-aplicaciones.png" width="1672" height="941" alt="Termocuplas instaladas en chimenea, horno industrial, aceite de prefritura y tubería."><div class="tc-focus-box" aria-hidden="true"></div></div>
-   <figcaption class="tc-explain" id="tc-app-note" aria-live="polite"></figcaption>
-  </figure>
-  <p class="note">Una respuesta rápida depende de la punta, el diámetro, la vaina y el montaje. “Uso industrial” describe el contexto, no un criterio de selección por sí solo.</p>
- </div>
+</section><section class="screen" id="b2-aplicaciones" data-block="2" aria-labelledby="tc-app-title">
+<style>
+#b2-aplicaciones .app-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:24px;background:var(--bg)}
+#b2-aplicaciones .app-tile{margin:0;min-width:0;background:var(--surface);border:1px solid var(--line-2);border-top:4px solid var(--tile);border-radius:12px;overflow:hidden}
+#b2-aplicaciones .app-tile h3{font-size:clamp(17px,1.5vw,28px);line-height:1.2;min-height:3.4em;padding:14px 16px;color:var(--text);background:var(--surface)}
+#b2-aplicaciones .app-photo{position:relative;overflow:hidden;aspect-ratio:400/542;background:var(--bg)}
+#b2-aplicaciones .app-photo img{position:absolute;width:418%;max-width:none;height:173.62%;top:-43.54%;left:calc(var(--cut)*-1%);display:block}
+@media(max-width:900px){#b2-aplicaciones .app-gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}@media(max-width:520px){#b2-aplicaciones .app-gallery{grid-template-columns:1fr}}
+</style>
+<div class="in-wrap">
+<p class="kicker">02 · Termocupla <span class="pg">4/4</span></p>
+<h2 id="tc-app-title">Dónde se utiliza <span class="acc">y por qué</span></h2>
+<div class="app-gallery" aria-label="Cuatro aplicaciones de termocuplas visibles juntas">
+<article class="app-tile" style="--tile:#FF8A1F;--cut:3.5"><h3>Chimeneas y gases calientes</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla instalada en una chimenea industrial."></div></article>
+<article class="app-tile" style="--tile:#FF5A5A;--cut:105.25"><h3>Hornos y tratamiento térmico</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla en un horno de tratamiento térmico."></div></article>
+<article class="app-tile" style="--tile:#FFD23F;--cut:209.75"><h3>Aceite de prefritura</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Sonda de temperatura en aceite de prefritura."></div></article>
+<article class="app-tile" style="--tile:#2EE6F6;--cut:313.5"><h3>Tuberías y equipos de proceso</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla instalada en una tubería de proceso."></div></article>
+</div>
+<div hidden id="tc-app-image"><span id="tc-app-note"></span></div>
+</div></section>
 </section>
 
 <!-- ============================================================
