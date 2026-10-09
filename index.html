@@ -1513,12 +1513,30 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <!-- ============================================================
      BLOQUE 5 · DEL SENSOR AL PLC
      ============================================================ -->
+<style>
+#b5 .plc-view-tabs{display:flex;gap:8px;margin:14px 0}
+#b5 .plc-view-tabs button{background:var(--surface);color:var(--text);border:1px solid var(--line,#334155);border-radius:8px;padding:10px 20px;font:inherit;font-weight:700;cursor:pointer}
+#b5 .plc-view-tabs button[aria-selected="true"]{background:var(--c-sys);color:#09111c}
+#b5 [role="tabpanel"][hidden]{display:none}
+#b5 .plc-real-image{margin:0;width:100%}
+#b5 .plc-real-image img{display:block;width:100%;height:auto;border-radius:12px}
+#b5 .lead{max-width:none}
+</style>
 <section class="screen first" id="b5" data-block="5" aria-labelledby="b5-t">
   <div class="in-wrap g-b5a">
     <div class="rv">
       <p class="kicker">05 · Del sensor al PLC <span class="who" data-exp="b4">Expositor 4</span></p>
       <h2 id="b5-t">Señal primaria <span class="acc">≠</span> salida industrial</h2>
     </div>
+    <p class="lead rv">Dos ejemplos: señales distintas que un transmisor compatible convierte en 4–20 mA.</p>
+    <div class="plc-view-tabs rv" role="tablist" aria-label="Vista del sensor al PLC">
+      <button type="button" role="tab" id="plc-tab-real" aria-controls="plc-real" aria-selected="true" data-plc-view="real">Vista real</button>
+      <button type="button" role="tab" id="plc-tab-connection" aria-controls="plc-connection" aria-selected="false" tabindex="-1" data-plc-view="connection">Conexión</button>
+    </div>
+    <div id="plc-real" role="tabpanel" aria-labelledby="plc-tab-real">
+      <figure class="fig rv plc-real-image"><img src="img/del-sensor-al-plc.png" alt="Termocupla y Pt100: cada sensor entrega su señal primaria a un transmisor compatible y llega a un canal independiente del PLC con 4–20 mA." width="1672" height="941"></figure>
+    </div>
+    <div id="plc-connection" role="tabpanel" aria-labelledby="plc-tab-connection" hidden>
     <figure class="fig rv" style="--d:.1s;margin-top:clamp(10px,2vh,24px)">
       <svg viewBox="0 0 1400 410" role="img" aria-labelledby="flow-t">
         <title id="flow-t">La termocupla da mV y la Pt100 da ohms; con un transmisor, las dos llegan al PLC por el mismo 4 a 20 mA</title>
@@ -1567,6 +1585,8 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
         <text x="1270" y="254" text-anchor="middle" class="svg-l">4–20 mA</text>
       </svg>
     </figure>
+
+    </div>
     <p class="big-line rv" style="--d:.16s">Desde el lazo de 4–20 mA <span class="acc">no puede identificarse el sensor</span>.</p>
     <div class="outs rv" style="--d:.24s">
       <div class="out">
@@ -2797,8 +2817,16 @@ root.querySelectorAll("[data-th-temp]").forEach(b=>b.addEventListener("click",()
 show("real");update();
 })();
 </script>
+<script>
+(function(){
+const tabs=Array.from(document.querySelectorAll('[data-plc-view]'));
+function show(tab){tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!active;});}
+tabs.forEach((t,i)=>{t.addEventListener('click',()=>show(t));t.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();e.stopPropagation();const n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;show(tabs[n]);tabs[n].focus();});});
+})();
+</script>
 </body>
 </html>
+
 
 
 
