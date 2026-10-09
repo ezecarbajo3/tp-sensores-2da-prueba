@@ -885,7 +885,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <section class="screen" id="b2-2" data-block="2" aria-labelledby="b2-2-t">
   <div class="in-wrap">
 
-    <p class="kicker">02 · Termocupla <span class="pg">2/4</span></p>
+    <p class="kicker">02 · Termocupla <span class="pg">2/5</span></p>
         <h2 id="b2-2-t">¿Por qué compensar la <span class="acc">junta fría</span>?</h2>
         <p class="analogy"><span class="mono" style="color:var(--text);font-weight:600">V ≈ S · (Tm − Tref)</span><br>La tensión depende de <b>Tm y Tref</b>. El instrumento mide la temperatura de sus bornes para obtener la del proceso. “Fría” no significa refrigerada.</p>
 <div class="g-b2b">
@@ -950,9 +950,49 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   </div>
 </section>
 
+<section class="screen" id="b2-curvas" data-block="2" aria-labelledby="b2-curvas-t">
+  <div class="in-wrap">
+    <p class="kicker">02 · Termocupla <span class="pg">3/5</span></p>
+    <h2 id="b2-curvas-t">No linealidad: <span class="acc">cada tipo tiene su curva</span></h2>
+    <p class="jf-sub jf-lead">Los mV no crecen en línea recta con la temperatura, y cada par de materiales tiene <b>su propia curva</b>. Por eso, después de compensar la junta fría, el instrumento aplica la curva del tipo de termocupla.</p>
+    <div class="jf-grid">
+
+      <div class="jf-col">
+        <figure class="jf-curve" aria-hidden="true">
+          <svg viewBox="0 0 600 360" id="jf-curve">
+            <g id="jf-grid"></g>
+            <line x1="60" y1="310" x2="560" y2="310" stroke="var(--text-3)" stroke-width="1.5"/>
+            <line x1="60" y1="310" x2="60" y2="20" stroke="var(--text-3)" stroke-width="1.5"/>
+            <text x="66" y="16" class="svg-l s">Tensión (mV)</text>
+            <text x="560" y="350" text-anchor="end" class="svg-l s">Temperatura (°C)</text>
+            <line id="jf-chord" stroke-width="2" stroke-dasharray="7 6"/>
+            <text id="jf-chord-t" class="svg-l s" text-anchor="end">si fuera una recta</text>
+            <g id="jf-lines"></g>
+            <line id="jf-tm-line" y1="20" y2="310" stroke="var(--text-2)" stroke-width="1.5" stroke-dasharray="3 5"/>
+            <text id="jf-tm-t" y="34" class="svg-l b" text-anchor="middle">T</text>
+            <g id="jf-dots"></g>
+          </svg>
+        </figure>
+        <p class="note jf-fn">Curvas de referencia NIST / IEC 60584; no son los límites de una sonda real.</p>
+      </div>
+
+      <div class="jf-col">
+        <div class="panel jf-ctl">
+          <div class="ctl"><label for="jf-tm">Temperatura</label><output id="jf-tm-o" for="jf-tm" class="num">385 °C</output><input type="range" id="jf-tm" min="0" max="1000" step="1" value="385"></div>
+        </div>
+        <p class="jf-hint">Tensión que genera cada tipo a esa temperatura (tocá uno para resaltar su curva):</p>
+        <div class="jf-types" id="jf-types" role="group" aria-label="Tipos de termocupla"></div>
+        <p class="jf-why"><b>¿Por qué la K es la más usada?</b> Rango amplio, curva casi recta (≈ 41 µV/°C), aleaciones de níquel mucho más baratas que el platino de la S y buena resistencia a la oxidación: es la de uso general.</p>
+        <p class="jf-key">A la <b>misma temperatura</b>, cada tipo da distintos mV: la entrada o el transmisor se configura con el <b>tipo correcto</b> y su tabla (IEC 60584).</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section class="screen" id="b2-3" data-block="2" aria-labelledby="tc-guide-title">
  <div class="in-wrap">
-  <p class="kicker">02 · Termocupla <span class="pg">3/4</span></p>
+  <p class="kicker">02 · Termocupla <span class="pg">4/5</span></p>
   <h2 id="tc-guide-title">La ficha técnica: <span class="acc">decisiones de selección</span></h2>
   <p class="note">WIKA TC10-C es un ejemplo concreto. Primero elegimos qué necesita el proceso; después lo comprobamos en la ficha.</p>
   <div class="tc-route-nav" aria-label="Decisiones de selección">
@@ -994,7 +1034,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 @media(max-width:800px){#b2-aplicaciones .app-simple-strip{grid-template-columns:repeat(2,1fr)}#b2-aplicaciones .app-strip-title{grid-column:1/-1}#b2-aplicaciones .app-strip-item{border-left:0;padding-left:0}}
 </style>
 <div class="in-wrap">
-<p class="kicker">02 · Termocupla <span class="pg">4/4</span></p>
+<p class="kicker">02 · Termocupla <span class="pg">5/5</span></p>
 <h2 id="tc-app-title">Dónde se utiliza <span class="acc">y por qué</span></h2>
 <div class="app-gallery" aria-label="Cuatro aplicaciones de termocuplas visibles juntas">
 <article class="app-tile" style="--tile:#FF8A1F;--cut:3.5"><h3>Chimeneas y gases calientes</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla instalada en una chimenea industrial."></div></article>
@@ -1023,6 +1063,27 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b3 .rtd-facts span{display:block;font-size:clamp(13px,1.2vw,18px);color:var(--muted);margin-top:4px}
 @media(max-width:700px){#b3 .rtd-circuit{grid-template-columns:1fr;padding:16px}#b3 .rtd-facts{border-left:0;border-top:1px solid var(--line-2);padding:16px 0 0;grid-template-columns:repeat(3,1fr)}}
 #b2-2 .cj-scene-image{background:#0b1119}#b2-2 .cj-tag{background:rgba(15,25,39,.95);color:var(--text);border-color:var(--line)}
+#b2-curvas .jf-lead{margin:.4em 0 0;font-size:var(--fs-body);color:var(--text-2);max-width:70ch}
+#b2-curvas .jf-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,3vw,56px);margin-top:clamp(10px,2vh,24px);align-items:start}
+#b2-curvas .jf-col{min-width:0}
+#b2-curvas .jf-col+.jf-col{border-left:1px solid var(--line);padding-left:clamp(20px,3vw,56px)}
+#b2-curvas .jf-curve{margin:0}
+#b2-curvas .jf-curve svg{display:block;width:auto;max-width:100%;height:auto;max-height:58vh;margin:0 auto}
+#b2-curvas .jf-fn{margin:.6em 0 0}
+#b2-curvas .jf-ctl{padding:clamp(12px,1.2vw,20px)}
+#b2-curvas .jf-ctl .ctl label{font-size:var(--fs-small)}
+#b2-curvas .jf-ctl .ctl output{font-size:var(--fs-body);min-width:0}
+#b2-curvas .jf-hint{margin:clamp(10px,1.6vh,18px) 0 0;font-size:var(--fs-small);color:var(--text-3)}
+#b2-curvas .jf-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+#b2-curvas .jf-types button{font:inherit;font-size:var(--fs-small);display:flex;align-items:baseline;justify-content:space-between;gap:.45em;padding:6px 12px;border:1px solid var(--line-2);border-left:4px solid var(--c);border-radius:8px;background:var(--surface);color:var(--text-2);cursor:pointer;text-align:left}
+#b2-curvas .jf-types button b{font-family:var(--mono);color:var(--c)}
+#b2-curvas .jf-types button span{font-family:var(--mono)}
+#b2-curvas .jf-types button[aria-pressed="true"]{background:var(--surface-3);color:var(--text);border-color:var(--c)}
+#b2-curvas .jf-why{margin:clamp(10px,1.6vh,18px) 0 0;padding:.5em .8em;border-radius:8px;background:rgba(255,164,58,.08);border:1px solid rgba(255,164,58,.35);font-size:var(--fs-small);color:var(--text-2);line-height:1.35}
+#b2-curvas .jf-why b{color:var(--c-tc)}
+#b2-curvas .jf-key{margin:clamp(10px,1.6vh,18px) 0 0;padding:.5em 0 .5em 1em;border-left:4px solid var(--c-tc);font-size:var(--fs-small);color:var(--text-2)}
+#b2-curvas .jf-key b{color:var(--text)}
+@media(max-width:900px){#b2-curvas .jf-grid{grid-template-columns:minmax(0,1fr)}#b2-curvas .jf-col+.jf-col{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:20px}}
 </style>
 <div class="in-wrap rtd-intro">
 <p class="kicker">03 · RTD: Pt100 y Pt1000 <span class="who">Expositor 3</span></p>
@@ -2261,6 +2322,88 @@ const PUNTOS = [
     }
     tm.addEventListener("input", upd);
     tr.addEventListener("input", upd);
+    upd();
+  });
+
+  safe("curvas-termocupla", () => {
+    const tm = $("#jf-tm");
+
+    /* Curvas por tipo (NIST ITS-90 / IEC 60584) */
+    const P = {
+      J: [[760, [0, 5.0381187815e-2, 3.047583693e-5, -8.568106572e-8, 1.3228195295e-10, -1.7052958337e-13, 2.0948090697e-16, -1.2538395336e-19, 1.5631725697e-23]],
+          [1200, [2.9645625681e2, -1.4976127786, 3.1787103924e-3, -3.1847686701e-6, 1.5720819004e-9, -3.0691369056e-13]]],
+      K: [[1372, [-1.7600413686e-2, 3.8921204975e-2, 1.8558770032e-5, -9.9457592874e-8, 3.1840945719e-10, -5.6072844889e-13, 5.6075059059e-16, -3.2020720003e-19, 9.7151147152e-23, -1.2104721275e-26]]],
+      T: [[400, [0, 3.8748106364e-2, 3.329222788e-5, 2.0618243404e-7, -2.1882256846e-9, 1.0996880928e-11, -3.0815758772e-14, 4.547913529e-17, -2.7512901673e-20]]],
+      E: [[1000, [0, 5.866550871e-2, 4.5032275582e-5, 2.8908407212e-8, -3.3056896652e-10, 6.502440327e-13, -1.9197495504e-16, -1.2536600497e-18, 2.1489217569e-21, -1.4388041782e-24, 3.5960899481e-28]]],
+      N: [[1300, [0, 2.5929394601e-2, 1.571014188e-5, 4.3825627237e-8, -2.5261169794e-10, 6.4311819339e-13, -1.0063471519e-15, 9.9745338992e-19, -6.0863245607e-22, 2.0849229339e-25, -3.0682196151e-29]]],
+      S: [[1064.18, [0, 5.40313308631e-3, 1.2593428974e-5, -2.32477968689e-8, 3.22028823036e-11, -3.31465196389e-14, 2.55744251786e-17, -1.25068871393e-20, 2.71443176145e-24]]],
+    };
+    const poly = (c, t) => c.reduceRight((a, k) => a * t + k, 0);
+    function E(type, t) {
+      const seg = P[type].find(([max]) => t <= max) || P[type][P[type].length - 1];
+      let v = poly(seg[1], t);
+      if (type === "K") v += 0.1185976 * Math.exp(-1.183432e-4 * (t - 126.9686) ** 2);
+      return v;
+    }
+    const TYPES = [
+      { k: "E", c: "#FF6B9A", max: 1000, m: "aleaciones de níquel" },
+      { k: "J", c: "#4FC3F7", max: 1000, m: "hierro – cobre/níquel" },
+      { k: "K", c: "#FFA43A", max: 1000, m: "níquel/cromo – níquel/aluminio" },
+      { k: "N", c: "#B39DFF", max: 1000, m: "aleaciones de níquel" },
+      { k: "T", c: "#FFD23F", max: 400,  m: "cobre – cobre/níquel" },
+      { k: "S", c: "#A8B5C7", max: 1000, m: "platino – platino/rodio" },
+    ];
+    const PX = (t) => 60 + (t / 1000) * 500;
+    const PY = (v) => 310 - (v / 80) * 290;
+    let g = "";
+    for (let t = 0; t <= 1000; t += 200) g += `<line x1="${PX(t)}" y1="20" x2="${PX(t)}" y2="310" stroke="var(--grid)" stroke-width="1"/><text x="${PX(t)}" y="330" text-anchor="middle" class="svg-l s">${t}</text>`;
+    for (let v = 0; v <= 80; v += 20) g += `<line x1="60" y1="${PY(v)}" x2="560" y2="${PY(v)}" stroke="var(--grid)" stroke-width="1"/><text x="52" y="${PY(v) + 5}" text-anchor="end" class="svg-l s">${v}</text>`;
+    $("#jf-grid").innerHTML = g;
+    $("#jf-lines").innerHTML = TYPES.map(({ k, c, max }) => {
+      let d = "";
+      for (let t = 0; t <= max; t += 5) d += (t ? " L" : "M") + PX(t).toFixed(1) + " " + PY(E(k, t)).toFixed(1);
+      const yEnd = PY(E(k, max));
+      return `<g data-type="${k}"><path d="${d}" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round"/><text x="${PX(max) + 8}" y="${yEnd + 6}" class="svg-l b" style="fill:${c}">${k}</text></g>`;
+    }).join("");
+    $("#jf-dots").innerHTML = TYPES.map(({ k, c }) => `<circle data-type="${k}" r="5.5" fill="${c}" stroke="var(--bg)" stroke-width="2"/>`).join("");
+    $("#jf-types").innerHTML = TYPES.map(({ k, c, m }) => `<button type="button" data-type="${k}" style="--c:${c}" aria-pressed="false" title="${m}"><b>${k}</b><span>—</span></button>`).join("");
+
+    let sel = "K";
+    function select(k) {
+      sel = k;
+      const t = TYPES.find((x) => x.k === k);
+      $$("#jf-types button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.type === k)));
+      $$("#jf-lines g").forEach((n) => n.style.opacity = n.dataset.type === k ? 1 : .35);
+      const ch = $("#jf-chord");
+      ch.setAttribute("x1", PX(0)); ch.setAttribute("y1", PY(0));
+      ch.setAttribute("x2", PX(t.max)); ch.setAttribute("y2", PY(E(k, t.max)));
+      ch.setAttribute("stroke", t.c);
+      const ct = $("#jf-chord-t");
+      ct.setAttribute("x", PX(t.max) - 16); ct.setAttribute("y", PY(E(k, t.max)) - 14);
+      ct.style.fill = t.c;
+      $("#jf-lines").appendChild($(`#jf-lines g[data-type="${k}"]`));
+    }
+    $$("#jf-types button").forEach((b) => b.addEventListener("click", () => select(b.dataset.type)));
+
+    function upd() {
+      const Tm = +tm.value;
+      $("#jf-tm-o").textContent = Tm + " °C";
+      const x = PX(Tm);
+      $("#jf-tm-line").setAttribute("x1", x); $("#jf-tm-line").setAttribute("x2", x);
+      const lbl = $("#jf-tm-t");
+      lbl.setAttribute("x", x);
+      lbl.setAttribute("text-anchor", Tm > 800 ? "end" : Tm < 100 ? "start" : "middle");
+      lbl.textContent = Tm + " °C";
+      TYPES.forEach(({ k, max }) => {
+        const inRange = Tm <= max, v = E(k, Tm);
+        const dot = $(`#jf-dots circle[data-type="${k}"]`);
+        dot.style.display = inRange ? "" : "none";
+        dot.setAttribute("cx", x); dot.setAttribute("cy", PY(v));
+        $(`#jf-types button[data-type="${k}"] span`).textContent = inRange ? fmt(v, 2) + " mV" : "fuera de rango";
+      });
+    }
+    tm.addEventListener("input", upd);
+    select(sel);
     upd();
   });
 
