@@ -722,6 +722,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b1 .b1-pics figcaption{position:absolute;left:10px;bottom:10px;padding:.3em .7em;border-radius:7px;background:rgba(8,12,20,.82);color:var(--c);font:600 var(--fs-small)/1.2 var(--mono)}
 @media (max-width:900px){#b1.screen{height:auto}#b1 .b1-grid{grid-template-columns:1fr}#b1 .b1-pics{height:auto;grid-template-rows:none;justify-items:stretch}#b1 .b1-pics figure{height:auto;width:100%;max-width:none}}
 </style>
+
 </head>
 <body>
 <a class="sr-only" href="#b1">Saltar al contenido</a>
@@ -1061,37 +1062,37 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b3-3 .hw-err .d{display:block;margin-top:.15em;font-size:var(--fs-small);color:var(--text-3)}
 #b3-3 .hw-quote{margin-top:clamp(8px,1.6vh,18px);font-size:var(--fs-body);padding-top:.3em;padding-bottom:.3em}
 @media(max-width:900px){#b3-3 .hw-pane{grid-template-columns:minmax(0,1fr)}#b3-3 .hw-photo img{max-height:none}}
-#b4 .t4-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.8vw,32px);margin-top:clamp(10px,2vh,22px)}
-#b4 .t4-card{display:flex;flex-direction:column;gap:clamp(8px,1.2vh,14px);padding:clamp(14px,1.4vw,24px);border:1px solid var(--line-2);border-top:4px solid var(--acc);border-radius:12px;background:var(--surface)}
-#b4 .t4-card h3{margin:0;font-size:var(--fs-h3);color:var(--acc)}
-#b4 .t4-card h3 .mono{font-size:.7em;color:var(--text-2)}
-#b4 .t4-what{margin:0;font-size:var(--fs-body);color:var(--text-2);line-height:1.35}
-#b4 .t4-what b{color:var(--text)}
-#b4 .t4-vis{min-height:0}
-#b4 .t4-vis>svg{display:block;width:100%;height:auto;max-height:24vh}
-#b4 .t4-ax{font:500 13px var(--mono);fill:var(--text-3)}
-#b4 .t4-lb{font:700 16px var(--font)}
-#b4 .t4-ics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-#b4 .t4-ic{padding:12px 14px;border-radius:10px;background:var(--bg-2);border:1px solid var(--line)}
-#b4 .t4-ic>b{font:700 var(--fs-body) var(--mono);color:var(--text)}
-#b4 .t4-kind{margin-left:.6em;font:500 var(--fs-small) var(--mono);color:var(--acc)}
-#b4 .t4-ic svg{display:block;width:100%;max-width:200px;height:auto;margin:.5em 0 .2em}
-#b4 .t4-big{margin:.35em 0 0;font:700 var(--fs-h3)/1.1 var(--mono);color:var(--acc)}
-#b4 .t4-ex{margin:.25em 0 0;font-size:var(--fs-small);color:var(--text-2)}
-#b4 .t4-uses{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-#b4 .t4-uses b{display:block;font-size:var(--fs-body)}
-#b4 .t4-uses span{font-size:var(--fs-small);color:var(--text-2)}
-#b4 .t4-note{grid-template-columns:1fr;padding:.5em .8em;border-left:4px solid var(--acc);background:var(--bg-2);border-radius:8px}
-#b4 .t4-note b{color:var(--text)}
-#b4 .t4-sig{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:auto 0 0}
-#b4 .t4-sig>div{padding:.45em .6em;border-radius:8px;border-top:3px solid var(--acc);background:var(--bg-2)}
-#b4 .t4-sig dt{font:600 var(--fs-small) var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--text-3)}
-#b4 .t4-sig dd{margin:.15em 0 0;font-size:var(--fs-small);font-weight:600;color:var(--text);line-height:1.25}
-#b4 .t4-sig .no{border-top-color:var(--bad)}
-#b4 .t4-sig .no dd{color:var(--bad)}
-#b4 .t4-card>.src{align-self:flex-start}
-@media(max-width:900px){#b4 .t4-grid{grid-template-columns:minmax(0,1fr)}}
-@media(max-width:560px){#b4 .t4-ics,#b4 .t4-uses,#b4 .t4-sig{grid-template-columns:minmax(0,1fr)}}
+:is(#b4,#b4-ic) .t4-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.8vw,32px);margin-top:clamp(10px,2vh,22px)}
+:is(#b4,#b4-ic) .t4-card{display:flex;flex-direction:column;gap:clamp(8px,1.2vh,14px);padding:clamp(14px,1.4vw,24px);border:1px solid var(--line-2);border-top:4px solid var(--acc);border-radius:12px;background:var(--surface)}
+:is(#b4,#b4-ic) .t4-card h3{margin:0;font-size:var(--fs-h3);color:var(--acc)}
+:is(#b4,#b4-ic) .t4-card h3 .mono{font-size:.7em;color:var(--text-2)}
+:is(#b4,#b4-ic) .t4-what{margin:0;font-size:var(--fs-body);color:var(--text-2);line-height:1.35}
+:is(#b4,#b4-ic) .t4-what b{color:var(--text)}
+:is(#b4,#b4-ic) .t4-vis{min-height:0}
+:is(#b4,#b4-ic) .t4-vis>svg{display:block;width:100%;height:auto;max-height:24vh}
+:is(#b4,#b4-ic) .t4-ax{font:500 13px var(--mono);fill:var(--text-3)}
+:is(#b4,#b4-ic) .t4-lb{font:700 16px var(--font)}
+:is(#b4,#b4-ic) .t4-ics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+:is(#b4,#b4-ic) .t4-ic{padding:12px 14px;border-radius:10px;background:var(--bg-2);border:1px solid var(--line)}
+:is(#b4,#b4-ic) .t4-ic>b{font:700 var(--fs-body) var(--mono);color:var(--text)}
+:is(#b4,#b4-ic) .t4-kind{margin-left:.6em;font:500 var(--fs-small) var(--mono);color:var(--acc)}
+:is(#b4,#b4-ic) .t4-ic svg{display:block;width:100%;max-width:200px;height:auto;margin:.5em 0 .2em}
+:is(#b4,#b4-ic) .t4-big{margin:.35em 0 0;font:700 var(--fs-h3)/1.1 var(--mono);color:var(--acc)}
+:is(#b4,#b4-ic) .t4-ex{margin:.25em 0 0;font-size:var(--fs-small);color:var(--text-2)}
+:is(#b4,#b4-ic) .t4-uses{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+:is(#b4,#b4-ic) .t4-uses b{display:block;font-size:var(--fs-body)}
+:is(#b4,#b4-ic) .t4-uses span{font-size:var(--fs-small);color:var(--text-2)}
+:is(#b4,#b4-ic) .t4-note{grid-template-columns:1fr;padding:.5em .8em;border-left:4px solid var(--acc);background:var(--bg-2);border-radius:8px}
+:is(#b4,#b4-ic) .t4-note b{color:var(--text)}
+:is(#b4,#b4-ic) .t4-sig{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:auto 0 0}
+:is(#b4,#b4-ic) .t4-sig>div{padding:.45em .6em;border-radius:8px;border-top:3px solid var(--acc);background:var(--bg-2)}
+:is(#b4,#b4-ic) .t4-sig dt{font:600 var(--fs-small) var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--text-3)}
+:is(#b4,#b4-ic) .t4-sig dd{margin:.15em 0 0;font-size:var(--fs-small);font-weight:600;color:var(--text);line-height:1.25}
+:is(#b4,#b4-ic) .t4-sig .no{border-top-color:var(--bad)}
+:is(#b4,#b4-ic) .t4-sig .no dd{color:var(--bad)}
+:is(#b4,#b4-ic) .t4-card>.src{align-self:flex-start}
+@media(max-width:900px){:is(#b4,#b4-ic) .t4-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){:is(#b4,#b4-ic) .t4-ics,:is(#b4,#b4-ic) .t4-uses,:is(#b4,#b4-ic) .t4-sig{grid-template-columns:minmax(0,1fr)}}
 .sig-card{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1vw,16px);margin-top:clamp(10px,1.8vh,20px)}
 .sig-card>div{padding:clamp(10px,1vw,16px) clamp(12px,1.2vw,20px);border:1px solid var(--line-2);border-top:4px solid var(--acc,var(--c-tc));border-radius:10px;background:var(--surface)}
 .sig-card .k{display:block;font:600 var(--fs-small) var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)}
@@ -1193,7 +1194,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   <div class="in-wrap">
     <p class="kicker">03 · RTD <span class="pg">3/4</span></p>
     <h2 id="b3-3-t">Conexión a <span class="acc">2, 3 y 4 hilos</span></h2>
-    <p class="hw-lead">El instrumento mide ohms, pero <b>no distingue los del sensor de los del cable</b>: el cable se lee como temperatura de más. Hay tres formas de resolverlo.</p>
+    <p class="hw-lead">En <b>2 hilos</b>, el instrumento mide sensor y cables juntos. Las conexiones de <b>3 y 4 hilos</b> reducen ese error de formas distintas.</p>
     <div class="hw-tabs" role="tablist" aria-label="Cantidad de hilos">
       <button type="button" role="tab" data-hw="2" aria-selected="true" class="bad"><b>2 hilos</b><span>«Lo acepto»</span></button>
       <button type="button" role="tab" data-hw="3" aria-selected="false" class="warn"><b>3 hilos</b><span>«Lo mido y lo resto»</span></button>
@@ -1206,7 +1207,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
         <p class="hw-idea">«Lo acepto»</p>
         <p class="hw-what">El cable se suma al sensor y se lee como si estuviera más caliente. Es lo más <b>simple y barato</b>.</p>
         <div class="hw-err"><span class="k">Error por 1 Ω de cable</span><div class="hw-num"><span>Pt100 <b>+2,6 °C</b></span><span>Pt1000 <b>+0,26 °C</b></span></div></div>
-        <p class="hw-when"><b>Alcanza</b> con cable corto, o con Pt1000.</p>
+        <p class="hw-when"><b>Conviene</b> si el error de cableado es admisible; la Pt1000 reduce su impacto.</p>
       </div>
     </div>
 
@@ -1214,7 +1215,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       <figure class="hw-photo"><img src="img/rtd-3-hilos.jpg" width="1102" height="591" loading="lazy" alt="Instrumento con entrada RTD conectado a una Pt100 con tres cables: dos rojos al mismo extremo y uno blanco."></figure>
       <div class="hw-side warn">
         <p class="hw-idea">«Lo mido y lo resto»</p>
-        <p class="hw-what">Como la <b>tara de una balanza</b>: un cable extra «pesa» el cable y el instrumento lo descuenta.</p>
+        <p class="hw-what">El tercer conductor permite <b>compensar la resistencia del cableado</b>, suponiendo conductores de igual resistencia.</p>
         <div class="hw-err"><span class="k">Error de cable</span><div class="hw-num"><span><b>Casi nada</b></span></div><span class="d">si todos los cables son iguales</span></div>
         <p class="hw-when"><b>Equilibrio</b> entre exactitud y costo.</p>
       </div>
@@ -1224,13 +1225,13 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       <figure class="hw-photo"><img src="img/rtd-4-hilos.jpg" width="1105" height="602" loading="lazy" alt="Instrumento con bornes I+, V+, V− e I− conectado a una Pt100 con cuatro cables, dos a cada extremo del sensor."></figure>
       <div class="hw-side ok">
         <p class="hw-idea">«No lo mido»</p>
-        <p class="hw-what">Como poner el <b>voltímetro pegado al sensor</b>: <b>I+ e I−</b> llevan la corriente; <b>V+ y V−</b> solo miden, casi sin corriente. El cable deja de importar.</p>
+        <p class="hw-what">Como poner el <b>voltímetro pegado al sensor</b>: <b>I+ e I−</b> llevan la corriente; <b>V+ y V−</b> solo miden, casi sin corriente. La caída de tensión en los cables de corriente queda fuera de la medición.</p>
         <div class="hw-err"><span class="k">Error de cable</span><div class="hw-num"><span><b>Prácticamente nada</b></span></div><span class="d">no elimina la tolerancia propia del sensor</span></div>
         <p class="hw-when"><b>Cuando</b> se necesita máxima exactitud.</p>
       </div>
     </div>
 
-    <p class="quote hw-quote">Con <b>Pt1000</b> el mismo cable pesa 10 veces menos: por eso muchas veces <span class="acc">alcanza con 2 hilos</span>. <button type="button" class="src" data-src="tr10c:5">TR10-C · clases A y AA: no a 2 hilos</button></p>
+    <p class="quote hw-quote">Con <b>Pt1000</b>, el mismo cable produce aproximadamente 10 veces menos error de temperatura. <span class="acc">La conexión se elige según el error admisible</span>. <button type="button" class="src" data-src="tr10c:5">TR10-C · clases A y AA: no a 2 hilos</button></p>
   </div>
 </section>
 
@@ -1241,40 +1242,40 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <!-- ============================================================
      BLOQUE 4 · TERMISTOR · INTEGRADO · INFRARROJO
      ============================================================ -->
+<style>
+/* Ayudas visuales: termistores e integrados en pantallas independientes */
+#b4 .thermistor-real{width:min(100%,calc(51svh * 1.808));margin:18px auto 0}
+#b4 .thermistor-real img{display:block;width:100%;height:auto;border-radius:14px}
+#b4 .thermistor-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+#b4 .thermistor-summary>div{padding:12px 18px;border:1px solid var(--line-2);border-top:3px solid var(--c-ntc);background:var(--surface);border-radius:10px}
+#b4 .thermistor-summary b{display:block;color:var(--c-ntc);font-size:var(--fs-body)}
+#b4 .thermistor-summary span{display:block;color:var(--text-2);font-size:var(--fs-small);margin-top:4px}
+#b4 .thermistor-foot{font-size:var(--fs-small);color:var(--text-3);margin-top:12px;line-height:1.4}
+#b4-ic .t4-grid{grid-template-columns:1fr}
+#b4-ic .t4-ics{gap:24px;margin:18px 0}
+#b4-ic .t4-ic{padding:24px}
+#b4-ic .t4-big{font-size:clamp(30px,3.6vw,64px)}
+@media(max-width:700px){#b4 .thermistor-real{width:100%}#b4 .thermistor-summary{grid-template-columns:1fr}#b4-ic .t4-ics{grid-template-columns:1fr}}
+</style>
 <section class="screen first" id="b4" data-block="4" aria-labelledby="b4-t">
-  <div class="in-wrap">
-    <p class="kicker">04 · Termistor · integrado · infrarrojo <span class="who"><span data-exp="b1">Expositor 1</span>&nbsp;+&nbsp;<span data-exp="b4">Expositor 4</span></span></p>
-    <h2 id="b4-t" style="font-size:clamp(30px,min(3.4vw,6vh),70px)">Termistor y <span class="acc">sensor integrado</span></h2>
-    <div class="t4-grid">
-
-      <article class="t4-card c-ntc" aria-labelledby="ntc-t">
-        <h3 id="ntc-t">Termistor <span class="mono">NTC / PTC</span></h3>
-        <p class="t4-what">Un <b>semiconductor</b> cuya resistencia cambia <b>mucho</b> con la temperatura, pero no en línea recta.</p>
-        <div class="t4-vis">
-          <svg viewBox="0 0 420 210" role="img" aria-labelledby="ntcc-t">
-            <title id="ntcc-t">La resistencia de una NTC baja al calentarse; la de una PTC sube de golpe al pasar un umbral</title>
-            <path d="M40 16 V180 H404" fill="none" stroke="var(--line-2)" stroke-width="1.5"/>
-            <text x="46" y="14" class="t4-ax">Resistencia</text>
-            <text x="404" y="202" text-anchor="end" class="t4-ax">Temperatura →</text>
-            <path d="M44 30 C 110 110, 200 150, 400 166" fill="none" stroke="var(--c-ntc)" stroke-width="5" stroke-linecap="round"/>
-            <path d="M44 170 H262 C 284 170, 290 40, 312 40 H400" fill="none" stroke="#E7DCFF" stroke-width="4" stroke-dasharray="10 7" stroke-linecap="round"/>
-            <text x="400" y="150" text-anchor="end" class="t4-lb" style="fill:var(--c-ntc)">NTC: baja</text>
-            <text x="404" y="28" text-anchor="end" class="t4-lb" style="fill:#E7DCFF">PTC: sube de golpe</text>
-          </svg>
-        </div>
-        <div class="t4-uses">
-          <div><b style="color:var(--c-ntc)">NTC → medir</b><span>equipos de frío y climatización</span></div>
-          <div><b style="color:#E7DCFF">PTC → proteger</b><span>bobinado de un motor</span></div>
-        </div>
-        <dl class="t4-sig">
-          <div><dt>Señal</dt><dd>Analógica · Ω</dd></div>
-          <div><dt>Salida</dt><dd>Entrada compatible con su curva</dd></div>
-          <div class="no"><dt>PNP/NPN</dt><dd>No aplica</dd></div>
-        </dl>
-        <button type="button" class="src" data-src="ntcle100:2">Ficha NTCLE100E3 · −40…+125 °C</button>
-      </article>
-
-      <article class="t4-card c-ic" aria-labelledby="ic-t">
+<div class="in-wrap">
+<p class="kicker">04 · Termistor <span class="pg">1/4</span> <span class="who" data-exp="b1">Expositor 1</span></p>
+<h2 id="b4-t">Termistores: <span class="acc">NTC y PTC</span></h2>
+<p class="lead">La temperatura cambia su <b>resistencia</b>: en la NTC baja; en la PTC aumenta.</p>
+<figure class="thermistor-real"><img src="img/termistores-frio-calor.png" width="1387" height="767" alt="Comparación cualitativa con medidores en ohms: al calentarse la NTC disminuye su resistencia y la PTC aumenta su resistencia."></figure>
+<div class="thermistor-summary">
+<div><b>NTC · medición</b><span>Refrigeración y climatización</span></div>
+<div><b>PTC · protección</b><span>Detección de sobretemperatura</span></div>
+<div><b>Señal primaria · Ω</b><span>El circuito mide resistencia; no es PNP/NPN.</span></div>
+</div>
+<p class="thermistor-foot">Respuesta no lineal: se utiliza la curva del componente. Los medidores ilustran el cambio, no valores de un modelo concreto. <button type="button" class="src" data-src="ntcle100:2">Ficha NTCLE100E3</button></p>
+</div>
+</section>
+<section class="screen" id="b4-ic" data-block="4" style="--acc:var(--c-ic)" aria-labelledby="b4-ic-t">
+<div class="in-wrap">
+<p class="kicker">04 · Sensor integrado <span class="pg">2/4</span> <span class="who" data-exp="b1">Expositor 1</span></p>
+<h2 id="b4-ic-t">Un chip, <span class="acc">una salida acondicionada</span></h2>
+<div class="t4-grid"><article class="t4-card c-ic" aria-labelledby="ic-t">
         <h3 id="ic-t">Sensor integrado</h3>
         <p class="t4-what">Un <b>chip</b> que mide con una unión semiconductora y <b>ya trae la electrónica</b>: necesita alimentación.</p>
         <div class="t4-vis t4-ics">
@@ -1298,17 +1299,15 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
           <div class="no"><dt>PNP/NPN</dt><dd>No aplica</dd></div>
         </dl>
         <button type="button" class="src" data-src="lm35:1">Ficha LM35 · p. 1</button>
-      </article>
-
-    </div>
-  </div>
+      </article></div>
+</div>
 </section>
 
 <section class="screen" id="b4-2" data-block="4" style="--acc:var(--c-ir)" aria-labelledby="b4-2-t">
   <div class="in-wrap">
     <div class="g-b4b">
       <div class="rv">
-        <p class="kicker">04 · Infrarrojo <span class="pg">2/3</span> <span class="who" data-exp="b4">Expositor 4</span></p>
+        <p class="kicker">04 · Infrarrojo <span class="pg">3/4</span> <span class="who" data-exp="b4">Expositor 4</span></p>
         <h2 id="b4-2-t">Pirómetro infrarrojo: <span class="acc">medición sin contacto</span></h2>
         <p class="lead" style="max-width:52ch">Capta la radiación térmica de la superficie. La <b>emisividad (ε)</b> define cuánto emite y cuánto refleja.</p>
         <figure class="fig" style="margin-top:clamp(8px,1.6vh,20px)">
@@ -1390,7 +1389,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </section>
 
 <section class="screen fv-screen" id="b4-3" data-block="4" style="--acc:var(--c-ir)" aria-label="Hoja técnica ifm TW2000">
-  <div class="in-wrap rv" data-fv="tw2000" data-kicker="04 · Infrarrojo · 3/3" data-app="Superficie del producto en la cinta"></div>
+  <div class="in-wrap rv" data-fv="tw2000" data-kicker="04 · Infrarrojo · 4/4" data-app="Superficie del producto en la cinta"></div>
 </section>
 
 <!-- ============================================================
@@ -2662,6 +2661,7 @@ const PUNTOS = [
 </script>
 </body>
 </html>
+
 
 
 
