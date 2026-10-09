@@ -1004,17 +1004,23 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b2-aplicaciones .app-why b{color:var(--text)}#b2-aplicaciones .app-case{display:block;font:600 12px var(--mono);text-transform:uppercase;color:var(--tile);margin-bottom:8px}
 #b2-aplicaciones .app-criteria{margin-top:18px;padding:14px 18px;border:1px solid var(--line-2);border-radius:10px;background:#101b29;font-size:clamp(14px,1.25vw,21px);line-height:1.45;color:var(--text-2)}
 #b2-aplicaciones .app-criteria b{color:var(--acc)}
+#b2-aplicaciones .app-simple-strip{display:grid;grid-template-columns:1.4fr repeat(4,1fr);align-items:center;margin-top:18px;background:#101b29;border:1px solid var(--line-2);border-radius:12px;padding:15px 18px;gap:16px}
+#b2-aplicaciones .app-strip-title{color:var(--text);font-size:clamp(16px,1.5vw,25px)}
+#b2-aplicaciones .app-strip-item{display:flex;align-items:center;gap:10px;border-left:1px solid var(--line-2);padding-left:16px;font-size:clamp(14px,1.2vw,21px);font-weight:600;color:var(--text)}
+#b2-aplicaciones .app-strip-item svg{width:44px;height:44px;flex-shrink:0;fill:none;stroke:var(--icon-color);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:800px){#b2-aplicaciones .app-simple-strip{grid-template-columns:repeat(2,1fr)}#b2-aplicaciones .app-strip-title{grid-column:1/-1}#b2-aplicaciones .app-strip-item{border-left:0;padding-left:0}}
 </style>
 <div class="in-wrap">
 <p class="kicker">02 · Termocupla <span class="pg">4/4</span></p>
 <h2 id="tc-app-title">Dónde se utiliza <span class="acc">y por qué</span></h2>
 <div class="app-gallery" aria-label="Cuatro aplicaciones de termocuplas visibles juntas">
-<article class="app-tile" style="--tile:#FF8A1F;--cut:3.5"><h3>Chimeneas y gases calientes</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla instalada en una chimenea industrial."></div><p class="app-why"><span class="app-case">Nuestra línea</span><b>Temperatura elevada y gases exigentes.</b> Se considera una termocupla K, con vaina compatible y rango verificado.</p></article>
-<article class="app-tile" style="--tile:#FF5A5A;--cut:105.25"><h3>Hornos y tratamiento térmico</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla en un horno de tratamiento térmico."></div><p class="app-why"><span class="app-case">Ejemplo de contexto</span><b>Altas temperaturas y atmósfera del horno.</b> Requiere construcción adecuada. En nuestro horno de cocción elegimos Pt100.</p></article>
-<article class="app-tile" style="--tile:#FFD23F;--cut:209.75"><h3>Aceite de prefritura</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Sonda de temperatura en aceite de prefritura."></div><p class="app-why"><span class="app-case">Nuestra línea · 180–195 °C</span><b>Controlar la temperatura del aceite.</b> Termocupla J o Pt100 con vaina: deciden exactitud, estabilidad y montaje.</p></article>
-<article class="app-tile" style="--tile:#2EE6F6;--cut:313.5"><h3>Tuberías y equipos de proceso</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla instalada en una tubería de proceso."></div><p class="app-why"><span class="app-case">Ejemplo de contexto</span><b>Medir dentro del fluido.</b> El medio, la temperatura y el montaje deciden la tecnología; una tubería no exige termocupla.</p></article>
+<article class="app-tile" style="--tile:#FF8A1F;--cut:3.5"><h3>Chimeneas y gases calientes</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla instalada en una chimenea industrial."></div></article>
+<article class="app-tile" style="--tile:#FF5A5A;--cut:105.25"><h3>Hornos y tratamiento térmico</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla en un horno de tratamiento térmico."></div></article>
+<article class="app-tile" style="--tile:#FFD23F;--cut:209.75"><h3>Aceite de prefritura</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Sonda de temperatura en aceite de prefritura."></div></article>
+<article class="app-tile" style="--tile:#2EE6F6;--cut:313.5"><h3>Tuberías y equipos de proceso</h3><div class="app-photo"><img src="img/termocupla-aplicaciones.png" alt="Termocupla instalada en una tubería de proceso."></div></article>
 </div>
-<p class="app-criteria"><b>Qué verificar para elegir:</b> rango de temperatura · resistencia de la vaina al medio · respuesta térmica · exactitud necesaria · montaje y conexión al control.</p>
+
+<div class="app-simple-strip" aria-label="Por qué se usan las termocuplas"><strong class="app-strip-title">¿Por qué se usan?</strong><div class="app-strip-item" style="--icon-color:#ff8a1f"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 5a5 5 0 0 1 10 0v20a10 10 0 1 1-10 0Z"/><path d="M23 10v20"/><circle cx="23" cy="34" r="4"/></svg><span>Rango térmico</span></div><div class="app-strip-item" style="--icon-color:#41b6ed"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 40 10v12c0 12-16 20-16 20S8 34 8 22V10Z"/></svg><span>Robustez</span></div><div class="app-strip-item" style="--icon-color:#5edc80"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="27" r="16"/><path d="M18 4h12M24 4v7M36 12l4-4M24 27V16M24 27l7 4"/></svg><span>Respuesta rápida</span></div><div class="app-strip-item" style="--icon-color:#aa8fff"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M5 41V23l12 6V17l12 7V7h9l3 34Z"/><path d="M12 35h3M22 35h3M32 35h3"/></svg><span>Uso industrial</span></div></div>
 <div hidden id="tc-app-image"><span id="tc-app-note"></span></div>
 </div></section>
 </section>
