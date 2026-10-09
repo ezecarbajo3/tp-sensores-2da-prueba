@@ -1296,7 +1296,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </style>
 <section class="screen first" id="b4" data-block="4" aria-labelledby="b4-t">
 <div class="in-wrap">
-<p class="kicker">04 · Termistor <span class="pg">1/4</span> <span class="who" data-exp="b1">Expositor 1</span></p>
+<p class="kicker">04 · Termistor <span class="pg">1/5</span> <span class="who" data-exp="b1">Expositor 1</span></p>
 <h2 id="b4-t">Termistores: <span class="acc">NTC y PTC</span></h2>
 <p class="lead">La temperatura cambia su <b>resistencia</b>: en la NTC baja; en la PTC aumenta.</p>
 <div class="th-tabs" role="tablist" aria-label="Vistas del termistor">
@@ -1357,10 +1357,34 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b4-ic .ic-side .no{border-top-color:var(--bad)}
 #b4-ic .ic-side .no b{color:var(--bad)}
 #b4-ic .ic-side .src{align-self:flex-start}
-@media(max-width:900px){#b4-ic .ic-body{grid-template-columns:1fr}}</style>
+@media(max-width:900px){#b4-ic .ic-body{grid-template-columns:1fr}}
+#b4-ir h2{font-size:clamp(30px,min(3.4vw,6vh),70px)}
+#b4-ir .irp-body{display:grid;grid-template-columns:minmax(0,2.7fr) minmax(0,1fr);gap:16px;align-items:center;margin-top:10px}
+#b4-ir .irp-photo{margin:0;min-width:0}
+#b4-ir .irp-photo img{display:block;width:100%;height:auto;max-height:66svh;object-fit:contain;border-radius:14px;border:1px solid var(--line-2)}
+#b4-ir .lead{margin-top:6px}
+#b4-ir .irp-facts{display:grid;grid-template-columns:1fr;gap:10px}
+#b4-ir .irp-facts>div{padding:7px 12px;border:1px solid var(--line-2);border-top:3px solid var(--c-ir);border-radius:10px;background:var(--surface)}
+#b4-ir .irp-facts b{display:block;color:var(--c-ir);font-size:var(--fs-body)}
+#b4-ir .irp-facts span{display:block;color:var(--text-2);font-size:var(--fs-small);margin-top:4px;line-height:1.35}
+#b4-ir .irp-facts span b{display:inline;font-size:inherit}
+#b4-ir .irp-facts .warn{border-top-color:var(--warn)}
+#b4-ir .irp-facts .warn b{color:var(--warn)}
+#b4-2 h2{font-size:clamp(30px,min(3.4vw,6vh),70px)}
+#b4-2 .eps-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:clamp(8px,1.4vh,14px)}
+#b4-2 .eps-list>div{padding:9px 12px;border:1px solid var(--line-2);border-top:3px solid var(--c-ir);border-radius:10px;background:var(--surface)}
+#b4-2 .eps-list b{display:block;color:var(--c-ir);font:700 var(--fs-body) var(--mono)}
+#b4-2 .eps-list span{display:block;color:var(--text-2);font-size:var(--fs-small);margin-top:4px;line-height:1.3}
+#b4-2 .eps-list .hi{border-top-color:var(--ok)}
+#b4-2 .eps-list .hi b{color:var(--ok)}
+#b4-2 .eps-list .lo{border-top-color:var(--bad)}
+#b4-2 .eps-list .lo b{color:var(--bad)}
+#b4-2 .eps-key{margin:8px 0 0;padding-left:12px;border-left:3px solid var(--c-ir);font-size:var(--fs-small);color:var(--text-2);line-height:1.4}
+#b4-2 .eps-key b{color:var(--text)}
+@media(max-width:900px){#b4-ir .irp-body,#b4-2 .eps-list{grid-template-columns:1fr}}</style>
 <section class="screen" id="b4-ic" data-block="4" style="--acc:var(--c-ic)" aria-labelledby="b4-ic-t">
 <div class="in-wrap">
-<p class="kicker">04 · Sensor integrado <span class="pg">2/4</span> <span class="who" data-exp="b1">Expositor 1</span></p>
+<p class="kicker">04 · Sensor integrado <span class="pg">2/5</span> <span class="who" data-exp="b1">Expositor 1</span></p>
 <h2 id="b4-ic-t">Sensor integrado: <span class="acc">tensión o dato digital</span></h2>
 <p class="lead">El chip mide con una <b>unión semiconductora</b> y ya trae la electrónica: requiere alimentación.</p>
 <div class="ic-body">
@@ -1376,13 +1400,35 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 </div>
 </section>
 
+<section class="screen" id="b4-ir" data-block="4" style="--acc:var(--c-ir)" aria-labelledby="b4-ir-t">
+  <div class="in-wrap">
+    <p class="kicker">04 · Infrarrojo <span class="pg">3/5</span> <span class="who" data-exp="b4">Expositor 4</span></p>
+    <h2 id="b4-ir-t">Pirómetro infrarrojo: <span class="acc">medición sin contacto</span></h2>
+    <p class="lead">Capta la <b>radiación infrarroja</b> que emite la superficie y la convierte en temperatura, sin tocarla.</p>
+    <div class="irp-body">
+    <figure class="irp-photo"><img src="img/infrarrojo-pirometro.webp" width="1398" height="782" alt="Pirómetro en corte con lente, detector infrarrojo y electrónica, apuntando a hamburguesas sobre una cinta: capta la radiación térmica del área observada y estima 80 °C sin contacto."></figure>
+    <div class="irp-facts">
+      <div><b>Principio</b><span>Radiación térmica → lente → detector → electrónica → °C</span></div>
+      <div><b>Señal y salida (TW2000)</b><span>4–20 mA analógica · OUT1 <b>PNP</b> conmutada o IO-Link: el único de la familia con PNP</span></div>
+      <div class="warn"><b>Mide la superficie, no el núcleo</b><span>En producto congelado solo se obtiene la temperatura superficial.</span></div>
+    </div>
+    </div>
+  </div>
+</section>
+
 <section class="screen" id="b4-2" data-block="4" style="--acc:var(--c-ir)" aria-labelledby="b4-2-t">
   <div class="in-wrap">
     <div class="g-b4b">
       <div class="rv">
-        <p class="kicker">04 · Infrarrojo <span class="pg">3/4</span> <span class="who" data-exp="b4">Expositor 4</span></p>
-        <h2 id="b4-2-t">Pirómetro infrarrojo: <span class="acc">medición sin contacto</span></h2>
-        <p class="lead" style="max-width:52ch">Capta la radiación térmica de la superficie. La <b>emisividad (ε)</b> define cuánto emite y cuánto refleja.</p>
+        <p class="kicker">04 · Infrarrojo <span class="pg">4/5</span> <span class="who" data-exp="b4">Expositor 4</span></p>
+        <h2 id="b4-2-t">Emisividad: <span class="acc">la clave del infrarrojo</span></h2>
+        <p class="lead" style="max-width:52ch">El pirómetro no ve temperatura: ve <b>radiación</b>. Y dos superficies a la misma temperatura pueden emitir distinto.</p>
+        <div class="eps-list">
+          <div><b>ε = emisividad</b><span>Cuánto emite una superficie comparada con un emisor ideal. Va de 0 a 1.</span></div>
+          <div class="hi"><b>ε alta ≈ 0,95</b><span>Mate y alimentos: emiten casi todo → lectura confiable.</span></div>
+          <div class="lo"><b>ε baja ≈ 0,1</b><span>Metal pulido: emite poco y refleja el entorno → engaña al sensor.</span></div>
+        </div>
+        <p class="eps-key">Por eso la ε <b>se configura en el instrumento</b> según la superficie («grado de emisión» en el TW2000). Si está mal, la lectura se desplaza: probalo en el simulador.</p>
         <figure class="fig" style="margin-top:clamp(8px,1.6vh,20px)">
           <svg viewBox="0 0 1000 410" role="img" aria-labelledby="ir-t">
             <title id="ir-t">El pirómetro capta la radiación que emite la superficie y la que refleja del entorno, dentro del cono del área observada</title>
@@ -1425,15 +1471,6 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
           </svg>
           <span class="didactic">Ilustración didáctica, no a escala</span>
         </figure>
-        <div class="surface-box">
-          <svg viewBox="0 0 120 120" aria-hidden="true">
-            <circle cx="60" cy="60" r="50" fill="#22324C"/>
-            <circle cx="60" cy="60" r="50" fill="none" stroke="var(--c-ir)" stroke-width="11"/>
-            <text x="60" y="58" text-anchor="middle" style="font-size:15px;fill:#C6D0DE">núcleo</text>
-            <text x="60" y="78" text-anchor="middle" style="font-size:18px;font-weight:700;fill:#C6D0DE">?</text>
-          </svg>
-          <div><p class="big">Mide la superficie, <span class="acc">no el núcleo</span>.</p><p>En producto congelado se obtiene solo la temperatura superficial.</p></div>
-        </div>
       </div>
       <div class="panel rv" style="--d:.14s">
         <p class="panel-t"><span>Simulador · emisividad</span><span>entorno 25 °C</span></p>
@@ -1458,11 +1495,10 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       </div>
     </div>
   </div>
-<p class="note" style="max-width:var(--max);margin:0 auto;padding:0 24px">La radiación IR es lo que <b>recibe</b> el sensor. El TW2000 entrega <b>4–20 mA</b> para medir y una salida <b>PNP o IO-Link</b> según configuración.</p>
 </section>
 
 <section class="screen fv-screen" id="b4-3" data-block="4" style="--acc:var(--c-ir)" aria-label="Hoja técnica ifm TW2000">
-  <div class="in-wrap rv" data-fv="tw2000" data-kicker="04 · Infrarrojo · 4/4" data-app="Superficie del producto en la cinta"></div>
+  <div class="in-wrap rv" data-fv="tw2000" data-kicker="04 · Infrarrojo · 5/5" data-app="Superficie del producto en la cinta"></div>
 </section>
 
 <!-- ============================================================
