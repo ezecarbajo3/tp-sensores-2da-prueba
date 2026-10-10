@@ -1614,6 +1614,49 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b5-res .sig-notes p:first-child{border-left-color:var(--c-ir)}
 #b5-res .sig-notes b{color:var(--text)}
 @media(max-width:800px){#b5-res .sig-table{display:block;overflow-x:auto}#b5-res .sig-table th,#b5-res .sig-table td{padding:6px 8px}#b5-res .sig-notes{grid-template-columns:1fr}}
+/* ===== Ajuste general a 16:9: que todo entre y aproveche la pantalla ===== */
+@media(min-width:901px){
+/* Junta fría: las tarjetas de resultado pasan a la columna derecha */
+#b2-2 .g-b2b{grid-template-rows:auto 1fr;gap:14px 20px}
+#b2-2 .cj-scene{grid-row:1 / span 2}
+#b2-2 .g-b2b>div:last-child{grid-column:2}
+#b2-2 .analogy{margin-bottom:6px;font-size:var(--fs-body)}
+#b2-aplicaciones .app-gallery{margin-top:10px}
+#b2-aplicaciones .app-simple-strip{margin-top:6px}
+#b5 .plc-real-image img{max-height:55svh}
+#b4-ir .irp-photo img{max-height:57svh}
+#b3-3 .hw-photo img{max-height:50vh}
+#b2-2 .cj-ctl{padding:14px 18px}
+#b2-2 .cj-card{padding:10px 14px}
+#b2-2 .cj-card .t{font-size:var(--fs-small);line-height:1.25}
+#b2-2 .cj-card .s{margin:.15em 0 .3em;font-size:clamp(11px,.8vw,14px)}
+#b2-2 .cj-card .readout{font-size:var(--fs-data)}
+#b2-2 .cj-card .delta{font-size:var(--fs-small);line-height:1.25}
+#b2-2 .g-b2b>div:nth-child(2) .note{margin-top:.4em!important}
+#b2-2 .cj-scene-image img{max-height:58svh;width:auto;max-width:100%;margin:0 auto}
+/* Ficha técnica (ilustración): explicación a la derecha de la imagen */
+#b2-3 .tc-route-nav{margin:10px 0}
+#b2-3 .tc-guide-figure{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:16px;align-items:center}
+#b2-3 .tc-explain{margin-top:0;font-size:var(--fs-body);line-height:1.45}
+#b2-3 .tc-guide-proof{margin:12px 0 6px}
+/* RTD: foto y circuito con el mismo ancho, más bajos */
+#b3 .rtd-intro>.lead{margin-bottom:12px}
+#b3 .rtd-wide{width:min(100%,calc(55svh * 0.62 * 3));margin:0 auto}
+#b3 .rtd-wide img{max-height:none}
+#b3 .rtd-circuit{padding:10px 22px}
+#b3 .rtd-circuit svg{max-height:calc(55svh * 0.38 - 20px)}
+#b3 .rtd-facts{gap:6px}
+#b3 .rtd-facts strong{font-size:var(--fs-body)}
+#b3 .rtd-facts span{font-size:var(--fs-small);margin-top:1px}
+/* Selección: aprovechar el alto */
+#b6 .rules li{padding-top:clamp(12px,2.6vh,28px);padding-bottom:clamp(12px,2.6vh,28px)}
+#b6 .rules .nm{font-size:var(--fs-h3)}
+#b6 .rules .rl{font-size:var(--fs-lead)}
+/* Resumen de sensores: tabla más grande */
+#b5-res .sig-table th,#b5-res .sig-table td{padding:clamp(10px,2.2vh,22px) 18px}
+#b5-res .sig-table{font-size:var(--fs-lead)}
+#b5-res .sig-notes p{font-size:var(--fs-body)}
+}
 </style>
 <section class="screen" id="b5-res" data-block="5" aria-labelledby="b5-res-t">
   <div class="in-wrap">
@@ -1654,100 +1697,6 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       <li class="c-ic"><span class="nm">Integrado</span><span class="rl">Sistemas <b>electrónicos</b> que requieren una señal acondicionada</span></li>
       <li class="c-ir"><span class="nm">Infrarrojo</span><span class="rl"><b>Sin contacto</b>: objetos en movimiento, muy calientes o inaccesibles</span></li>
     </ul>
-  </div>
-</section>
-
-<section class="screen" id="b6-2" data-block="6" aria-labelledby="b6-2-t">
-  <div class="in-wrap">
-    <div class="rv">
-      <p class="kicker" style="color:var(--warn)">06 · Selección y aplicación <span class="pg">2/3</span></p>
-      <h2 id="b6-2-t" style="font-size:clamp(30px,min(3.4vw,6vh),70px)">Aplicación: <span style="color:var(--warn)">línea de patitas de pollo congeladas</span></h2>
-    </div>
-    <div class="g-b6b">
-      <div class="rv" style="--d:.08s">
-        <figure class="fig plant">
-          <svg viewBox="0 0 1200 420" id="plant" role="group" aria-labelledby="plant-t">
-            <title id="plant-t">Diagrama de la línea con los puntos de medición de temperatura</title>
-            <defs>
-              <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7D8DA5"/></marker>
-            </defs>
-            <!-- vapor -->
-            <path d="M250 120 H990" fill="none" stroke="#C6D0DE" stroke-width="2.5" stroke-dasharray="8 7" opacity=".7"/>
-            <path d="M502 120 V236" fill="none" stroke="#C6D0DE" stroke-width="2.5" stroke-dasharray="8 7" opacity=".7" marker-end="url(#ar2)"/>
-            <text x="300" y="108" class="pl-r">vapor</text>
-            <!-- calderas -->
-            <rect class="pl-box" x="10" y="70" width="240" height="100" rx="10"/>
-            <rect x="196" y="6" width="32" height="64" rx="3" fill="var(--surface-3)" stroke="var(--line-2)"/>
-            <text x="28" y="110" class="pl-n">Sala de calderas</text>
-            <text x="28" y="148" class="pl-r">gases de combustión</text>
-            <!-- CIP -->
-            <rect class="pl-box" x="990" y="70" width="200" height="100" rx="10"/>
-            <text x="1062" y="110" class="pl-n">CIP · agua</text>
-            <text x="1062" y="148" class="pl-r">80–85 °C</text>
-            <!-- línea principal -->
-            <rect class="pl-box" x="10" y="240" width="165" height="145" rx="10"/>
-            <rect class="pl-box" x="210" y="240" width="160" height="145" rx="10"/>
-            <rect class="pl-box" x="405" y="240" width="195" height="145" rx="10"/>
-            <rect class="pl-box" x="790" y="240" width="165" height="145" rx="10" style="stroke:rgba(46,230,246,.45)"/>
-            <rect class="pl-box" x="990" y="240" width="200" height="145" rx="10" style="stroke:rgba(46,230,246,.45)"/>
-            <g text-anchor="middle">
-              <text x="92" y="274" class="pl-n">Mezcladora</text><text x="92" y="372" class="pl-r">0 a 8 °C</text>
-              <text x="290" y="274" class="pl-n">Prefritura</text><text x="290" y="372" class="pl-r">180–195 °C</text>
-              <text x="502" y="274" class="pl-n">Horno</text><text x="502" y="294" class="pl-r" style="font-size:15px">cocción / vapor</text><text x="502" y="372" class="pl-r">90–120 °C</text>
-              <text x="872" y="274" class="pl-n">Túnel IQF</text><text x="872" y="372" class="pl-r">−35 a −40 °C</text>
-              <text x="1090" y="274" class="pl-n">Cámara</text><text x="1090" y="372" class="pl-r">−18 °C</text>
-            </g>
-            <path d="M175 312 H206 M370 312 H401 M955 312 H986" stroke="#7D8DA5" stroke-width="2.5" marker-end="url(#ar2)"/>
-            <!-- cinta -->
-            <path d="M600 352 H786" stroke="#7D8DA5" stroke-width="3" marker-end="url(#ar2)"/>
-            <g fill="#C98A55"><rect x="616" y="338" width="30" height="13" rx="6.5"/><rect x="672" y="338" width="30" height="13" rx="6.5"/><rect x="730" y="338" width="30" height="13" rx="6.5"/></g>
-            <text x="694" y="400" text-anchor="middle" class="pl-r" style="font-size:15px">producto en la cinta</text>
-            <!-- pirómetro sobre la cinta -->
-            <path d="M680 236 L696 236 L712 336 L664 336 Z" fill="rgba(255,92,147,.16)"/>
-            <rect x="674" y="200" width="28" height="36" rx="4" fill="#66738A"/>
-            <!-- sonda de punción -->
-            <rect x="739" y="262" width="12" height="22" rx="3" fill="#7D8999"/>
-            <path d="M745 284 V346" stroke="#C6D0DE" stroke-width="2.5"/>
-            <!-- marcadores -->
-            <g id="pl-marks"></g>
-          </svg>
-        </figure>
-        <div class="legend">
-          <span><i style="background:var(--c-rtd)"></i>Pt100 / Pt1000</span>
-          <span><i style="background:var(--c-tc)"></i>Termocupla</span>
-          <span><i style="background:var(--c-ir)"></i>Infrarrojo</span>
-          <span><i style="background:linear-gradient(90deg,var(--c-tc) 50%,var(--c-rtd) 50%)"></i>Cualquiera de las dos</span>
-        </div>
-      </div>
-      <div class="rv" style="--d:.16s">
-        <div class="panel pl-info" id="pl-info" aria-live="polite">
-          <p class="panel-t"><span>Punto <span id="pl-n">1</span> / 9</span><span>seleccionar un marcador</span></p>
-          <h3 id="pl-name">Masa en mezcladora</h3>
-          <div class="lbl">rango típico</div>
-          <div class="readout sm" id="pl-range">0 a 8 °C</div>
-          <div class="pl-tec" id="pl-tec">Pt100 clase A, ejecución higiénica</div>
-          <p class="pl-why" id="pl-why"></p>
-        </div>
-        <div class="warnbox"><b>Infrarrojo: solo superficie.</b> Para la temperatura de núcleo (inocuidad): <b style="color:var(--text)">sonda de punción</b>.</div>
-      </div>
-    </div>
-    <details class="tbl rv" style="--d:.22s">
-      <summary>Tabla de puntos de medición</summary>
-      <table>
-        <thead><tr><th>Punto</th><th>Rango típico</th><th>Tecnología</th></tr></thead>
-        <tbody id="pl-table"></tbody>
-      </table>
-    </details>
-  </div>
-</section>
-
-<section class="screen" id="b6-3" data-block="6" aria-labelledby="b6-3-t">
-  <div class="in-wrap myth">
-    <p class="kicker rv" style="color:var(--warn)">06 · Selección y aplicación <span class="pg">3/3</span></p>
-    <p class="myth-tag rv" style="--d:.06s">Mito</p>
-    <h2 id="b6-3-t" class="myth-h rv" style="--d:.12s"><s>«Por encima de 600&nbsp;°C, solo termocupla»</s></h2>
-    <p class="myth-a rv" style="--d:.2s">Falso: existen <b style="color:var(--c-rtd)">RTD para alta temperatura</b> y <b style="color:var(--c-tc)">termocuplas para temperaturas muy bajo cero</b>.</p>
-    <p class="quote rv" style="--d:.28s;--acc:var(--warn)">Decide la hoja técnica del sensor concreto, no el nombre de la tecnología.</p>
   </div>
 </section>
 
@@ -1969,6 +1918,89 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       </div>
     </div>
     <p class="quote key rv" style="--d:.24s">PNP/NPN describe una salida conmutada, no el principio de medición. <span class="acc">Una Pt100 no es PNP ni NPN.</span></p>
+  </div>
+</section>
+<section class="screen" id="b6-2" data-block="7" aria-labelledby="b6-2-t">
+  <div class="in-wrap">
+    <div class="rv">
+      <p class="kicker" style="color:var(--warn)">Respaldo · Aplicación <span class="pg">para preguntas</span></p>
+      <h2 id="b6-2-t" style="font-size:clamp(30px,min(3.4vw,6vh),70px)">Aplicación: <span style="color:var(--warn)">línea de patitas de pollo congeladas</span></h2>
+    </div>
+    <div class="g-b6b">
+      <div class="rv" style="--d:.08s">
+        <figure class="fig plant">
+          <svg viewBox="0 0 1200 420" id="plant" role="group" aria-labelledby="plant-t">
+            <title id="plant-t">Diagrama de la línea con los puntos de medición de temperatura</title>
+            <defs>
+              <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7D8DA5"/></marker>
+            </defs>
+            <!-- vapor -->
+            <path d="M250 120 H990" fill="none" stroke="#C6D0DE" stroke-width="2.5" stroke-dasharray="8 7" opacity=".7"/>
+            <path d="M502 120 V236" fill="none" stroke="#C6D0DE" stroke-width="2.5" stroke-dasharray="8 7" opacity=".7" marker-end="url(#ar2)"/>
+            <text x="300" y="108" class="pl-r">vapor</text>
+            <!-- calderas -->
+            <rect class="pl-box" x="10" y="70" width="240" height="100" rx="10"/>
+            <rect x="196" y="6" width="32" height="64" rx="3" fill="var(--surface-3)" stroke="var(--line-2)"/>
+            <text x="28" y="110" class="pl-n">Sala de calderas</text>
+            <text x="28" y="148" class="pl-r">gases de combustión</text>
+            <!-- CIP -->
+            <rect class="pl-box" x="990" y="70" width="200" height="100" rx="10"/>
+            <text x="1062" y="110" class="pl-n">CIP · agua</text>
+            <text x="1062" y="148" class="pl-r">80–85 °C</text>
+            <!-- línea principal -->
+            <rect class="pl-box" x="10" y="240" width="165" height="145" rx="10"/>
+            <rect class="pl-box" x="210" y="240" width="160" height="145" rx="10"/>
+            <rect class="pl-box" x="405" y="240" width="195" height="145" rx="10"/>
+            <rect class="pl-box" x="790" y="240" width="165" height="145" rx="10" style="stroke:rgba(46,230,246,.45)"/>
+            <rect class="pl-box" x="990" y="240" width="200" height="145" rx="10" style="stroke:rgba(46,230,246,.45)"/>
+            <g text-anchor="middle">
+              <text x="92" y="274" class="pl-n">Mezcladora</text><text x="92" y="372" class="pl-r">0 a 8 °C</text>
+              <text x="290" y="274" class="pl-n">Prefritura</text><text x="290" y="372" class="pl-r">180–195 °C</text>
+              <text x="502" y="274" class="pl-n">Horno</text><text x="502" y="294" class="pl-r" style="font-size:15px">cocción / vapor</text><text x="502" y="372" class="pl-r">90–120 °C</text>
+              <text x="872" y="274" class="pl-n">Túnel IQF</text><text x="872" y="372" class="pl-r">−35 a −40 °C</text>
+              <text x="1090" y="274" class="pl-n">Cámara</text><text x="1090" y="372" class="pl-r">−18 °C</text>
+            </g>
+            <path d="M175 312 H206 M370 312 H401 M955 312 H986" stroke="#7D8DA5" stroke-width="2.5" marker-end="url(#ar2)"/>
+            <!-- cinta -->
+            <path d="M600 352 H786" stroke="#7D8DA5" stroke-width="3" marker-end="url(#ar2)"/>
+            <g fill="#C98A55"><rect x="616" y="338" width="30" height="13" rx="6.5"/><rect x="672" y="338" width="30" height="13" rx="6.5"/><rect x="730" y="338" width="30" height="13" rx="6.5"/></g>
+            <text x="694" y="400" text-anchor="middle" class="pl-r" style="font-size:15px">producto en la cinta</text>
+            <!-- pirómetro sobre la cinta -->
+            <path d="M680 236 L696 236 L712 336 L664 336 Z" fill="rgba(255,92,147,.16)"/>
+            <rect x="674" y="200" width="28" height="36" rx="4" fill="#66738A"/>
+            <!-- sonda de punción -->
+            <rect x="739" y="262" width="12" height="22" rx="3" fill="#7D8999"/>
+            <path d="M745 284 V346" stroke="#C6D0DE" stroke-width="2.5"/>
+            <!-- marcadores -->
+            <g id="pl-marks"></g>
+          </svg>
+        </figure>
+        <div class="legend">
+          <span><i style="background:var(--c-rtd)"></i>Pt100 / Pt1000</span>
+          <span><i style="background:var(--c-tc)"></i>Termocupla</span>
+          <span><i style="background:var(--c-ir)"></i>Infrarrojo</span>
+          <span><i style="background:linear-gradient(90deg,var(--c-tc) 50%,var(--c-rtd) 50%)"></i>Cualquiera de las dos</span>
+        </div>
+      </div>
+      <div class="rv" style="--d:.16s">
+        <div class="panel pl-info" id="pl-info" aria-live="polite">
+          <p class="panel-t"><span>Punto <span id="pl-n">1</span> / 9</span><span>seleccionar un marcador</span></p>
+          <h3 id="pl-name">Masa en mezcladora</h3>
+          <div class="lbl">rango típico</div>
+          <div class="readout sm" id="pl-range">0 a 8 °C</div>
+          <div class="pl-tec" id="pl-tec">Pt100 clase A, ejecución higiénica</div>
+          <p class="pl-why" id="pl-why"></p>
+        </div>
+        <div class="warnbox"><b>Infrarrojo: solo superficie.</b> Para la temperatura de núcleo (inocuidad): <b style="color:var(--text)">sonda de punción</b>.</div>
+      </div>
+    </div>
+    <details class="tbl rv" style="--d:.22s">
+      <summary>Tabla de puntos de medición</summary>
+      <table>
+        <thead><tr><th>Punto</th><th>Rango típico</th><th>Tecnología</th></tr></thead>
+        <tbody id="pl-table"></tbody>
+      </table>
+    </details>
   </div>
 </section>
 
