@@ -738,8 +738,8 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
     <li><a href="#b2" data-nav="2" style="--bc:var(--c-tc)"><span class="t"><b class="n">2</b><span class="lbl">Termocupla</span></span><span class="e" data-exp="b2">Expositor 2</span></a></li>
     <li><a href="#b3" data-nav="3" style="--bc:var(--c-rtd)"><span class="t"><b class="n">3</b><span class="lbl">RTD Pt100</span></span><span class="e" data-exp="b3">Expositor 3</span></a></li>
     <li><a href="#b4" data-nav="4" style="--bc:linear-gradient(90deg,var(--c-ntc) 0 33%,var(--c-ic) 33% 66%,var(--c-ir) 66%);--bt:var(--c-ntc)"><span class="t"><b class="n">4</b><span class="lbl">NTC · IC · IR</span></span><span class="e"><span data-exp="b1">Expositor 1</span> + <span data-exp="b4">Expositor 4</span></span></a></li>
-    <li><a href="#b5" data-nav="5" style="--bc:var(--c-sys)"><span class="t"><b class="n">5</b><span class="lbl">Al PLC</span></span><span class="e" data-exp="b4">Expositor 4</span></a></li>
-    <li><a href="#b6" data-nav="6" style="--bc:var(--warn)"><span class="t"><b class="n">6</b><span class="lbl">Selección</span></span><span class="e" data-exp="b6">Expositor 5</span></a></li>
+    <li><a href="#b5" data-nav="5" style="--bc:var(--c-sys)"><span class="t"><b class="n">5</b><span class="lbl">Al PLC</span></span><span class="e" data-exp="b6">Expositor 5</span></a></li>
+    <li><a href="#b6" data-nav="6" style="--bc:var(--warn)"><span class="t"><b class="n">6</b><span class="lbl">Selección</span></span><span class="e" data-exp="b4">Expositor 4</span></a></li>
     <li><a href="#b7" data-nav="7" style="--bc:var(--text)"><span class="t"><b class="n">7</b><span class="lbl">Cierre</span></span><span class="e" data-exp="b6">Expositor 5</span></a></li>
   </ol>
   <button class="nav-help" type="button" data-help aria-label="Atajos de teclado">?</button>
@@ -1508,7 +1508,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <section class="screen first" id="b5" data-block="5" aria-labelledby="b5-t">
   <div class="in-wrap g-b5a">
     <div class="rv">
-      <p class="kicker">05 · Del sensor al PLC <span class="pg">1/2</span> <span class="who" data-exp="b4">Expositor 4</span></p>
+      <p class="kicker">05 · Del sensor al PLC <span class="pg">1/2</span> <span class="who" data-exp="b6">Expositor 5</span></p>
       <h2 id="b5-t">Señal primaria <span class="acc">≠</span> salida industrial</h2>
     </div>
     <p class="lead rv">Dos ejemplos: señales distintas que un transmisor compatible convierte en 4–20 mA.</p>
@@ -1643,7 +1643,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 /* Navegación tipo diapositivas: la rueda del mouse se detiene en cada pantalla */
 @media(min-width:901px) and (min-height:500px){html{scroll-snap-type:y mandatory}.screen{scroll-snap-stop:always}}
 </style>
-<section class="screen" id="b5-res" data-block="5" aria-labelledby="b5-res-t"><div class="in-wrap"><p class="kicker">05 · Del sensor al PLC <span class="pg">2/2</span> <span class="who" data-exp="b4">Expositor 4</span></p><h2 id="b5-res-t">Qué entrega <span class="acc">y cómo se lee</span></h2><table class="sig-table"><caption>Señales y entradas compatibles de las cinco familias</caption><thead><tr><th>Sensor</th><th>Qué entrega</th><th>Cómo lo lee el control</th><th>Salida conmutada</th></tr></thead><tbody>
+<section class="screen" id="b5-res" data-block="5" aria-labelledby="b5-res-t"><div class="in-wrap"><p class="kicker">05 · Del sensor al PLC <span class="pg">2/2</span> <span class="who" data-exp="b6">Expositor 5</span></p><h2 id="b5-res-t">Qué entrega <span class="acc">y cómo se lee</span></h2><table class="sig-table"><caption>Señales y entradas compatibles de las cinco familias</caption><thead><tr><th>Sensor</th><th>Qué entrega</th><th>Cómo lo lee el control</th><th>Salida conmutada</th></tr></thead><tbody>
 <tr style="--c:var(--c-tc)"><th>Termocupla</th><td>Tensión · mV</td><td>Entrada TC o transmisor compatible → 4–20 mA</td><td class="no">No</td></tr>
 <tr style="--c:var(--c-rtd)"><th>Pt100 / Pt1000</th><td>Resistencia · Ω</td><td>Entrada RTD o transmisor compatible → 4–20 mA</td><td class="no">No</td></tr>
 <tr style="--c:var(--c-ntc)"><th>Termistor</th><td>Resistencia · Ω</td><td>Circuito o entrada compatible con su curva</td><td class="no">No</td></tr>
@@ -1654,7 +1654,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <!-- ============================================================
      BLOQUE 6 · SELECCIÓN Y APLICACIÓN
      ============================================================ -->
-<section class="screen first" id="b6" data-block="6" aria-labelledby="b6-t"><div class="in-wrap rv"><p class="kicker" style="color:var(--warn)">06 · Selección y aplicación <span class="who" data-exp="b6">Expositor 5</span></p><h2 id="b6-t">Volvemos al proceso: <span style="color:var(--warn)">¿cuál conviene?</span></h2><p class="lead">Elegimos según el rango, la exactitud, el ambiente y la posibilidad de contacto.</p><div class="choice-grid">
+<section class="screen first" id="b6" data-block="6" aria-labelledby="b6-t"><div class="in-wrap rv"><p class="kicker" style="color:var(--warn)">06 · Selección y aplicación <span class="who" data-exp="b4">Expositor 4</span></p><h2 id="b6-t">Volvemos al proceso: <span style="color:var(--warn)">¿cuál conviene?</span></h2><p class="lead">Elegimos según el rango, la exactitud, el ambiente y la posibilidad de contacto.</p><div class="choice-grid">
 <article class="choice-card c-tc"><img src="img/aplicacion-horno.webp" alt="Sonda industrial instalada en un horno"><div><small>HORNO Y GASES CALIENTES</small><h3>Rango y robustez</h3><p>Termocupla en calor severo; RTD cuando el rango y la exactitud lo permiten.</p></div></article>
 <article class="choice-card c-rtd"><img src="img/aplicacion-camara.webp" alt="Sonda de temperatura en una cámara frigorífica"><div><small>CÁMARA A −18 °C</small><h3>Exactitud y estabilidad</h3><p>En nuestra línea: Pt1000 con registro. El instrumento y el cableado también importan.</p></div></article>
 <article class="choice-card c-ir"><img src="img/aplicacion-cinta.webp" alt="Pirómetro sobre una cinta de producto alimenticio"><div><small>PRODUCTO EN LA CINTA</small><h3>Superficie sin contacto</h3><p>Infrarrojo para el exterior; sonda de punción si interesa el centro.</p></div></article>
