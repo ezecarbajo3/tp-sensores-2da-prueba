@@ -2291,8 +2291,9 @@ const PUNTOS = [
     if (n) n.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   }
   function step(dir) {
-    const inBackup = curScreen && curScreen.dataset.block === "7" && curScreen.id !== "b7";
-    const sequence = inBackup ? screens : screens.filter(s => s.dataset.block !== "7" || s.id === "b7");
+    const main = (s) => s.dataset.block !== "7" || s.id === "b7" || s.id === "fuentes";
+    const inBackup = curScreen && !main(curScreen);
+    const sequence = inBackup ? screens : screens.filter(main);
     let i = 0;
     sequence.forEach((s, k) => { if (s.getBoundingClientRect().top <= innerHeight * 0.3) i = k; });
     go(sequence[clamp(i + dir, 0, sequence.length - 1)]);
