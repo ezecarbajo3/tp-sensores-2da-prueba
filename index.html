@@ -1610,9 +1610,12 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <section class="screen first" id="b7" data-block="7" aria-labelledby="b7-t">
   <div class="in-wrap">
     <p class="kicker rv">07 · Cierre <span class="who" data-exp="b6">Expositor 5</span></p>
-    <p class="back-q rv" style="--d:.06s">Horno, cámara y cinta: <b>la elección empieza por el proceso</b>.</p>
-    <div class="closing-decisions"><div class="c-tc"><b>Calor y ambiente</b><span>Comprobar rango y construcción.</span></div><div class="c-rtd"><b>Exactitud y estabilidad</b><span>Cuidar sensor, instrumento y cables.</span></div><div class="c-ir"><b>¿Superficie o centro?</b><span>Elegir dónde necesitamos medir.</span></div></div>
-    <h2 id="b7-t" class="final-q rv">Elegimos por el <span>proceso</span>; confirmamos la <span>ficha</span> y la <span>conexión al control</span>.</h2>
+    <h2 id="b7-t" class="cl-h rv" style="--d:.04s"><span class="grad-word">Nuestra línea</span>: <span class="cl-y">patitas de pollo congeladas</span></h2>
+    <ol class="cl-flow rv" style="--d:.1s" aria-label="Sensor elegido en cada operación">
+      <li class="c-rtd"><div class="card"><b>Mezcladora</b><span class="t">0 a 8 °C</span><span class="s">Pt100</span><span class="w">Exactitud en frío</span></div><i class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M26 4h12v8H26z"/><path d="M32 12v26"/><path d="M22 36q10-7 20 0"/><path d="M10 26h44l-5 22a6 6 0 0 1-6 5H21a6 6 0 0 1-6-5z"/></svg></i></li>
+      <li class="c-tc"><div class="card"><b>Prefritura</b><span class="t">180 a 195 °C</span><span class="s">Termocupla J</span><span class="w">Calor y robustez</span></div><i class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 24h6M52 24h6"/><path d="M12 22h40v16a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8z"/><path d="M18 30q3.5-3 7 0t7 0t7 0t7 0"/><path d="M24 60q-3-4 0-8 3 4 0 8zM32 60q-4-6 0-11 4 5 0 11zM40 60q-3-4 0-8 3 4 0 8z"/></svg></i></li>
+      <li class="c-ir"><div class="card"><b>Cinta</b><span class="t">superficie del producto</span><span class="s">Infrarrojo</span><span class="w">Sin contacto, producto en movimiento</span></div><i class="ico"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M40 6h16v9H40z"/><path d="M46 15l-6 19" stroke-dasharray="3 4"/><path d="M12 34h14v8H12zM34 34h14v8H34z"/><path d="M4 44h56"/><circle cx="10" cy="51" r="4"/><circle cx="32" cy="51" r="4"/><circle cx="54" cy="51" r="4"/></svg></i></li>
+    </ol>
     <div class="thanks rv" style="--d:.3s">
       <span class="g">Gracias</span>
       <ul class="names" id="names"><li>Antonella Acconci</li><li>Ezequiel Carbajo</li><li>Leandro Iarrar</li><li>Pablo Fischer</li><li>Walter Benites</li></ul>
@@ -2946,6 +2949,29 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--acc,var(--c-sys));o
 #b2 .sig-card .k{line-height:1.4}
 #b2 .sig-card b{line-height:1.2!important;margin-top:.35em}
 }
+/* Cierre: la línea de pollo con el sensor de cada operación */
+#b7 .cl-h{font-size:clamp(28px,min(3.5vw,6.2vh),72px);line-height:1.08;margin:0}
+#b7 .cl-h .cl-y{color:var(--warn)}
+#b7 .cl-flow{list-style:none;padding:0;margin:clamp(14px,3vh,40px) 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,60px)}
+#b7 .cl-flow li{position:relative;display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2vh,24px)}
+#b7 .cl-flow .card{align-self:stretch;flex:1 1 auto;display:flex;flex-direction:column;gap:.25em;padding:clamp(14px,2.2vh,28px) clamp(16px,1.6vw,30px);background:var(--surface);border:1px solid var(--line-2);border-top:5px solid var(--acc);border-radius:14px}
+#b7 .cl-flow li:not(:last-child) .card::after{content:"→";position:absolute;right:calc(clamp(24px,3vw,60px) / -2);top:clamp(70px,13vh,140px);transform:translate(50%,-50%);font:600 var(--fs-h3)/1 var(--mono);color:var(--text-3)}
+#b7 .cl-flow b{font-size:var(--fs-h3);color:var(--text)}
+#b7 .cl-flow .t{font:500 var(--fs-body) var(--mono);color:var(--text-3)}
+#b7 .cl-flow .s{margin-top:.3em;font-size:clamp(24px,min(2.5vw,4.4vh),52px);font-weight:700;line-height:1.1;color:var(--acc)}
+#b7 .cl-flow .w{font-size:var(--fs-body);color:var(--text-2);line-height:1.3}
+#b7 .cl-flow .ico{display:block;flex:none;color:var(--acc);width:clamp(72px,15vh,160px);height:clamp(72px,15vh,160px)}
+#b7 .cl-flow .ico svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:700px){#b7 .cl-flow{grid-template-columns:minmax(0,1fr)}#b7 .cl-flow .card::after{display:none}}
+/* Cierre: refinamiento visual */
+#b7 .cl-flow{--ico:clamp(76px,15vh,164px);position:relative}
+#b7 .cl-flow::before{content:"";position:absolute;left:16.6%;right:16.6%;bottom:calc(var(--ico) / 2);height:3px;border-radius:2px;background:var(--thermal);opacity:.45;z-index:0}
+#b7 .cl-flow .card{background:linear-gradient(160deg,color-mix(in srgb,var(--acc) 13%,transparent),transparent 55%),var(--surface);border-color:color-mix(in srgb,var(--acc) 30%,var(--line-2));border-top-color:var(--acc);box-shadow:0 24px 60px -34px color-mix(in srgb,var(--acc) 70%,transparent)}
+#b7 .cl-flow .s{text-shadow:0 0 24px color-mix(in srgb,var(--acc) 45%,transparent)}
+#b7 .cl-flow li:not(:last-child) .card::after{content:"→";display:grid;place-items:center;width:1.9em;height:1.9em;border-radius:50%;background:var(--bg);border:1px solid var(--line-2);font:600 var(--fs-body)/1 var(--mono);color:var(--text-2);z-index:2}
+#b7 .cl-flow .ico{position:relative;z-index:1;width:var(--ico);height:var(--ico);padding:calc(var(--ico) * .17);border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--acc) 20%,var(--bg)) 0%,var(--bg) 72%);border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);box-shadow:0 0 0 8px var(--bg),0 0 40px -6px color-mix(in srgb,var(--acc) 60%,transparent)}
+#b7 .cl-flow .ico svg{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--acc) 55%,transparent))}
+@media(max-width:700px){#b7 .cl-flow::before{display:none}}
 </style>
 </body>
 </html>
