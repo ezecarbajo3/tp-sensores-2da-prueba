@@ -1515,10 +1515,10 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 <section class="screen first" id="b5" data-block="5" aria-labelledby="b5-t">
   <div class="in-wrap g-b5a">
     <div class="rv">
-      <p class="kicker">05 · Del sensor al PLC <span class="pg">1/2</span> <span class="who" data-exp="b6">Expositor 5</span></p>
+      <p class="kicker">05 · Del sensor al PLC <span class="who" data-exp="b6">Expositor 5</span></p>
       <h2 id="b5-t"><span class="grad-word">Señal</span>: salida del sensor <span class="acc">≠</span> entrada al controlador</h2>
     </div>
-    <p class="lead rv">Dos ejemplos: señales distintas que un transmisor compatible convierte en 4–20 mA.</p>
+    <p class="lead rv">El PLC lee la señal de dos formas: con un <b>transmisor</b> que la convierte en 4–20 mA, o con un <b>módulo de entrada</b> específico (TC o RTD) en el mismo PLC.</p>
     <div id="plc-real">
       <figure class="fig rv plc-real-image"><img src="img/del-sensor-al-plc.png?v=2" alt="Termocupla y Pt100: cada sensor entrega su señal primaria a un transmisor compatible y llega a un canal independiente del PLC con 4–20 mA." width="1672" height="770"></figure>
     </div>
@@ -1594,13 +1594,6 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 /* Navegación tipo diapositivas: la rueda del mouse se detiene en cada pantalla */
 @media(min-width:901px) and (min-height:500px){html{scroll-snap-type:y mandatory}.screen{scroll-snap-stop:always}}
 </style>
-<section class="screen" id="b5-res" data-block="5" aria-labelledby="b5-res-t"><div class="in-wrap"><p class="kicker">05 · Del sensor al PLC <span class="pg">2/2</span> <span class="who" data-exp="b6">Expositor 5</span></p><h2 id="b5-res-t">Qué entrega <span class="acc">y cómo se lee</span></h2><table class="sig-table"><caption>Señales y entradas compatibles de las cinco familias</caption><thead><tr><th>Sensor</th><th>Qué entrega</th><th>Cómo lo lee el control</th><th>Salida conmutada</th></tr></thead><tbody>
-<tr style="--c:var(--c-tc)"><th>Termocupla</th><td>Tensión · mV</td><td>Entrada TC o transmisor compatible → 4–20 mA</td><td class="no">No</td></tr>
-<tr style="--c:var(--c-rtd)"><th>Pt100 / Pt1000</th><td>Resistencia · Ω</td><td>Entrada RTD o transmisor compatible → 4–20 mA</td><td class="no">No</td></tr>
-<tr style="--c:var(--c-ntc)"><th>Termistor</th><td>Resistencia · Ω</td><td>Circuito o entrada compatible con su curva</td><td class="no">No</td></tr>
-<tr style="--c:var(--c-ic)"><th>Integrado</th><td><b>LM35:</b> tensión, 10 mV/°C<br><b>DS18B20:</b> dato digital</td><td><b>LM35:</b> entrada de tensión adecuada<br><b>DS18B20:</b> interfaz 1-Wire</td><td class="no">No</td></tr>
-<tr style="--c:var(--c-ir)"><th>Infrarrojo TW2000</th><td>4–20 mA · dato IO-Link · estado PNP</td><td>Entrada de corriente, maestro IO-Link o entrada digital compatible</td><td class="yes">OUT1 PNP</td></tr>
-</tbody></table><div class="sig-notes"><p><b>PNP/NPN:</b> activa o inactiva. El TW2000 es el único de los equipos presentados con salida PNP.</p><p><b>4–20 mA:</b> 4 mA representa el mínimo del rango. 0 mA indica una condición anormal, como corte o falta de alimentación.</p></div></div></section>
 
 <!-- ============================================================
      BLOQUE 6 · SELECCIÓN Y APLICACIÓN
