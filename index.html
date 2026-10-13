@@ -576,10 +576,9 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 .thanks .g{font-size:var(--fs-h2);font-weight:700;letter-spacing:-.03em}
 .names{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.3em 1.6em;font-family:var(--mono);font-size:var(--fs-body);color:var(--text-2)}
 .refs{list-style:none;margin:var(--gap) 0 0;padding:0;counter-reset:r;border-top:1px solid var(--line)}
-.refs li{counter-increment:r;display:grid;grid-template-columns:3ch minmax(0,1.6fr) minmax(0,1fr) auto;gap:.4em 1.4em;align-items:baseline;padding:clamp(8px,1.6vh,18px) 0;border-bottom:1px solid var(--line);font-size:var(--fs-body)}
+.refs li{counter-increment:r;display:grid;grid-template-columns:3ch minmax(0,1.6fr) minmax(0,1fr);gap:.4em 1.4em;align-items:baseline;padding:clamp(8px,1.6vh,18px) 0;border-bottom:1px solid var(--line);font-size:var(--fs-body)}
 .refs li::before{content:counter(r,decimal-leading-zero);font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
 .refs .r-m{font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
-.refs .r-l{font-family:var(--mono);font-size:var(--fs-small);white-space:nowrap}
 .refs a{color:var(--c-sys);text-underline-offset:3px}
 .refs a:hover{color:var(--text)}
 .colophon{margin-top:clamp(16px,3vh,40px);font-family:var(--mono);font-size:var(--fs-small);color:var(--text-3)}
@@ -643,7 +642,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   .cmp .v{font-size:clamp(22px,7vw,40px)}
   .rules li{grid-template-columns:minmax(0,1fr)}
   .refs li{grid-template-columns:3ch minmax(0,1fr)}
-  .refs .r-m,.refs .r-l{grid-column:2}
+  .refs .r-m{grid-column:2}
   .selfheat{grid-template-columns:minmax(0,1fr)}
   .sh-row{align-items:flex-start}
   .surf-seg{grid-template-columns:minmax(0,1fr)}
@@ -1768,15 +1767,14 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
     <p class="kicker rv">Fuentes</p>
     <h2 id="src-t" class="rv" style="--d:.06s;font-size:clamp(30px,min(3.4vw,6vh),70px)">Bibliografía y fichas oficiales</h2>
     <ol class="refs rv" style="--d:.12s">
-      <li><span>WIKA · Termopar roscado con vaina, modelo <b>TC10-C</b></span><span class="r-m">Hoja técnica TE 65.03</span><span class="r-l"><a href="https://www.wika.com/media/Data-sheets/Temperature/Thermocouples/ds_te6503_es_es.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="ds_te6503_es_es.pdf" target="_blank">copia local</a></span></li>
-      <li><span>WIKA · Termorresistencia roscada con vaina, modelo <b>TR10-C</b></span><span class="r-m">Hoja técnica TE 60.03</span><span class="r-l"><a href="https://www.wika.com/media/Data-sheets/Temperature/Resistance-thermometers/ds_te6003_es_es.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="ds_te6003_es_es.pdf" target="_blank">copia local</a></span></li>
-      <li><span>Vishay · NTC Thermistors, Radial Leaded, <b>NTCLE100E3</b></span><span class="r-m">Documento 29049</span><span class="r-l"><a href="https://www.vishay.com/docs/29049/ntcle100.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="ntcle100.pdf" target="_blank">copia local</a></span></li>
-      <li><span>Texas Instruments · <b>LM35</b> Precision Centigrade Temperature Sensors</span><span class="r-m">SNIS159H</span><span class="r-l"><a href="https://www.ti.com/lit/ds/symlink/lm35.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="lm35.pdf" target="_blank">copia local</a></span></li>
-      <li><span>ifm electronic · Sensor de temperatura por infrarrojos <b>TW2000</b></span><span class="r-m">TW-030KLBM30-KFDKG/US</span><span class="r-l"><a href="https://media.ifm.com/dam/5857b96d-1ba2-4a2b-a1fe-9d97140a9efe/Original/TW2000-01_EN-GB.pdf" target="_blank" rel="noopener">PDF oficial</a> · <a href="TW2000-01_ES-ES.pdf" target="_blank">copia local</a></span></li>
-      <li><span>Apunte de cátedra, <b>Unidad 3</b></span><span class="r-m">ING2222 Tecnología de Control · FI-UNMdP</span><span class="r-l"></span></li>
-      <li><span>Creus Solé, A. <b><i>Instrumentación industrial</i></b></span><span class="r-m">Libro de texto</span><span class="r-l"></span></li>
+      <li><span>WIKA · Termopar roscado con vaina, modelo <b>TC10-C</b></span><span class="r-m">Hoja técnica TE 65.03</span></li>
+      <li><span>WIKA · Termorresistencia roscada con vaina, modelo <b>TR10-C</b></span><span class="r-m">Hoja técnica TE 60.03</span></li>
+      <li><span>Vishay · NTC Thermistors, Radial Leaded, <b>NTCLE100E3</b></span><span class="r-m">Documento 29049</span></li>
+      <li><span>Texas Instruments · <b>LM35</b> Precision Centigrade Temperature Sensors</span><span class="r-m">SNIS159H</span></li>
+      <li><span>ifm electronic · Sensor de temperatura por infrarrojos <b>TW2000</b></span><span class="r-m">TW-030KLBM30-KFDKG/US</span></li>
+      <li><span>Apunte de cátedra, <b>Unidad 3</b></span><span class="r-m">ING2222 Tecnología de Control · FI-UNMdP</span></li>
+      <li><span>Creus Solé, A. <b><i>Instrumentación industrial</i></b></span><span class="r-m">Libro de texto</span></li>
     </ol>
-    <p class="colophon rv" style="--d:.18s">Ilustraciones redibujadas con fines didácticos. Páginas de hojas técnicas reproducidas de los PDF oficiales.</p>
   </div>
 </section>
 <section class="screen" id="b2-curvas" data-block="7" aria-labelledby="b2-curvas-t">
