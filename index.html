@@ -1580,9 +1580,6 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
      BLOQUE 5 · DEL SENSOR AL PLC
      ============================================================ -->
 <style>
-#b5 .plc-view-tabs{display:flex;gap:8px;margin:14px 0}
-#b5 .plc-view-tabs button{background:var(--surface);color:var(--text);border:1px solid var(--line,#334155);border-radius:8px;padding:10px 20px;font:inherit;font-weight:700;cursor:pointer}
-#b5 .plc-view-tabs button[aria-selected="true"]{background:var(--c-sys);color:#09111c}
 #b5 [role="tabpanel"][hidden]{display:none}
 #b5 .plc-real-image{margin:0;width:100%}
 #b5 .plc-real-image img{display:block;width:100%;height:auto;border-radius:12px}
@@ -1595,63 +1592,8 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
       <h2 id="b5-t"><span class="grad-word">Señal</span>: salida del sensor <span class="acc">≠</span> entrada al controlador</h2>
     </div>
     <p class="lead rv">Dos ejemplos: señales distintas que un transmisor compatible convierte en 4–20 mA.</p>
-    <div class="plc-view-tabs rv" role="tablist" aria-label="Vista del sensor al PLC">
-      <button type="button" role="tab" id="plc-tab-real" aria-controls="plc-real" aria-selected="true" data-plc-view="real">Vista real</button>
-      <button type="button" role="tab" id="plc-tab-connection" aria-controls="plc-connection" aria-selected="false" tabindex="-1" data-plc-view="connection">Conexión</button>
-    </div>
-    <div id="plc-real" role="tabpanel" aria-labelledby="plc-tab-real">
+    <div id="plc-real">
       <figure class="fig rv plc-real-image"><img src="img/del-sensor-al-plc.png" alt="Termocupla y Pt100: cada sensor entrega su señal primaria a un transmisor compatible y llega a un canal independiente del PLC con 4–20 mA." width="1672" height="941"></figure>
-    </div>
-    <div id="plc-connection" role="tabpanel" aria-labelledby="plc-tab-connection" hidden>
-    <figure class="fig rv" style="--d:.1s;margin-top:clamp(10px,2vh,24px)">
-      <svg viewBox="0 0 1400 410" role="img" aria-labelledby="flow-t">
-        <title id="flow-t">La termocupla da mV y la Pt100 da ohms; con un transmisor, las dos llegan al PLC por el mismo 4 a 20 mA</title>
-        <defs>
-          <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#C6D0DE"/></marker>
-          <marker id="ar-tc" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FFA43A"/></marker>
-          <marker id="ar-rtd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2EE6F6"/></marker>
-        </defs>
-        <g class="svg-l s" style="letter-spacing:.08em" text-anchor="middle">
-          <text x="110" y="24">SENSOR</text><text x="390" y="24">SEÑAL PRIMARIA</text><text x="690" y="24">ACONDICIONAMIENTO</text><text x="1000" y="24">SALIDA INDUSTRIAL</text><text x="1270" y="24">CONTROL</text>
-        </g>
-        <!-- alternativas: entrada específica -->
-        <path d="M390 104 V62 H1240 V138" fill="none" stroke="var(--c-tc)" stroke-width="2" stroke-dasharray="6 7" opacity=".7" marker-end="url(#ar-tc)"/>
-        <text x="700" y="54" text-anchor="middle" class="svg-l s" style="fill:#FFC88A">o entrada específica para termocupla (compensa junta fría)</text>
-        <path d="M390 316 V362 H1240 V284" fill="none" stroke="var(--c-rtd)" stroke-width="2" stroke-dasharray="6 7" opacity=".7" marker-end="url(#ar-rtd)"/>
-        <text x="700" y="386" text-anchor="middle" class="svg-l s" style="fill:#9FF3FA">o entrada específica para RTD</text>
-        <!-- termocupla -->
-        <rect x="20" y="100" width="180" height="60" rx="10" fill="var(--surface)" stroke="var(--c-tc)" stroke-width="2.5"/>
-        <text x="110" y="137" text-anchor="middle" class="svg-l b" style="font-size:19px">Termocupla</text>
-        <path d="M200 130 H316" stroke="var(--c-tc)" stroke-width="3" marker-end="url(#ar-tc)"/>
-        <rect x="320" y="104" width="140" height="52" rx="26" fill="rgba(255,164,58,.14)" stroke="var(--c-tc)" stroke-width="2.5"/>
-        <text x="390" y="140" text-anchor="middle" style="font-size:28px;font-weight:700;fill:var(--c-tc)">mV</text>
-        <path d="M460 130 H596" stroke="var(--c-tc)" stroke-width="3" marker-end="url(#ar-tc)"/>
-        <rect x="600" y="98" width="180" height="64" rx="10" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="2"/>
-        <text x="690" y="136" text-anchor="middle" class="svg-l b" style="font-size:18px">transmisor</text>
-        <!-- pt100 -->
-        <rect x="20" y="260" width="180" height="60" rx="10" fill="var(--surface)" stroke="var(--c-rtd)" stroke-width="2.5"/>
-        <text x="110" y="297" text-anchor="middle" class="svg-l b" style="font-size:19px">Pt100</text>
-        <path d="M200 290 H316" stroke="var(--c-rtd)" stroke-width="3" marker-end="url(#ar-rtd)"/>
-        <rect x="320" y="264" width="140" height="52" rx="26" fill="rgba(46,230,246,.12)" stroke="var(--c-rtd)" stroke-width="2.5"/>
-        <text x="390" y="300" text-anchor="middle" style="font-size:28px;font-weight:700;fill:var(--c-rtd)">Ω</text>
-        <path d="M460 290 H596" stroke="var(--c-rtd)" stroke-width="3" marker-end="url(#ar-rtd)"/>
-        <rect x="600" y="258" width="180" height="64" rx="10" fill="var(--surface-2)" stroke="var(--line-2)" stroke-width="2"/>
-        <text x="690" y="296" text-anchor="middle" class="svg-l b" style="font-size:18px">transmisor</text>
-        <!-- 4-20 mA -->
-        <path d="M780 130 H900 C 950 130 960 210 1010 210 M780 290 H900 C 950 290 960 210 1010 210" fill="none" stroke="#C6D0DE" stroke-width="3.5"/>
-        <text x="840" y="118" text-anchor="middle" class="svg-l b">4–20 mA</text>
-        <text x="840" y="278" text-anchor="middle" class="svg-l b">4–20 mA</text>
-        <path d="M1010 210 H1136" stroke="#C6D0DE" stroke-width="8"/><path d="M1134 196 L1158 210 L1134 224 Z" fill="#C6D0DE"/>
-        
-        <text x="1076" y="190" text-anchor="middle" class="svg-l b" style="fill:var(--warn);font-size:17px">¿TC o Pt100?</text>
-        <!-- PLC -->
-        <rect x="1160" y="140" width="220" height="140" rx="12" fill="var(--surface)" stroke="var(--c-sys)" stroke-width="2.5"/>
-        <text x="1270" y="200" text-anchor="middle" style="font-size:32px;font-weight:700;fill:var(--text)">PLC</text>
-        <text x="1270" y="230" text-anchor="middle" class="svg-l s">entrada analógica</text>
-        <text x="1270" y="254" text-anchor="middle" class="svg-l">4–20 mA</text>
-      </svg>
-    </figure>
-
     </div>
     <p class="big-line rv" style="--d:.16s">Desde el lazo de 4–20 mA <span class="acc">no puede identificarse el sensor</span>.</p>
 
@@ -1663,8 +1605,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b4-ir .irp-photo{display:flex;justify-content:center}
 #b4-ir .irp-photo img{width:auto;max-width:100%;max-height:calc(100svh - 308px)}
 #b5 .plc-real-image{display:flex;justify-content:center}
-#b5 .plc-real-image img{width:auto;max-width:100%;max-height:calc(100svh - 302px)}
-#b5 .plc-view-tabs{margin:10px 0}
+#b5 .plc-real-image img{width:auto;max-width:100%;max-height:calc(100svh - 250px)}
 #b5-res h2{font-size:clamp(30px,min(3.4vw,6vh),70px)}
 #b5-res .sig-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:clamp(10px,2vh,22px);font-size:var(--fs-body);background:var(--surface);border:1px solid var(--line-2);border-radius:12px;overflow:hidden}
 #b5-res .sig-table caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -1689,7 +1630,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b2-2 .analogy{margin-bottom:6px;font-size:var(--fs-body)}
 #b2-aplicaciones .app-gallery{margin-top:10px}
 #b2-aplicaciones .app-simple-strip{margin-top:6px}
-#b5 .plc-real-image img{max-height:55svh}
+#b5 .plc-real-image img{max-height:62svh}
 #b4-ir .irp-photo img{max-height:57svh}
 #b3-3 .hw-photo img{max-height:50vh}
 #b2-2 .cj-ctl{padding:14px 18px}
@@ -2939,13 +2880,6 @@ function update(){const t=Number(slider.value);root.querySelector("#th-temperatu
 slider.addEventListener("input",update);slider.addEventListener("keydown",e=>e.stopPropagation());
 root.querySelectorAll("[data-th-temp]").forEach(b=>b.addEventListener("click",()=>{slider.value=b.dataset.thTemp;update();}));
 show("real");update();
-})();
-</script>
-<script>
-(function(){
-const tabs=Array.from(document.querySelectorAll('[data-plc-view]'));
-function show(tab){tabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!active;});}
-tabs.forEach((t,i)=>{t.addEventListener('click',()=>show(t));t.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();e.stopPropagation();const n=e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length;show(tabs[n]);tabs[n].focus();});});
 })();
 </script>
 <dialog id="visual-dialog" aria-label="Imagen ampliada"><form method="dialog"><button type="submit">Cerrar ×</button></form><img id="visual-dialog-image" alt=""></dialog>
