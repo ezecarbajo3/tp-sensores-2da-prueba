@@ -658,66 +658,19 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 #b2 .tc-realistic a{aspect-ratio:1672/811;position:relative}
 #b2 .tc-realistic img{max-height:none;width:100%;height:auto;margin-top:-7.78%;object-fit:initial}
 #b2 .tc-realistic figcaption{position:static;right:auto;bottom:auto;padding:0;white-space:normal}
-/* Bloque 2 · 2/5: junta fría + no linealidad (pantalla partida) */
-#b2-2.screen{height:100vh;height:100svh;padding-top:calc(var(--nav-h) + clamp(8px,1.6vh,22px));padding-bottom:clamp(10px,2vh,26px);justify-content:flex-start}
-#b2-2 .in-wrap{flex:1;min-height:0;display:flex;flex-direction:column}
-#b2-2 h2{font-size:clamp(30px,min(3.6vw,6.4vh),76px);margin-bottom:clamp(10px,2.2vh,30px)}
-#b2-2 .jn-grid{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,64px)}
-#b2-2 .jn-half{min-height:0;display:flex;flex-direction:column;gap:clamp(8px,1.6vh,20px)}
-#b2-2 .jn-half+.jn-half{border-left:1px solid var(--line-2);padding-left:clamp(20px,3vw,64px)}
-#b2-2 .jn-head{display:flex;gap:.8em;align-items:flex-start}
-#b2-2 .jn-n{flex:none;width:1.7em;height:1.7em;border-radius:50%;background:var(--acc);color:var(--ink);display:grid;place-items:center;font:700 var(--fs-h3)/1 var(--mono)}
-#b2-2 .jn-head h3{margin:0;line-height:1.05}
-#b2-2 .jn-head p{margin:.2em 0 0;font-size:var(--fs-body);color:var(--text-2);line-height:1.3}
-#b2-2 .jn-f{color:var(--text);font-weight:600;white-space:nowrap}
-#b2-2 .jn-bar{flex:1;min-height:0;margin:0;display:grid;align-items:center}
-#b2-2 .jn-bar svg{display:block;width:100%;max-height:100%}
-#b2-2 .jn-bt{font:700 30px var(--mono)}
-#b2-2 .jn-tk{font:500 22px var(--mono);fill:var(--text-3)}
-#b2-2 .cj-eq{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:clamp(6px,.8vw,16px)}
-#b2-2 .cj-eq>div{border-top:5px solid;padding-top:.4em}
-#b2-2 .cj-eq b{display:block;font:600 var(--fs-data)/1 var(--mono);letter-spacing:-.02em;white-space:nowrap}
-#b2-2 .cj-eq span{display:block;font-size:var(--fs-small);color:var(--text-2);margin-top:.35em;line-height:1.25}
-#b2-2 .cj-eq i{font:600 var(--fs-data)/1 var(--mono);font-style:normal;color:var(--text-3)}
-#b2-2 .cj-eq .dif{border-color:var(--c-tc)} #b2-2 .cj-eq .dif b{color:var(--c-tc)}
-#b2-2 .cj-eq .ref{border-color:#4DA3FF} #b2-2 .cj-eq .ref b{color:#4DA3FF}
-#b2-2 .cj-eq .ok{border-color:var(--ok)} #b2-2 .cj-eq .ok b{color:var(--ok)}
-#b2-2 .cj-miss{margin:0;font-size:var(--fs-body);color:var(--text-2)}
-#b2-2 .cj-miss b{color:var(--bad);font-family:var(--mono)}
-#b2-2 .jn-ctl{padding:clamp(8px,.9vw,16px) clamp(10px,1vw,18px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:center;gap:.2em clamp(14px,1.6vw,30px)}
-#b2-2 .jn-ctl .ctl+.ctl{margin-top:0}
-#b2-2 .jn-ctl .ctl{grid-template-columns:minmax(0,1fr) auto}
-#b2-2 .jn-ctl .ctl label{font-size:var(--fs-small);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#b2-2 .jn-ctl .ctl output{font-size:var(--fs-body)}
-#b2-2 .jn-v{display:flex;flex-direction:column;align-items:flex-end;gap:.25em;border-left:1px solid var(--line);padding-left:clamp(12px,1.2vw,24px);font-size:var(--fs-small);color:var(--text-3);white-space:nowrap}
-#b2-2 .jn-v .readout{font-size:var(--fs-h3)}
-#b2-2 .jn-chart{flex:1;min-height:0;margin:0;display:flex;flex-direction:column}
-#b2-2 .jn-chart svg{display:block;flex:1;min-height:0;width:100%}
-#b2-2 .jn-chart figcaption{margin-top:.3em}
-#b2-2 .nl-ax{font:500 26px var(--mono);fill:var(--text-3)}
-#b2-2 .nl-lb{font:700 28px var(--font)}
-#b2-2 .nl-st{font:700 27px var(--mono);fill:var(--text)}
-#b2-2 .jn-take{margin:0;font-size:var(--fs-body);color:var(--text-2);line-height:1.35;border-left:3px solid var(--acc);padding-left:.7em}
-@media(max-height:780px) and (min-width:901px){
-  #b2-2 h2{font-size:clamp(24px,min(3.4vw,6.4vh),76px);margin-bottom:6px}
-  #b2-2.screen{padding-bottom:6px}
-  #b2-2 .jn-half{gap:6px}
-  #b2-2 .jn-head h3{font-size:20px}
-  #b2-2 .jn-n{font-size:16px}
-  #b2-2 .jn-head p,#b2-2 .cj-miss,#b2-2 .jn-take{font-size:13px}
-  #b2-2 .cj-eq b,#b2-2 .cj-eq i{font-size:22px}
-  #b2-2 .cj-eq span{font-size:11px}
-  #b2-2 .jn-ctl{padding:6px 10px;column-gap:12px}
-  #b2-2 .jn-ctl .ctl{column-gap:.4em}
-  #b2-2 .jn-ctl .ctl label{font-size:13px}
-  #b2-2 .jn-ctl .ctl output{font-size:14px}
-  #b2-2 .jn-ctl input[type=range]{height:24px}
-  #b2-2 .jn-v{font-size:12px;padding-left:10px}
-  #b2-2 .jn-v .readout{font-size:20px}
-}
-@media(max-width:900px){#b2-2.screen{height:auto}#b2-2 .jn-grid{grid-template-columns:minmax(0,1fr)}#b2-2 .jn-half+.jn-half{border-left:0;padding-left:0;border-top:1px solid var(--line-2);padding-top:20px}#b2-2 .jn-chart svg{flex:none;height:auto}}
-@media(max-width:520px){#b2-2 .jn-ctl{grid-template-columns:minmax(0,1fr)}#b2-2 .cj-eq{grid-template-columns:minmax(0,1fr)}#b2-2 .cj-eq i{display:none}}
-/* Conexión de termocupla: recorrido guiado */
+#b2-2 .g-b2b{grid-template-columns:minmax(0,1.35fr) minmax(280px,1fr);gap:20px;align-items:start}
+#b2-2 .cj-scene{margin:0;min-width:0}
+#b2-2 .g-b2b>div:last-child{grid-column:1/-1}
+#b2-2 .cj-res{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#b2-2 .cj-scale{display:none}
+#b2-2 .cj-ctl{padding:18px}
+#b2-2 .analogy{margin-bottom:18px}
+#b2-2 .cj-scene figcaption{font-size:clamp(13px,1vw,18px)}
+#b2-2 .cj-reference{left:52%;bottom:3%}
+#b2-2 .cj-sensor{left:38%;top:44%;font-size:clamp(10px,.8vw,14px)}
+#b2-2 .cj-tag{font-size:clamp(10px,.85vw,15px)}
+@media(max-width:900px){#b2-2 .g-b2b{grid-template-columns:1fr}#b2-2 .cj-res{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){#b2-2 .cj-res{grid-template-columns:1fr}}/* Conexión de termocupla: recorrido guiado */
 .tc-route-nav{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.tc-route-nav button{font:inherit;font-size:var(--fs-small);padding:10px 16px;border:1px solid var(--line-2);border-radius:9px;background:var(--surface);color:var(--text);cursor:pointer}.tc-route-nav button[aria-pressed="true"]{background:var(--c-tc);color:#101926;border-color:var(--c-tc)}.tc-route-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr);gap:22px;align-items:start}.tc-source-card,.tc-path{padding:20px;background:var(--surface);border:1px solid var(--line-2);border-radius:14px}.tc-source-photo{height:145px;overflow:hidden;border-radius:8px;background:#fff}.tc-source-photo img{width:135%;max-width:none;transform:translate(-2%,-21%)}.tc-source-card h3,.tc-path h3{font-size:var(--fs-h3);margin:12px 0}.tc-source-card p,.tc-path p{font-size:var(--fs-small);margin:10px 0}.tc-source-card svg{width:100%;height:55px}.tc-cable-note{border-top:1px solid var(--line-2);padding-top:12px}.tc-paths{display:grid;gap:16px}.tc-path[hidden],.tc-route-placeholder[hidden]{display:none}.tc-path-a{border-left:4px solid #3fa9ed}.tc-path-b{border-left:4px solid var(--ok)}.tc-path-letter{float:right;font-family:var(--mono);font-size:30px;color:var(--c-tc)}.tc-path-chain{display:flex;gap:8px;align-items:center;justify-content:space-between;font-size:var(--fs-small)}.tc-unit{padding:10px;background:var(--surface-2);border-radius:8px;text-align:center}.tc-unit small{display:block;color:var(--text-2);font-size:.85em;margin-top:5px}.tc-current{color:var(--ok);font-family:var(--mono);white-space:nowrap}.tc-route-placeholder{padding:40px 24px;border:1px dashed var(--line-2);border-radius:14px;color:var(--text-2)}@media(max-width:900px){.tc-route-layout{grid-template-columns:1fr}.tc-source-photo{height:190px}.tc-path-chain{flex-wrap:wrap;justify-content:flex-start}}/* Imagen de conexión: selección visual de rutas */
 @media(prefers-reduced-motion:reduce){}/* Fichas y aplicaciones: foco visual y explicación */
 .tc-guide-figure{margin:0}.tc-focus-image{position:relative;overflow:hidden;border-radius:14px;background:#fff}.tc-focus-image img{display:block;width:100%;height:auto}.tc-focus-box{position:absolute;left:var(--fx,0%);top:var(--fy,0%);width:var(--fw,100%);height:var(--fh,100%);border:3px solid #f59326;border-radius:10px;box-shadow:0 0 0 2000px rgba(245,248,251,.78);pointer-events:none;transition:left .25s,top .25s,width .25s,height .25s}.tc-focus-image[data-all="true"] .tc-focus-box{display:none}.tc-explain{padding:16px 20px;margin-top:14px;border-left:4px solid var(--c-tc);border-radius:8px;background:var(--surface);font-size:var(--fs-small);line-height:1.5}.tc-guide-proof{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:16px 0;font-size:var(--fs-small)}@media(prefers-reduced-motion:reduce){.tc-focus-box{transition:none}}/* Primera pantalla: dos representaciones del mismo principio */
@@ -948,95 +901,69 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 
 <section class="screen" id="b2-2" data-block="2" aria-labelledby="b2-2-t">
   <div class="in-wrap">
-    <p class="kicker">02 · Termocupla <span class="pg">2/5</span></p>
-    <h2 id="b2-2-t">De los mV a la temperatura: <span class="acc">dos correcciones</span></h2>
 
-    <div class="jn-grid">
-      <!-- ============ 1 · JUNTA FRÍA ============ -->
-      <article class="jn-half rv" aria-labelledby="jn-cj-t">
-        <header class="jn-head">
-          <span class="jn-n">1</span>
-          <div>
-            <h3 id="jn-cj-t">Junta fría</h3>
-            <p>La termocupla solo «ve» la <b>diferencia</b> entre la punta y los bornes: <span class="mono jn-f">V ≈ S · (Tm − Tref)</span></p>
-          </div>
-        </header>
-        <figure class="jn-bar" aria-hidden="true">
-          <svg viewBox="0 0 800 240">
-            <rect id="cj-b-ref" y="70" height="90" rx="4" fill="#4DA3FF"/>
-            <rect id="cj-b-dif" y="70" height="90" rx="4" fill="var(--c-tc)"/>
-            <g id="cj-ticks"></g>
-            <g id="cj-f-tr"><line y1="70" y2="38" stroke="#4DA3FF" stroke-width="3"/><text y="28" text-anchor="middle" class="jn-bt" fill="#4DA3FF">Tref</text></g>
-            <g id="cj-f-tm"><line y1="70" y2="38" stroke="var(--c-tc)" stroke-width="3"/><text y="28" text-anchor="middle" class="jn-bt" fill="var(--c-tc)">Tm</text></g>
-          </svg>
-        </figure>
-        <div class="cj-eq" aria-live="polite">
-          <div class="dif"><b id="cj-dif">175 °C</b><span>lo que miden los mV</span></div>
-          <i>+</i>
-          <div class="ref"><b id="cj-ref">25 °C</b><span>bornes (sensor auxiliar)</span></div>
-          <i>=</i>
-          <div class="ok"><b id="cj-ok">200 °C</b><span>lectura compensada</span></div>
-        </div>
-        <p class="cj-miss" id="cj-miss">Sin compensar, el instrumento mostraría <b>175 °C</b>: error de <b>−25 °C</b>.</p>
-        <div class="panel jn-ctl">
+    <p class="kicker">02 · Termocupla <span class="pg">2/5</span></p>
+        <h2 id="b2-2-t">¿Por qué compensar la <span class="acc">junta fría</span>?</h2>
+        <p class="analogy"><span class="mono" style="color:var(--text);font-weight:600">V ≈ S · (Tm − Tref)</span><br>La tensión depende de <b>Tm y Tref</b>. El instrumento mide la temperatura de sus bornes para obtener la del proceso. “Fría” no significa refrigerada.</p>
+<div class="g-b2b">
+<figure class="cj-scene rv">
+ <div class="cj-scene-image">
+  <img src="img/termocupla-junta-fria-oscura.png" width="1672" height="941" alt="Sonda en un proceso caliente conectada al instrumento; ampliación de los bornes y del sensor de temperatura de referencia.">
+  <div class="cj-tag cj-process"><span>Punta en el proceso · Tm</span><strong id="cj-img-tm">200 °C</strong></div>
+  <div class="cj-tag cj-reference"><span>Bornes de referencia · Tref</span><strong id="cj-img-tr">25 °C</strong></div>
+  <div class="cj-tag cj-sensor">El sensor auxiliar mide<br>la temperatura de los bornes</div>
+  <div class="cj-tag cj-instrument"><span>Lectura compensada</span><strong id="cj-img-ok">200 °C</strong></div>
+ </div>
+ <figcaption>Dejá Tm fija y mové Tref. Cambian los mV y la lectura sin compensar; la lectura compensada conserva la temperatura del proceso.</figcaption>
+</figure>
+      <div class="rv">
+        
+        <div class="panel cj-ctl">
           <div class="ctl">
-            <label for="cj-tm">Proceso · Tm</label>
+            <label for="cj-tm">Temperatura del proceso · Tm</label>
             <output id="cj-tm-o" for="cj-tm" class="num">200 °C</output>
-            <input type="range" id="cj-tm" min="100" max="600" step="5" value="200">
+            <input type="range" id="cj-tm" min="0" max="600" step="1" value="200">
           </div>
           <div class="ctl">
-            <label for="cj-tr">Bornes · Tref</label>
+            <label for="cj-tr">Temperatura de bornes · Tref</label>
             <output id="cj-tr-o" for="cj-tr" class="num">25 °C</output>
             <input type="range" id="cj-tr" min="0" max="50" step="1" value="25">
           </div>
-          <div class="jn-v"><span>Tensión medida</span><span class="readout sm" id="cj-v">7,18<span class="u">mV</span></span></div>
-        </div>
-      </article>
-
-      <!-- ============ 2 · NO LINEALIDAD ============ -->
-      <article class="jn-half rv" style="--d:.12s" aria-labelledby="jn-nl-t">
-        <header class="jn-head">
-          <span class="jn-n">2</span>
-          <div>
-            <h3 id="jn-nl-t">No linealidad</h3>
-            <p>Los mV no crecen en línea recta con la temperatura.</p>
+          <div class="cj-v">
+            <span class="lbl">Tensión generada</span>
+            <span class="readout sm" id="cj-v">7,18<span class="u">mV</span></span>
           </div>
-        </header>
-        <figure class="jn-chart">
-          <svg viewBox="0 0 960 540" role="img" aria-label="Curva de tensión en función de la temperatura comparada con una recta: el mismo aumento de temperatura produce un aumento de tensión chico abajo y grande arriba.">
-            <defs>
-              <marker id="nl-ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="var(--text-3)"/></marker>
-            </defs>
-            <path d="M90 470 L90 22" stroke="var(--text-3)" stroke-width="2" marker-end="url(#nl-ar)"/>
-            <path d="M90 470 L900 470" stroke="var(--text-3)" stroke-width="2" marker-end="url(#nl-ar)"/>
-            <text x="100" y="30" class="nl-ax">Tensión (mV)</text>
-            <text x="900" y="505" text-anchor="end" class="nl-ax">Temperatura (°C)</text>
-            <!-- diferencia entre recta y curva -->
-            <path fill="rgba(255,90,90,.16)" d="M90 470 L860 50 L860.0 50.0 L840.8 68.2 L821.5 86.0 L802.2 103.4 L783.0 120.3 L763.8 137.0 L744.5 153.2 L725.2 169.0 L706.0 184.4 L686.8 199.4 L667.5 214.1 L648.2 228.3 L629.0 242.2 L609.8 255.6 L590.5 268.7 L571.2 281.3 L552.0 293.6 L532.8 305.5 L513.5 317.0 L494.2 328.1 L475.0 338.8 L455.8 349.1 L436.5 359.0 L417.2 368.5 L398.0 377.6 L378.8 386.3 L359.5 394.7 L340.2 402.6 L321.0 410.1 L301.8 417.3 L282.5 424.1 L263.2 430.4 L244.0 436.4 L224.8 442.0 L205.5 447.2 L186.2 452.0 L167.0 456.4 L147.8 460.4 L128.5 464.0 L109.2 467.2 L90.0 470.0 Z"/>
-            <!-- recta ideal -->
-            <path d="M90 470 L860 50" fill="none" stroke="var(--text-2)" stroke-width="3" stroke-dasharray="12 9"/>
-            <text x="470" y="232" text-anchor="end" class="nl-lb" fill="var(--text-2)">Si fuera lineal</text>
-            <!-- curva real (curvatura exagerada) -->
-            <path d="M90.0 470.0 L109.2 467.2 L128.5 464.0 L147.8 460.4 L167.0 456.4 L186.2 452.0 L205.5 447.2 L224.8 442.0 L244.0 436.4 L263.2 430.4 L282.5 424.1 L301.8 417.3 L321.0 410.1 L340.2 402.6 L359.5 394.7 L378.8 386.3 L398.0 377.6 L417.2 368.5 L436.5 359.0 L455.8 349.1 L475.0 338.8 L494.2 328.1 L513.5 317.0 L532.8 305.5 L552.0 293.6 L571.2 281.3 L590.5 268.7 L609.8 255.6 L629.0 242.2 L648.2 228.3 L667.5 214.1 L686.8 199.4 L706.0 184.4 L725.2 169.0 L744.5 153.2 L763.8 137.0 L783.0 120.3 L802.2 103.4 L821.5 86.0 L840.8 68.2 L860.0 50.0" fill="none" stroke="var(--c-tc)" stroke-width="6" stroke-linecap="round"/>
-            <text x="560" y="345" class="nl-lb" fill="var(--c-tc)">Curva real</text>
-            <!-- mismo ΔT abajo -->
-            <path d="M244 436.4 H398 V377.6" fill="none" stroke="var(--text)" stroke-width="3"/>
-            <text x="321" y="462" text-anchor="middle" class="nl-st">+100 °C</text>
-            <text x="410" y="414" class="nl-st" fill="var(--warn)">ΔV chico</text>
-            <!-- mismo ΔT arriba -->
-            <path d="M629 242.2 H783 V120.3" fill="none" stroke="var(--text)" stroke-width="3"/>
-            <text x="706" y="272" text-anchor="middle" class="nl-st">+100 °C</text>
-            <text x="795" y="190" class="nl-st" fill="var(--warn)">ΔV grande</text>
-            <!-- referencia al área -->
-            <path d="M300 300 L405 338" stroke="var(--bad)" stroke-width="2"/>
-            <text x="292" y="292" text-anchor="end" class="nl-st" fill="var(--bad)">error si se usa</text>
-            <text x="292" y="318" text-anchor="end" class="nl-st" fill="var(--bad)">una recta</text>
+        </div>
+        <p class="note" style="margin-top:.7em">Modelo lineal simplificado (tipo K); el instrumento usa la curva normalizada.</p>
+      </div>
+      <div class="rv" style="--d:.12s">
+        <div class="cj-res" aria-live="polite">
+          <div class="cj-card bad" id="cj-card-raw">
+            <div class="t">Sin compensar</div>
+            <div class="s">supone Tref = 0 °C</div>
+            <div class="readout" id="cj-raw">175<span class="u">°C</span></div>
+            <div class="delta bad" id="cj-raw-e">error −25 °C</div>
+          </div>
+          <div class="cj-card good">
+            <div class="t">Con compensación de junta fría</div>
+            <div class="s">usa la temperatura medida en los bornes</div>
+            <div class="readout" id="cj-ok">200<span class="u">°C</span></div>
+            <div class="delta ok">temperatura del proceso en este modelo</div>
+          </div>
+        </div>
+        <figure class="fig cj-scale" aria-hidden="true">
+          <svg viewBox="0 0 700 120" id="cj-scale">
+            <rect id="cj-gap" x="20" y="51" width="0" height="18" fill="rgba(255,90,90,.28)"/>
+            <line x1="20" y1="60" x2="680" y2="60" stroke="var(--line-2)" stroke-width="2"/>
+            <g id="cj-ticks"></g>
+            <text x="20" y="92" class="svg-l s">0 °C</text><text x="680" y="92" text-anchor="end" class="svg-l s">600 °C</text>
+            <g id="cj-m-ok"><path d="M0 54 L-10 36 H10 Z" fill="var(--ok)"/><text x="0" y="26" text-anchor="middle" class="svg-l b" style="fill:var(--ok)">real = compensada</text></g>
+            <g id="cj-m-raw"><path d="M0 66 L-10 84 H10 Z" fill="var(--bad)"/><text x="0" y="110" text-anchor="middle" class="svg-l b" style="fill:var(--bad)">sin compensar</text></g>
           </svg>
-          <figcaption class="note">Ilustración didáctica, curvatura exagerada. Cada tipo (J, K, T…) tiene su propia curva.</figcaption>
         </figure>
-        <p class="jn-take">Mismo aumento de temperatura ⇒ distinto aumento de mV. Por eso el transmisor o la entrada del PLC convierte mV → °C con la <b>tabla normalizada del tipo configurado</b> (IEC 60584).</p>
-      </article>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -2512,29 +2439,35 @@ const PUNTOS = [
   safe("junta-fria", () => {
     const tm = $("#cj-tm"), tr = $("#cj-tr");
     const S = 0.041; // mV/°C, tipo K, aproximación lineal
-    const X = (t) => 40 + (clamp(t, 0, 600) / 600) * 720;
-    let tk = `<line x1="40" x2="760" y1="182" y2="182" stroke="var(--line-2)" stroke-width="2"/>`;
-    for (let t = 0; t <= 600; t += 100) tk += `<line x1="${X(t)}" x2="${X(t)}" y1="176" y2="188" stroke="var(--text-3)" stroke-width="2"/><text x="${X(t)}" y="218" text-anchor="middle" class="jn-tk">${t} °C</text>`;
-    $("#cj-ticks").innerHTML = tk;
-    const put = (id, x0, x1) => { const r = $(id); r.setAttribute("x", x0); r.setAttribute("width", Math.max(0, x1 - x0)); };
+    const X = (v) => 20 + (clamp(v, 0, 600) / 600) * 660;
+    let ticks = "";
+    for (let v = 0; v <= 600; v += 100) ticks += `<line x1="${X(v)}" y1="53" x2="${X(v)}" y2="67" stroke="#7D8DA5" stroke-width="1.5"/>`;
+    $("#cj-ticks").innerHTML = ticks;
     function upd() {
       const Tm = +tm.value, Tr = +tr.value;
       const V = S * (Tm - Tr);          // tensión generada
       const raw = V / S;                // sin compensar: supone bornes a 0 °C
       const ok = raw + Tr;              // con compensación de junta fría
-      put("#cj-b-ref", X(0), X(Tr));
-      put("#cj-b-dif", X(Tr), X(Tm));
-      $("#cj-f-tr").setAttribute("transform", `translate(${X(Tr)},0)`);
-      $("#cj-f-tm").setAttribute("transform", `translate(${X(Tm)},0)`);
+      const err = raw - Tm;
+      $("#cj-img-tm").textContent = Tm + " °C";
+      $("#cj-img-tr").textContent = Tr + " °C";
+      $("#cj-img-ok").textContent = fmt(ok, 0) + " °C";
       $("#cj-tm-o").textContent = Tm + " °C";
       $("#cj-tr-o").textContent = Tr + " °C";
       $("#cj-v").innerHTML = fmt(V, 2) + '<span class="u">mV</span>';
-      $("#cj-dif").textContent = fmt(raw, 0) + " °C";
-      $("#cj-ref").textContent = Tr + " °C";
-      $("#cj-ok").textContent = fmt(ok, 0) + " °C";
-      $("#cj-miss").innerHTML = Tr === 0
-        ? "Con los bornes a 0 °C no hace falta compensar."
-        : `Sin compensar, el instrumento mostraría <b>${fmt(raw, 0)} °C</b>: error de <b>${fmt(raw - Tm, 0)} °C</b>.`;
+      $("#cj-raw").innerHTML = fmt(raw, 0) + '<span class="u">°C</span>';
+      $("#cj-ok").innerHTML = fmt(ok, 0) + '<span class="u">°C</span>';
+      const bad = Math.abs(err) >= 0.5;
+      const e = $("#cj-raw-e");
+      e.textContent = bad ? "error " + fmt(err, 0) + " °C" : "sin error: bornes a 0 °C";
+      e.classList.toggle("bad", bad);
+      e.classList.toggle("ok", !bad);
+      $("#cj-card-raw").classList.toggle("bad", bad);
+      $("#cj-m-raw").setAttribute("transform", `translate(${X(raw)},0)`);
+      $("#cj-m-ok").setAttribute("transform", `translate(${X(ok)},0)`);
+      const gap = $("#cj-gap");
+      gap.setAttribute("x", Math.min(X(raw), X(ok)));
+      gap.setAttribute("width", Math.abs(X(ok) - X(raw)));
     }
     tm.addEventListener("input", upd);
     tr.addEventListener("input", upd);
