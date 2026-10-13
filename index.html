@@ -571,7 +571,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
 .final5 .sg{font-family:var(--mono);font-weight:600;font-size:var(--fs-data);color:var(--acc);line-height:1.05;letter-spacing:-.02em}
 .final5 .vb{font-size:var(--fs-small);color:var(--text-3)}
 .final-q{font-size:clamp(30px,min(3.7vw,6.6vh),78px);line-height:1.06;letter-spacing:-.03em;margin-top:clamp(20px,4.4vh,56px);max-width:30ch}
-.final-q span{background:var(--thermal);-webkit-background-clip:text;background-clip:text;color:transparent}
+.final-q span,.grad-word{background:var(--thermal);-webkit-background-clip:text;background-clip:text;color:transparent}
 .thanks{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5em 2em;margin-top:clamp(20px,4.6vh,60px);padding-top:clamp(12px,2.4vh,28px);border-top:1px solid var(--line)}
 .thanks .g{font-size:var(--fs-h2);font-weight:700;letter-spacing:-.03em}
 .names{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.3em 1.6em;font-family:var(--mono);font-size:var(--fs-body);color:var(--text-2)}
@@ -1592,7 +1592,7 @@ details.tbl td:nth-child(3){color:var(--acc);font-weight:600}
   <div class="in-wrap g-b5a">
     <div class="rv">
       <p class="kicker">05 · Del sensor al PLC <span class="pg">1/2</span> <span class="who" data-exp="b6">Expositor 5</span></p>
-      <h2 id="b5-t">Señal del sensor <span class="acc">≠</span> señal estandarizada</h2>
+      <h2 id="b5-t"><span class="grad-word">Señal</span>: salida del sensor <span class="acc">≠</span> entrada al controlador</h2>
     </div>
     <p class="lead rv">Dos ejemplos: señales distintas que un transmisor compatible convierte en 4–20 mA.</p>
     <div class="plc-view-tabs rv" role="tablist" aria-label="Vista del sensor al PLC">
